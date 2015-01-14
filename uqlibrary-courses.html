@@ -122,7 +122,7 @@ Element providing an overview for student's courses
       <core-overlay id="loadingOverlay"
                     layout
                     horizontal
-                    opened?="{{ processedCourses.length > 0 && (!selectedCourse.learning_resources.reading_lists.items || !selectedCourse.learning_resources.exam_papers || !selectedCourse.library_guides) }}">
+                    opened?="{{!transitioning && processedCourses.length > 0 && (!selectedCourse.learning_resources.reading_lists.items || !selectedCourse.learning_resources.exam_papers || !selectedCourse.library_guides) }}">
         <div flex self-center center-justified layout horizontal>
           <paper-spinner active></paper-spinner>
         </div>
