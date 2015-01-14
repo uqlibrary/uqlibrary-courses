@@ -702,3 +702,11 @@ paper-tabs {
 
 .listItemLink core-icon {
   margin-right: 0px; }
+
+#loadingOverlay {
+  background-color: transparent;
+  width: 56px;
+  height: 56px;
+  border-radius: 25%; }
+  #loadingOverlay paper-spinner::shadow .circle {
+    border-color: #7b0c9d; }
