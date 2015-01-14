@@ -717,8 +717,7 @@ paper-tabs {
 
 #loadingOverlay {
   background-color: transparent;
-  width: 56px;
-  height: 56px;
-  border-radius: 25%; }
+  width: 64px;
+  height: 64px; }
   #loadingOverlay paper-spinner::shadow .circle {
     border-color: #7b0c9d; }
