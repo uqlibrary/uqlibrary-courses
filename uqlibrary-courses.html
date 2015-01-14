@@ -116,14 +116,16 @@ Element providing an overview for student's courses
           </paper-tab>
         </template>
       </paper-tabs>
+
       <core-overlay id="loadingOverlay"
                     layout
                     horizontal
-                    opened?="{{ (!selectedCourse.learning_resources.reading_lists.items || !selectedCourse.learning_resources.exam_papers || !selectedCourse.library_guides) }}">
+                    opened?="{{ processedCourses.length > 0 && (!selectedCourse.learning_resources.reading_lists.items || !selectedCourse.learning_resources.exam_papers || !selectedCourse.library_guides) }}">
         <div flex self-center center-justified layout horizontal>
           <paper-spinner active></paper-spinner>
         </div>
       </core-overlay>
+
       <core-animated-pages id="animatedPages" transitions="slide-from-right" block selected="{{selectedTab}}"
                            on-core-animated-pages-transition-prepare="{{transitionPrepareHandler}}"
                            on-core-animated-pages-transition-end="{{transitionEndHandler}}"
