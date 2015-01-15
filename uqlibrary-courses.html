@@ -77,7 +77,6 @@ Element providing an overview for student's courses
 <link rel="import" href="../core-signals/core-signals.html">
 <link rel="import" href="../core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../paper-shadow/paper-shadow.html">
-<link rel="import" href="../swipeable-card/swipeable-card.html">
 
 <script type="text/javascript" src="../moment/moment.js"></script>
 
@@ -101,12 +100,10 @@ Element providing an overview for student's courses
     <uqlibrary-api-term-dates id="term_dates"></uqlibrary-api-term-dates>
 
       <div hidden?="{{ processedCourses == null || processedCourses.length > 0 }}">
-        <swipeable-card>
           <paper-shadow class="card" z="1">
           <div class="subhead cardSection cardTitle">Courses will be shown 3 weeks prior to the start of semester</div>
           <div class="caption cardSection ">Please check back closer to the next enrollment period</div>
         </paper-shadow>
-        </swipeable-card>
         <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
       </div>
 
@@ -175,6 +172,7 @@ Element providing an overview for student's courses
       ready: function() {
         var that = this;
         var courseIndex = null;
+
 
         this.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function(e) {
           if(e.detail.length > 0) {
@@ -416,19 +414,6 @@ Element providing an overview for student's courses
         return {year: year, semester: semester};
       }
 
-    });
-
-    document.querySelector('#cards').addEventListener('swipeable-card-swipe-away', function(e) {
-      e.target.parentNode.removeChild(e.target); // removes this card
-      document.querySelector('#cards').appendChild(e.target); // adds this card to the end of the set of cards
-
-      // wait for 10ms so the animations can kick in
-      setTimeout(function(){
-        // set opacity and position back to default
-        e.target.style.opacity = 1;
-        e.target.style.transform = "translate3d(0px, 0px, 0px) rotate(0deg)";
-        e.target.style.webkitTransform = "translate3d(0px, 0px, 0px) rotate(0deg)";
-      },10);
     });
   </script>
 
