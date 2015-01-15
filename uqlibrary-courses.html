@@ -100,11 +100,13 @@ Element providing an overview for student's courses
     <uqlibrary-api-term-dates id="term_dates"></uqlibrary-api-term-dates>
 
       <div hidden?="{{ processedCourses == null || processedCourses.length > 0 }}">
-          <paper-shadow class="card" z="1">
+        <paper-shadow class="card" z="1">
           <div class="subhead cardSection cardTitle">Courses will be shown 3 weeks prior to the start of semester</div>
           <div class="caption cardSection ">Please check back closer to the next enrollment period</div>
         </paper-shadow>
+      <paper-shadow z="1" class="card">
         <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
+      </paper-shadow>
       </div>
 
 
