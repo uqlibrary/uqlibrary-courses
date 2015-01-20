@@ -79,6 +79,7 @@ Element providing an overview for student's courses
   <template>
     <link rel="stylesheet" href="uqlibrary-courses.css">
     <core-signals on-core-signal-transitioning-change="{{transitioningChangeHandler}}"></core-signals>
+    <uqlibrary-api-account id="account"></uqlibrary-api-account>
     <uqlibrary-api-learning-resources id="learning_resources"></uqlibrary-api-learning-resources>
     <uqlibrary-api-course-reading-list id="reading_list"></uqlibrary-api-course-reading-list>
     <uqlibrary-api-library-guides id="library_guides"></uqlibrary-api-library-guides>
@@ -161,6 +162,21 @@ Element providing an overview for student's courses
       ready: function() {
         var that = this;
         var courseIndex = null;
+
+
+        this.$.account.addEventListener('uqlibrary-api-account-loaded', function(e) {
+          if (e.detail.hasSession && e.detail.classes) {
+            that.courses = e.detail.classes;
+          } else {
+            // Not logged in
+            //that.$.account.login('https://app.library.uq.edu.au/v1/courses');
+          }
+        });
+        this.$.account.get();
+
+        this.addEventListener('uqlibrary-courses-loaded', function(){
+          this.get();
+        });
 
         this.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function(e) {
           if(e.detail.length > 0) {
@@ -281,6 +297,7 @@ Element providing an overview for student's courses
             this.fire('uqlibrary-courses-loaded');
           }
         }
+
       },
 
       processData: function () {
