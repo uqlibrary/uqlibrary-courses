@@ -69,22 +69,7 @@ Element providing an overview for student's courses
 @homepage http://uqlibrary.github.io/uqlibrary-courses
 -->
 
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../paper-tabs/paper-tabs.html">
-<link rel="import" href="../paper-tabs/paper-tab.html">
-<link rel="import" href="../paper-spinner/paper-spinner.html">
-<link rel="import" href="../core-overlay/core-overlay.html">
-<link rel="import" href="../core-signals/core-signals.html">
-<link rel="import" href="../core-animated-pages/core-animated-pages.html">
-<link rel="import" href="../paper-shadow/paper-shadow.html">
-
-<script type="text/javascript" src="../moment/moment.js"></script>
-
-<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
-<link rel="import" href="../uqlibrary-api/uqlibrary-api-learning-resources.html">
-<link rel="import" href="../uqlibrary-api/uqlibrary-api-course-reading-list.html">
-<link rel="import" href="../uqlibrary-api/uqlibrary-api-library-guides.html">
-<link rel="import" href="../uqlibrary-api/uqlibrary-api-term-dates.html">
+<link rel="import" href="../uqlibrary-elements/0.5.2/lib/vulcanized.html">
 
 <link rel="import" href="uqlibrary-course.html">
 <link rel="import" href="uqlibrary-courses-study-links.html">
@@ -98,6 +83,8 @@ Element providing an overview for student's courses
     <uqlibrary-api-course-reading-list id="reading_list"></uqlibrary-api-course-reading-list>
     <uqlibrary-api-library-guides id="library_guides"></uqlibrary-api-library-guides>
     <uqlibrary-api-term-dates id="term_dates"></uqlibrary-api-term-dates>
+
+    <uqlibrary-ga id="ga" appName="Courses"></uqlibrary-ga>
 
       <div id="noCoursesMessage" hidden?="{{ processedCourses == null || processedCourses.length > 0 }}">
         <paper-shadow class="card" z="1">
@@ -315,6 +302,7 @@ Element providing an overview for student's courses
         // check oldValue to prevent load on init
         if(oldValue!= '' && newValue != '') {
           this.get(newValue);
+          this.$.ga.addEvent('Course selected', newValue);
         }
       },
 
@@ -414,13 +402,6 @@ Element providing an overview for student's courses
         }
         return {year: year, semester: semester};
       },
-
-      useMockData: function(use) {
-        this.$.learning_resources.$.list.mock=use;
-        this.$.reading_list.$.list.mock=use;
-        this.$.library_guides.$.list.mock=use;
-        this.$.term_dates.$.list.mock=use;
-      }
 
     });
   </script>

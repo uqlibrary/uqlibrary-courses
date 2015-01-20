@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>uqlibrary-timeline</title>
+
+  <script src="../../webcomponentsjs/webcomponents.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../uqlibrary-courses.html">
+</head>
+<body>
+
+<uqlibrary-courses></uqlibrary-courses>
+
+<script>
+  window.addEventListener('polymer-ready', function() {
+    var coursesEl = document.querySelector('uqlibrary-courses');
+
+    var courses = [
+      {
+        "ACAD_CAREER": "UGRD",
+        "DESCR": "Financial Management",
+        "SUBJECT": "FINM",
+        "CATALOG_NBR": "2401",
+        "CAMPUS": "STLUC",
+        "INSTRUCTION_MODE": "IN",
+        "ACAD_GROUP": "BEL",
+        "STRM":"6460"
+      },
+      {
+        "ACAD_CAREER": "UGRD",
+        "DESCR": "Elect Commerce Systems Dev",
+        "SUBJECT": "INFS",
+        "CATALOG_NBR": "2244",
+        "CAMPUS": "STLUC",
+        "INSTRUCTION_MODE": "IN",
+        "ACAD_GROUP": "BEL",
+        "STRM":"6460"
+      },
+      {
+        "ACAD_CAREER": "UGRD",
+        "DESCR": "Working with Groups & Teams",
+        "SUBJECT": "MGTS",
+        "CATALOG_NBR": "2961",
+        "CAMPUS": "GATTN",
+        "INSTRUCTION_MODE": "EX",
+        "ACAD_GROUP": "SCI",
+        "STRM":"6520"
+      },
+      {
+        "ACAD_CAREER": "UGRD",
+        "DESCR": "Financial Reporting",
+        "SUBJECT": "ACCT",
+        "CATALOG_NBR": "2101",
+        "CAMPUS": "STLUC",
+        "INSTRUCTION_MODE": "IN",
+        "ACAD_GROUP": "BEL",
+        "STRM":"6520"
+      },
+      {
+        "ACAD_CAREER": "UGRD",
+        "DESCR": "Elect Com Infrastructure Mgmt",
+        "SUBJECT": "MGTS",
+        "CATALOG_NBR": "3204",
+        "CAMPUS": "STLUC",
+        "INSTRUCTION_MODE": "IN",
+        "ACAD_GROUP": "BEL",
+        "STRM":"6520"
+      }
+
+    ];
+    //coursesEl.courses = courses;
+    //console.log(coursesEl.courses.length);
+    var courseLoadedEventListeners = [];
+
+    describe('uqlibrary-courses', function () {
+      before(function () {
+      });
+
+      beforeEach(function () {
+
+        //remove all previous listeners
+        for(var i=0; i< courseLoadedEventListeners.length; i++) {
+          coursesEl.removeEventListener('uqlibrary-courses-loaded', courseLoadedEventListeners[i]);
+        }
+      });
+
+      describe('no courses loaded', function () {
+        it('should display default card if no courses loaded', function(done) {
+          coursesEl.courses = [];
+
+
+          var noCoursesListener = function() {
+            // check block visibility asynchronously
+            setTimeout(function() {
+              var processedCourses = coursesEl.processedCourses;
+              expect(processedCourses).to.be.empty.and.not.to.be.null;
+
+              var noCoursesMessage = coursesEl.shadowRoot.querySelector('#noCoursesMessage');
+              var isHidden = noCoursesMessage.getAttribute('hidden');
+              assert.isNull(isHidden, 'noCoursesMessage is hidden');
+              coursesEl.removeEventListener('uqlibrary-courses-loaded');
+              done();
+            }, 0);
+          };
+          coursesEl.addEventListener('uqlibrary-courses-loaded', noCoursesListener);
+          courseLoadedEventListeners.push(noCoursesListener);
+          });
+
+        });
+
+      describe('courses', function () {
+        it('should display tabs with courses', function(done) {
+          coursesEl.courses = courses;
+          coursesEl.termExtendWeeksRange = {before: 520, after: 520}; // +- 10 years to make sure courses are loaded
+          var coursesLoadListener = function() {
+            setTimeout(function() {
+              // Check courses to be loaded correctly
+              expect(coursesEl.processedCourses).to.have.length(courses.length);
+
+              // check tabs are shown
+              var tabs = coursesEl.$.tabs.querySelectorAll('paper-tab');
+              assert.isNotNull(tabs, 'Tabs are not visible');
+              // Check all tabs courses are shown
+              expect(tabs.length).to.be.equal(coursesEl.processedCourses.length);
+
+              // Check the first tab
+              expect(tabs[0].getAttribute('name')).to.be.equal(coursesEl.processedCourses[0].SUBJECT + coursesEl.processedCourses[0].CATALOG_NBR);
+
+              // get the first tab
+              coursesEl.get();
+
+              // Wait 2 second for mock data to be loaded
+              setTimeout(function() {
+
+                var courseTab = coursesEl.shadowRoot.querySelector('#'+courses[0].SUBJECT +courses[0].CATALOG_NBR + ' uqlibrary-course');
+                assert.isNotNull(courseTab, 'First course tab is not visible');
+
+                // Get course cards
+                var courseCards = courseTab.shadowRoot.querySelectorAll('swipeable-card');
+                expect(courseCards.length).to.be.equal(5); // 5 cards must be displayed
+
+                // Check each card
+                for (var i=0; i < courseCards.length; i++) {
+                  var _id = courseCards[i].getAttribute('id');
+                  var _titleElement = courseCards[i].querySelector('.cardSection.cardTitle');
+                  switch(_id) {
+                    case 'readingListCard':
+                      assert.isNotNull(_titleElement, 'Card title missed for reading list card');
+                      expect(_titleElement.innerHTML).to.contain('('+ coursesEl.courses[0].learning_resources.reading_lists.items.length +')')
+                      var _visibleItems = courseCards[i].querySelectorAll('.cardSection .listItemSection.listItemTitle');
+                      expect(_visibleItems.length).to.be.equal(courseTab.readingList.length);
+                      break;
+                    case 'examPapersCard':
+                      assert.isNotNull(_titleElement, 'Card title missed for exam papers card');
+                      expect(_titleElement.innerHTML).to.contain('('+ coursesEl.courses[0].learning_resources.exam_papers.length +')')
+                      var _visibleItems = courseCards[i].querySelectorAll('#examPaperItems .cardSection .listItemLink');
+                      expect(_visibleItems.length).to.be.equal(courseTab.examPapers.length);
+                      break;
+                    case 'libraryGuidesCard':
+                      assert.isNotNull(_titleElement, 'Card title missed for library guides card');
+                      expect(_titleElement.innerHTML).to.contain('('+ coursesEl.courses[0].library_guides.length +')')
+                      var _visibleItems = courseCards[i].querySelectorAll('#libGuidesItems .cardSection .listItemLink');
+                      expect(_visibleItems.length).to.be.equal(courseTab.libGuides.length);
+                      break;
+                    case 'ecpCard':
+                      assert.isNotNull(_titleElement, 'Card title missed for electronic course profile card');
+                      // Check if link to course profile is correct
+                      var _link = courseCards[i].querySelector('a.link');
+                      expect(_link.getAttribute('href')).to.contain(courses[0].SUBJECT +courses[0].CATALOG_NBR);
+                      break;
+                    case 'studyLinksCard':
+                      var _studyLinks = courseCards[i].querySelector('uqlibrary-courses-study-links');
+                      expect(_studyLinks).not.to.be.null;
+                      break;
+                    default:
+                      break;
+                  }
+                }
+                done();
+              }, 2000);
+
+            }, 0);
+          };
+          coursesEl.addEventListener('uqlibrary-courses-loaded', coursesLoadListener);
+
+        });
+      });
+
+    });
+
+  });
+</script>
+
+</body>
+</html>
