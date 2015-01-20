@@ -87,49 +87,67 @@ Element providing an overview for student's courses
 
     <uqlibrary-ga id="ga" appName="Courses"></uqlibrary-ga>
 
-      <div id="noCoursesMessage" hidden?="{{ processedCourses == null || processedCourses.length > 0 }}">
-        <paper-shadow class="card" z="1">
-          <div class="subhead cardSection cardTitle">Courses will be shown 3 weeks prior to the start of semester</div>
-          <div class="caption cardSection ">Please check back closer to the next enrollment period</div>
-        </paper-shadow>
-      <paper-shadow z="1" class="card">
-        <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
-      </paper-shadow>
-      </div>
+    <core-drawer-panel id="drawerPanel" drawerWidth="85%" responsiveWidth="9999px">
+      <core-header-panel drawer id="drawer">
+        <uqlibrary-menu account="{{user}}"></uqlibrary-menu>
+      </core-header-panel>
+
+      <core-header-panel main id="main">
+        <core-toolbar>
+          <paper-icon-button id="toolBarLeftButton" icon="menu" on-tap="{{togglePanel}}"></paper-icon-button>
+          <span flex id="toolbar-page-title">My courses</span>
+
+        </core-toolbar>
+
+        <div id="content">
+
+          <div id="noCoursesMessage" hidden?="{{ processedCourses == null || processedCourses.length > 0 }}">
+            <paper-shadow class="card" z="1">
+              <div class="subhead cardSection cardTitle">Courses will be shown 3 weeks prior to the start of semester</div>
+              <div class="caption cardSection ">Please check back closer to the next enrollment period</div>
+            </paper-shadow>
+          <paper-shadow z="1" class="card">
+            <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
+          </paper-shadow>
+          </div>
 
 
-      <paper-tabs id="tabs" selected="{{ selectedTab }}" on-core-select="{{ tabSelected }}" hidden?="{{processedCourses.length == 0}}">
-        <template repeat="{{ processedCourses as course }}">
-          <paper-tab name="{{ course.courseId }}">
-            <div layout vertical center class="menu">
-              <span class="tabTitle">{{ course.SUBJECT }}</span>
-              <span class="tabTitle">{{ course.CATALOG_NBR }}</span>
+          <paper-tabs id="tabs" selected="{{ selectedTab }}" on-core-select="{{ tabSelected }}" hidden?="{{processedCourses.length == 0}}">
+            <template repeat="{{ processedCourses as course }}">
+              <paper-tab name="{{ course.courseId }}">
+                <div layout vertical center class="menu">
+                  <span class="tabTitle">{{ course.SUBJECT }}</span>
+                  <span class="tabTitle">{{ course.CATALOG_NBR }}</span>
+                </div>
+              </paper-tab>
+            </template>
+          </paper-tabs>
+
+          <core-overlay id="loadingOverlay"
+                        layout
+                        horizontal
+                        opened?="{{!transitioning && processedCourses.length > 0 && (!selectedCourse.learning_resources.reading_lists.items || !selectedCourse.learning_resources.exam_papers || !selectedCourse.library_guides) }}">
+            <div flex self-center center-justified layout horizontal>
+              <paper-spinner active></paper-spinner>
             </div>
-          </paper-tab>
-        </template>
-      </paper-tabs>
+          </core-overlay>
 
-      <core-overlay id="loadingOverlay"
-                    layout
-                    horizontal
-                    opened?="{{!transitioning && processedCourses.length > 0 && (!selectedCourse.learning_resources.reading_lists.items || !selectedCourse.learning_resources.exam_papers || !selectedCourse.library_guides) }}">
-        <div flex self-center center-justified layout horizontal>
-          <paper-spinner active></paper-spinner>
+          <core-animated-pages id="animatedPages" transitions="slide-from-right" block selected="{{selectedTab}}"
+                               on-core-animated-pages-transition-prepare="{{transitionPrepareHandler}}"
+                               on-core-animated-pages-transition-end="{{transitionEndHandler}}"
+                               hidden?="{{processedCourses.length == 0}}"
+          >
+
+          <template repeat="{{ processedCourses as course }}">
+            <section id="{{ course.courseId }}" name="{{ course.courseId }}">
+              <uqlibrary-course course="{{course}}" hidden?="{{!course.learning_resources.reading_lists.items || !course.learning_resources.exam_papers || !course.library_guides}}"></uqlibrary-course>
+            </section>
+          </template>
+          </core-animated-pages>
         </div>
-      </core-overlay>
+      </core-header-panel>
 
-      <core-animated-pages id="animatedPages" transitions="slide-from-right" block selected="{{selectedTab}}"
-                           on-core-animated-pages-transition-prepare="{{transitionPrepareHandler}}"
-                           on-core-animated-pages-transition-end="{{transitionEndHandler}}"
-                           hidden?="{{processedCourses.length == 0}}"
-      >
-
-      <template repeat="{{ processedCourses as course }}">
-        <section id="{{ course.courseId }}" name="{{ course.courseId }}">
-          <uqlibrary-course course="{{course}}" hidden?="{{!course.learning_resources.reading_lists.items || !course.learning_resources.exam_papers || !course.library_guides}}"></uqlibrary-course>
-        </section>
-      </template>
-      </core-animated-pages>
+    </core-drawer-panel>
 
   </template>
 
@@ -152,6 +170,7 @@ Element providing an overview for student's courses
       termDates: {},
       selectedCourse: {},
       transitioning: false,
+      user: {},
 
       // Extend search dates for courses
       termExtendWeeksRange: {
@@ -159,6 +178,10 @@ Element providing an overview for student's courses
         after: 1
       },
 
+      togglePanel: function () {
+        this.$.drawerPanel.togglePanel();
+      },
+      
       ready: function() {
         var that = this;
         var courseIndex = null;
@@ -167,6 +190,7 @@ Element providing an overview for student's courses
         this.$.account.addEventListener('uqlibrary-api-account-loaded', function(e) {
           if (e.detail.hasSession) {
             if(e.detail.classes) {
+              that.user = e.detail;
               that.courses = e.detail.classes;
             }
           } else {
