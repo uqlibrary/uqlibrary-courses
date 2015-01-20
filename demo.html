@@ -14,7 +14,7 @@
 
   <p>An `uqlibrary-courses` looks like this:</p>
   <div class="wrapper">
-    <uqlibrary-courses></uqlibrary-courses>
+    <uqlibrary-courses autoload="false"></uqlibrary-courses>
   </div>
   <script>
     (function () {
@@ -74,10 +74,7 @@
             "STRM":"6520"
           }
           ];
-        //courses.courses = [];
-        courses.addEventListener('uqlibrary-courses-loaded', function(){
-          courses.get();
-        });
+
           courses.termExtendWeeksRange = {before:33, after: 24}
 
       });

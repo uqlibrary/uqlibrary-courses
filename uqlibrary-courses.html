@@ -75,7 +75,7 @@ Element providing an overview for student's courses
 <link rel="import" href="uqlibrary-courses-study-links.html">
 
 
-<polymer-element name="uqlibrary-courses" layout center attributes="courses">
+<polymer-element name="uqlibrary-courses" layout center attributes="courses autoload">
   <template>
     <link rel="stylesheet" href="uqlibrary-courses.css">
     <core-signals on-core-signal-transitioning-change="{{transitioningChangeHandler}}"></core-signals>
@@ -162,7 +162,8 @@ Element providing an overview for student's courses
        */
 
       publish: {
-        courses: []
+        courses: null,
+        autoload: true,
       },
       selectedTab: '',
       learningResources: {},
@@ -198,7 +199,9 @@ Element providing an overview for student's courses
             that.$.account.login('https://app.library.uq.edu.au/v1/courses');
           }
         });
-        this.$.account.get();
+        if(this.autoload){
+          this.$.account.get();
+        }
 
         this.addEventListener('uqlibrary-courses-loaded', function(){
           this.get();
