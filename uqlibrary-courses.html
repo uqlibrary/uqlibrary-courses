@@ -165,8 +165,10 @@ Element providing an overview for student's courses
 
 
         this.$.account.addEventListener('uqlibrary-api-account-loaded', function(e) {
-          if (e.detail.hasSession && e.detail.classes) {
-            that.courses = e.detail.classes;
+          if (e.detail.hasSession) {
+            if(e.detail.classes) {
+              that.courses = e.detail.classes;
+            }
           } else {
             // Not logged in
             that.$.account.login('https://app.library.uq.edu.au/v1/courses');
