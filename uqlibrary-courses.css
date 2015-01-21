@@ -166,7 +166,7 @@ h4.inverse {
 
 .link {
   text-decoration: none;
-  color: rgba(40, 116, 215, 0.87); }
+  color: rgba(0, 126, 158, 0.87); }
 
 core-icon {
   color: rgba(0, 0, 0, 0.54); }
@@ -198,6 +198,9 @@ core-toolbar {
 
 core-menu {
   margin: 0; }
+
+paper-progress #activeProgress {
+  background-color: #38852e; }
 
 .single-line-list {
   list-style-type: none;
@@ -518,7 +521,7 @@ core-menu {
       height: 45px;
       width: 45px;
       float: left; }
-      .three-line-icon-list .list-item.timeline .date .title {
+      .three-line-icon-list .list-item.timeline .date .title, .three-line-icon-list .list-item.timeline .date .headline {
         color: #7b0c9d; }
     .three-line-icon-list .list-item.timeline .content {
       background-color: #eeeeee;

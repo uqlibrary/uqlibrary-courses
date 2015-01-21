@@ -163,7 +163,7 @@ Element providing an overview for student's courses
 
       publish: {
         courses: null,
-        autoload: true,
+        autoload: true
       },
       selectedTab: '',
       learningResources: {},
@@ -316,7 +316,7 @@ Element providing an overview for student's courses
             if(termCodes.length > 0) {
               this.$.term_dates.addEventListener('uqlibrary-api-term-dates', function(e) {
                 that.termDates = e.detail;
-                that.processData() ;
+                that.processData();
               });
               this.$.term_dates.get({codes: termCodes});
             }

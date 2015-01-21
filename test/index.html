@@ -6,15 +6,32 @@
     <title>Core Elements Test Runner</title>
     <meta charset="UTF-8">
 
-    <script src="../../webcomponentsjs/webcomponents.js"></script>
+    <script>
+      function isIE () {
+        var myNav = navigator.userAgent.toLowerCase();
+        return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+      }
+
+      if (! ('registerElement' in document
+        && 'createShadowRoot' in HTMLElement.prototype
+        && 'import' in document.createElement('link')
+        && 'content' in document.createElement('template'))) {
+        // IE 8 and 9 throw errors if you try to include webcomponents.js, which prevents other user messages working
+        if (!isIE() || isIE () > 9) {
+          document.write('<script src="../../uqlibrary-elements/0.5.2/webcomponentsjs/webcomponents.js"><\/script>');
+        }
+      }
+    </script>
     <script src="../../web-component-tester/browser.js"></script>
   </head>
 
   <body>
 
   <script>
+    document.cookie="UQLMockData=true";
     WCT.loadSuites([
-      'uqlibrary-courses-test.html',
+      'uqlibrary-courses-test-unit.html',
+      'uqlibrary-courses-test-functional.html',
     ]);
   </script>
 

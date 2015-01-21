@@ -4,7 +4,22 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>uqlibrary-courses Demo</title>
 
-  <script src="../platform/platform.js"></script>
+  <script>
+    function isIE () {
+      var myNav = navigator.userAgent.toLowerCase();
+      return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+    }
+
+    if (! ('registerElement' in document
+      && 'createShadowRoot' in HTMLElement.prototype
+      && 'import' in document.createElement('link')
+      && 'content' in document.createElement('template'))) {
+      // IE 8 and 9 throw errors if you try to include webcomponents.js, which prevents other user messages working
+      if (!isIE() || isIE () > 9) {
+        document.write('<script src="../uqlibrary-elements/0.5.2/webcomponentsjs/webcomponents.js"><\/script>');
+      }
+    }
+  </script>
   <link rel="import" href="uqlibrary-courses.html">
 
   <link rel="stylesheet" href="//uqlibrary.github.io/uqlibrary-elements/components/uqlibrary-elements/resources/theme/app.css">
@@ -14,68 +29,15 @@
 
   <p>An `uqlibrary-courses` looks like this:</p>
   <div class="wrapper">
-    <uqlibrary-courses autoload="false"></uqlibrary-courses>
+    <uqlibrary-courses></uqlibrary-courses>
   </div>
   <script>
     (function () {
+      document.cookie="UQLMockData=true";
       window.addEventListener('polymer-ready', function() {
 
         var courses = document.querySelector('uqlibrary-courses');
-
-        courses.courses = [
-          {
-            "ACAD_CAREER": "UGRD",
-            "DESCR": "Financial Management",
-            "SUBJECT": "FINM",
-            "CATALOG_NBR": "2401",
-            "CAMPUS": "STLUC",
-            "INSTRUCTION_MODE": "IN",
-            "ACAD_GROUP": "BEL",
-            "STRM":"6520"
-          },
-          {
-            "ACAD_CAREER": "UGRD",
-            "DESCR": "Elect Commerce Systems Dev",
-            "SUBJECT": "INFS",
-            "CATALOG_NBR": "2244",
-            "CAMPUS": "STLUC",
-            "INSTRUCTION_MODE": "IN",
-            "ACAD_GROUP": "BEL",
-            "STRM":"6460"
-          },
-          {
-            "ACAD_CAREER": "UGRD",
-            "DESCR": "Working with Groups & Teams",
-            "SUBJECT": "MGTS",
-            "CATALOG_NBR": "2961",
-            "CAMPUS": "GATTN",
-            "INSTRUCTION_MODE": "EX",
-            "ACAD_GROUP": "SCI",
-            "STRM":"6520"
-          },
-          {
-            "ACAD_CAREER": "UGRD",
-            "DESCR": "Financial Reporting",
-            "SUBJECT": "ACCT",
-            "CATALOG_NBR": "2101",
-            "CAMPUS": "STLUC",
-            "INSTRUCTION_MODE": "IN",
-            "ACAD_GROUP": "BEL",
-            "STRM":"6520"
-          },
-          {
-            "ACAD_CAREER": "UGRD",
-            "DESCR": "Elect Com Infrastructure Mgmt",
-            "SUBJECT": "MGTS",
-            "CATALOG_NBR": "3204",
-            "CAMPUS": "STLUC",
-            "INSTRUCTION_MODE": "IN",
-            "ACAD_GROUP": "BEL",
-            "STRM":"6520"
-          }
-          ];
-
-          courses.termExtendWeeksRange = {before:33, after: 24}
+        courses.termExtendWeeksRange = {before:33, after: 24}
 
       });
     }());
