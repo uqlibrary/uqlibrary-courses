@@ -24,7 +24,18 @@
   <link rel="import" href="uqlibrary-courses.html">
   <link rel="stylesheet" href="../uqlibrary-elements/resources/theme/app.css">
 </head>
-<body unresolved>
-<uqlibrary-courses></uqlibrary-courses>
+<body>
+<div id="loader" class="subhead">
+  <div>Loading Application</div>
+  <img src="../uqlibrary-elements/resources/theme/icon/loading.svg">
+</div>
+<uqlibrary-courses unresolved></uqlibrary-courses>
+
+<script>
+  window.addEventListener('polymer-ready', function() {
+    document.body.removeChild(document.getElementById('spinner'));
+  });
+</script>
+
 </body>
 </html>
