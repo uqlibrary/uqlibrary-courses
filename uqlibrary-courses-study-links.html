@@ -6,7 +6,7 @@
     <uqlibrary-ga id="ga" appName="Courses"></uqlibrary-ga>
     <div class="card" z="1">
       <div class="subhead cardSection cardTitle">Study Help</div>
-      <a class="link" href="http://guides.library.uq.edu.au/" target="_blank" on-click="{{linkClicked}}" id="allLibrarySubjectGuides">
+      <a class="link" href="http://guides.library.uq.edu.au/" target="_blank" on-tap="{{linkClicked}}" id="allLibrarySubjectGuides">
         <div class="cardSection">
           <div class="link listItemLink">
             <core-icon class="link" src="icons/sign.svg" id="sign-icon"></core-icon> All Library Subject Guides
@@ -15,7 +15,7 @@
       </a>
 
       <div hidden?="{{course.SUBJECT != 'LAWS'}}">
-        <a class="link" on-click="{{linkClicked}}" id="lawOnlineTutorial" href="https://www.library.uq.edu.au/help/law-online-tutorial" target="_blank">
+        <a class="link" on-tap="{{linkClicked}}" id="lawOnlineTutorial" href="https://www.library.uq.edu.au/help/law-online-tutorial" target="_blank">
           <div class="cardSection">
             <div class="link listItemLink">
               <core-icon class="link" icon="help" id="help-icon"></core-icon> Law Online Tutorial
@@ -23,7 +23,7 @@
           </div>
         </a>
 
-        <a class="link" on-click="{{linkClicked}}" id="library101" href="https://learn.uq.edu.au/webapps/login/?new_loc=%2Fwebapps%2Fblackboard%2Fexecute%2FenrollCourse%3Fcontext%3DCourse%26course_id%3D_13002_1" target="_blank">
+        <a class="link" on-tap="{{linkClicked}}" id="library101" href="https://learn.uq.edu.au/webapps/login/?new_loc=%2Fwebapps%2Fblackboard%2Fexecute%2FenrollCourse%3Fcontext%3DCourse%26course_id%3D_13002_1" target="_blank">
           <div class="cardSection">
             <div class="link listItemLink">
               <core-icon class="link" icon="extension" id="extension-icon"></core-icon> Library 101
@@ -32,7 +32,7 @@
         </a>
     </div>
 
-      <a class="link" on-click="{{linkClicked}}" id="assignmentPlanner" href="https://www.library.uq.edu.au/services/assign/indexmail_tab2.phtml" target="_blank">
+      <a class="link" on-tap="{{linkClicked}}" id="assignmentPlanner" href="https://www.library.uq.edu.au/services/assign/indexmail_tab2.phtml" target="_blank">
         <div class="cardSection">
           <div class="link listItemLink">
             <core-icon class="link" icon="description" id="description-icon"></core-icon> Assignment Planner
@@ -40,7 +40,7 @@
         </div>
       </a>
 
-      <a class="link" href="https://learn.uq.edu.au/" target="_blank"  on-click="{{linkClicked}}" id="learnUQ">
+      <a class="link" href="https://learn.uq.edu.au/" target="_blank"  on-tap="{{linkClicked}}" id="learnUQ">
         <div class="cardSection">
           <div class="link listItemLink">
             <core-icon class="link" src="icons/bb.svg" id="bb-icon"></core-icon> Learn.UQ
@@ -48,7 +48,7 @@
         </div>
       </a>
 
-      <a class="link" href="https://my.uq.edu.au/my_login_screen.html?id=396" target="_blank"  on-click="{{linkClicked}}" id="examSchedule">
+      <a class="link" href="https://my.uq.edu.au/my_login_screen.html?id=396" target="_blank"  on-tap="{{linkClicked}}" id="examSchedule">
         <div class="cardSection">
           <div class="link listItemLink">
             <core-icon class="link" icon="view-module" id="event-icon"></core-icon> Exam Schedule
