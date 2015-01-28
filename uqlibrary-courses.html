@@ -238,7 +238,7 @@ Element providing an overview for student's courses
           if(courseIndex != null) {
             var list = e.detail;
             // sort list by item importance
-            var importanceList = {'Required': 0, 'Recommended' : 1, 'Further' : 2}
+            var importanceList = {'Required': 1, 'Recommended' : 2, 'Further' : 3};
             list.sort(function(a, b){
               // Item with defined importance should be higher
               if(a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
@@ -251,11 +251,11 @@ Element providing an overview for student's courses
               if(!a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
                 return 0;
               }
-
               var impA = (importanceList.hasOwnProperty(a.importance) ? importanceList[a.importance] : 999);
               var impB = (importanceList.hasOwnProperty(b.importance) ? importanceList[b.importance] : 999);
-              return b-a;
+              return impA-impB;
             });
+
             if(that.courses[courseIndex]['learning_resources']['reading_lists']){
               that.courses[courseIndex]['learning_resources']['reading_lists']['items'] = e.detail;
             }
@@ -285,7 +285,7 @@ Element providing an overview for student's courses
               }
               if( !this.processedCourses[i].hasOwnProperty('library_guides') ){
                   this.processedCourses[i]['library_guides'] = [];
-                  this.$.library_guides.get( {code: this.processedCourses[i].SUBJECT});
+                  this.$.library_guides.get( {code: this.processedCourses[i].courseId});
               }
               this.selectedCourse = this.processedCourses[i];
             }
