@@ -7,15 +7,13 @@
     <div class="card" z="1">
       <div class="subhead cardSection cardTitle">Study Help</div>
 
-      <div hidden?="{{course.SUBJECT != 'LAWS'}}">
-        <a class="link" on-tap="{{linkClicked}}" id="lawOnlineTutorial" href="https://www.library.uq.edu.au/help/law-online-tutorial" target="_blank">
-          <div class="cardSection">
-            <div class="link listItemLink">
-              <core-icon class="link" icon="help" id="help-icon"></core-icon> Law Online Tutorial
-            </div>
+      <a class="link" on-click="{{linkClicked}}" id="referencingGuides" href="https://www.library.uq.edu.au/help/referencing-style-guides" target="_blank">
+        <div class="cardSection">
+          <div class="link listItemLink">
+            <core-icon class="link" icon="description" id="referencing-icon"></core-icon> Referencing guides
           </div>
-        </a>
-    </div>
+        </div>
+      </a>
 
       <a class="link" on-click="{{linkClicked}}" id="library101" href="https://learn.uq.edu.au/webapps/login/?new_loc=%2Fwebapps%2Fblackboard%2Fexecute%2FenrollCourse%3Fcontext%3DCourse%26course_id%3D_13002_1" target="_blank">
         <div class="cardSection">
@@ -25,30 +23,33 @@
         </div>
       </a>
 
+      <div hidden?="{{course.SUBJECT != 'LAWS'}}">
+      <a class="link" on-tap="{{linkClicked}}" id="lawOnlineTutorial" href="https://www.library.uq.edu.au/help/law-online-tutorial" target="_blank">
+        <div class="cardSection">
+          <div class="link listItemLink">
+            <core-icon class="link" icon="account-balance" id="law-icon"></core-icon> Law Online Tutorial
+          </div>
+        </div>
+      </a>
+    </div>
+
 
       <a class="link" on-tap="{{linkClicked}}" id="assignmentPlanner" href="https://www.library.uq.edu.au/services/assign/indexmail_tab2.phtml" target="_blank">
         <div class="cardSection">
           <div class="link listItemLink">
-            <core-icon class="link" icon="description" id="description-icon"></core-icon> Assignment Planner
+            <core-icon class="link" icon="notification:event-available" id="assignment-icon"></core-icon> Assignment Planner
           </div>
         </div>
       </a>
 
-      <a class="link" href="https://learn.uq.edu.au/" target="_blank"  on-tap="{{linkClicked}}" id="learnUQ">
+      <a class="link" href="https://www.library.uq.edu.au/help/training" target="_blank"  on-tap="{{linkClicked}}" id="libraryTraining">
         <div class="cardSection">
           <div class="link listItemLink">
-            <core-icon class="link" src="icons/bb.svg" id="bb-icon"></core-icon> Learn.UQ
+            <core-icon class="link" src="icons/bb.svg" id="bb-icon"></core-icon> Library training
           </div>
         </div>
       </a>
 
-      <a class="link" href="https://my.uq.edu.au/my_login_screen.html?id=396" target="_blank"  on-tap="{{linkClicked}}" id="examSchedule">
-        <div class="cardSection">
-          <div class="link listItemLink">
-            <core-icon class="link" icon="view-module" id="event-icon"></core-icon> Exam Schedule
-          </div>
-        </div>
-      </a>
     </div>
   </template>
 </polymer-element>

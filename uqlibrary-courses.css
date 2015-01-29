@@ -296,6 +296,9 @@ uqlibrary-home #account core-icon {
   width: 26px;
   color: #fafafa; }
 
+.colored {
+  color: #007e9e; }
+
 .single-line-list {
   list-style-type: none;
   margin: 0;
@@ -728,6 +731,13 @@ paper-fab {
   paper-fab core-icon {
     color: white; }
 
+paper-button.colored {
+  color: #007e9e; }
+
+paper-button[raised].colored {
+  background: #007e9e;
+  color: white; }
+
 .card {
   display: block;
   border-radius: 2px;
@@ -804,28 +814,6 @@ paper-fab {
     background-color: #eeeeee; }
   .hint-box.unavailable {
     background-color: #bdbdbd; }
-
-paper-input-decorator::shadow .focused-underline {
-  background-color: #8cb800; }
-
-paper-button.colored {
-  color: #007e9e; }
-
-paper-checkbox::shadow #ink[checked] {
-  color: #007e9e; }
-
-paper-checkbox::shadow #checkbox.checked {
-  border-color: #007e9e;
-  background-color: #007e9e; }
-
-paper-checkbox::shadow #ink {
-  color: #cccccc; }
-
-paper-checkbox::shadow #checkbox {
-  border-color: #cccccc; }
-
-paper-button [colored] {
-  background-color: #007e9e; }
 
 :host,
 :host *,
