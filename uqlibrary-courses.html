@@ -209,25 +209,29 @@ Element providing an overview for student's courses
 
         this.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function(e) {
           if(e.detail.length > 0) {
-            for(var i = 0; i < that.courses.length; i++) {
-              if(that.courses[i].courseId == e.detail[0].title) {
-                that.courses[i]['learning_resources'] = e.detail[0];
-                that.filterReadingLists(that.courses[i]);
-                that.filterExamPapers(that.courses[i]);
+            for(var i = 0; i < that.processedCourses.length; i++) {
+              if(that.processedCourses[i].courseId == e.detail[0].title) {
+                that.processedCourses[i]['learning_resources'] = e.detail[0];
 
-                var readingListId = that.getReadingListId(that.courses[i].learning_resources.reading_lists);
+                that.filterReadingLists(that.processedCourses[i]);
+                that.filterExamPapers(that.processedCourses[i]);
+
+                var readingListId = that.getReadingListId(that.processedCourses[i].learning_resources.reading_lists);
                 if(readingListId != '') {
                   courseIndex = i;
                   that.$.reading_list.get( {code: readingListId} );
+                }
+                else if(that.processedCourses[i].learning_resources.hasOwnProperty('multipleReadingLists')) {
+
                 }
               }
             }
           }
           else {
             if(that.selectedTab) {
-              for(var i = 0; i < that.courses.length; i++) {
-                if(that.courses[i].courseId == that.selectedTab) {
-                  that.courses[i]['learning_resources'] = {reading_lists : {items: []}, exam_papers: []};
+              for(var i = 0; i < that.processedCourses.length; i++) {
+                if(that.processedCourses[i].courseId == that.selectedTab) {
+                  that.processedCourses[i]['learning_resources'] = {reading_lists : {items: []}, exam_papers: []};
                 }
               }
             }
@@ -255,9 +259,8 @@ Element providing an overview for student's courses
               var impB = (importanceList.hasOwnProperty(b.importance) ? importanceList[b.importance] : 999);
               return impA-impB;
             });
-
-            if(that.courses[courseIndex]['learning_resources']['reading_lists']){
-              that.courses[courseIndex]['learning_resources']['reading_lists']['items'] = e.detail;
+            if(that.processedCourses[courseIndex]['learning_resources']['reading_lists']){
+              that.processedCourses[courseIndex]['learning_resources']['reading_lists']['items'] = e.detail;
             }
 
           }
@@ -333,11 +336,13 @@ Element providing an overview for student's courses
         this.processedCourses = this.filterCoursesByTerm();
         //Check if there are 2 or more courses with the same code. If found - remove all but the first course
         var _codes = [];
+
         for( var i=0; i < this.processedCourses.length; i++) {
           if(_codes.indexOf(this.processedCourses[i].courseId) === -1) {
             _codes.push(this.processedCourses[i].courseId);
           }
           else {
+
             this.processedCourses.splice(i,1);
           }
         }
@@ -366,7 +371,6 @@ Element providing an overview for student's courses
       },
 
       filterReadingLists: function(course) {
-
         if(course.learning_resources.reading_lists.length == 0){
           return;
         }
@@ -378,22 +382,27 @@ Element providing an overview for student's courses
 
         // Filter reading lists to show only list for course semester
         var term = this.getYearSemesterByCode(course.STRM);
+        var campus = this.getCampusByCode(course.CAMPUS);
+
         var semesterString = 'Semester ' + term.semester + ' ' + term.year;
-        var found = '';
+        var found = [];
 
         for(var i=0; i < course.learning_resources.reading_lists.length; i++) {
-          if(course.learning_resources.reading_lists[i].period == semesterString) {
-            found = course.learning_resources.reading_lists[i];
-            break;
+          if(course.learning_resources.reading_lists[i].period == semesterString && course.learning_resources.reading_lists[i].campus.indexOf(campus) !== -1) {
+            found.push(course.learning_resources.reading_lists[i]);
+            //break;
           }
         }
 
-        // If list was found assign it to reading lists, otherwise take the first list from the array
-        if(found != '') {
-          course.learning_resources.reading_lists = found;
+        if(found.length == 0) {
+          course.learning_resources.reading_lists = {items: []};
+        }
+        else if(found.length == 1) {
+          course.learning_resources.reading_lists = found[0];
         }
         else {
-          course.learning_resources.reading_lists = course.learning_resources.reading_lists[0];
+          course.learning_resources.reading_lists = {items: []};//  course.learning_resources.reading_lists[0];
+          course.learning_resources.multipleReadingLists = found;
         }
       },
 
@@ -447,6 +456,21 @@ Element providing an overview for student's courses
           semester = 3;
         }
         return {year: year, semester: semester};
+      },
+
+      getCampusByCode: function(code) {
+        var campuses = {
+          "STLUC" : 'St Lucia',
+          "GATTN" : 'Gatton',
+          "IPSWC" : 'Ipswich',
+          "HERST" : 'Herston'
+        }
+        if(campuses.hasOwnProperty(code)) {
+          return campuses[code]
+        }
+        else return null;
+
+
       }
 
     });
