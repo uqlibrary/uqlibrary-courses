@@ -138,7 +138,7 @@
             break;
           case 'libraryGuidesCard':
             assert.isNotNull(_titleElement, 'Card title missed for library guides card');
-            expect(_titleElement.innerHTML).to.contain('('+ course.library_guides.length +')')
+            expect(_titleElement.innerHTML).to.contain('Library Guides')
             var _visibleItems = courseCards[i].querySelectorAll('#libGuidesItems .cardSection .listItemLink');
             expect(_visibleItems.length).to.be.equal(courseTab.libGuides.length);
             if(_visibleItems.length > 0 ){
