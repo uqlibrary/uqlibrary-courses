@@ -1,10 +1,10 @@
 a {
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.87); }
+  color: #007e9e; }
 
 .inverse a {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.87); }
+  color: white; }
 
 h1 {
   font-family: "Roboto light";
@@ -183,36 +183,36 @@ core-menu {
     margin-right: 2em; }
 
 core-toolbar {
-  background-color: white; }
+  background-color: #ffffff; }
   core-toolbar core-icon {
-    color: white; }
+    color: #ffffff; }
 
 core-drawer-panel {
-  background-color: white; }
+  background-color: #ffffff; }
 
 core-header-panel {
-  background-color: #fafafa; }
+  background-color: #FAFAFA; }
 
 core-toolbar {
   background-color: #4a075f;
   color: rgba(255, 255, 255, 0.87); }
 
 #drawer {
-  background-color: white;
+  background-color: #ffffff;
   border-right: 1px solid rgba(0, 0, 0, 0.1); }
 
 #main {
-  background-color: #fafafa; }
+  background-color: #FAFAFA; }
 
 core-menu {
   margin: 0; }
 
-paper-progress #activeProgress {
+paper-progress::shadow #activeProgress {
   background-color: #38852e; }
 
 paper-tabs {
   color: rgba(0, 0, 0, 0.87);
-  background-color: white;
+  background-color: #ffffff;
   box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.2); }
   paper-tabs::shadow #selectionBar {
     background-color: #8db800; }
@@ -224,8 +224,8 @@ paper-tabs {
 #askLogout, #askLogout::shadow {
   height: 44px;
   width: 44px;
-  fill: #fafafa;
-  color: #fafafa;
+  fill: #FAFAFA;
+  color: #FAFAFA;
   bottom: 8px;
   right: 5px; }
 
@@ -234,8 +234,10 @@ paper-tabs {
   background-color: #7b0c9d;
   border-bottom: 1px solid #cccccc; }
   #account core-icon {
-    height: 64px;
-    width: 64px; }
+    height: 26px;
+    width: 26px;
+    fill: #FAFAFA;
+    color: #FAFAFA; }
   #account #details {
     padding: 110px 14px 14px 14px; }
   #account #name {
@@ -247,11 +249,6 @@ paper-tabs {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden; }
-
-#logoutButton {
-  height: 44px;
-  width: 44px;
-  padding: 10px; }
 
 .home-icon {
   width: 44px;
@@ -294,10 +291,24 @@ core-tooltip.fancy:focus::shadow .core-tooltip {
 uqlibrary-home #account core-icon {
   height: 26px;
   width: 26px;
-  color: #fafafa; }
+  color: #FAFAFA; }
 
-.colored {
-  color: #007e9e; }
+.persistentFooter {
+  position: fixed;
+  height: 48px;
+  bottom: 0px;
+  background-color: #ffffff;
+  width: 100%;
+  border-top: 1px solid #EEEEEE; }
+  .persistentFooter .contentWrapper {
+    padding: 0; }
+  .persistentFooter .footerInfo {
+    padding: 18px; }
+  .persistentFooter .footerButtons {
+    padding-top: 8px; }
+  .persistentFooter .actionButtonsWrapper {
+    padding-right: 16px;
+    margin-top: 4px; }
 
 .single-line-list {
   list-style-type: none;
@@ -621,7 +632,7 @@ uqlibrary-home #account core-icon {
       .three-line-icon-list .list-item.timeline .date .title, .three-line-icon-list .list-item.timeline .date .headline {
         color: #7b0c9d; }
     .three-line-icon-list .list-item.timeline .content {
-      background-color: #eeeeee;
+      background-color: #EEEEEE;
       border-radius: 2px;
       padding-left: 16px; }
     .three-line-icon-list .list-item .content {
@@ -729,21 +740,35 @@ paper-fab {
     position: fixed;
     right: 16px; }
   paper-fab core-icon {
-    color: white; }
+    color: #ffffff; }
 
 paper-button.colored {
   color: #007e9e; }
 
 paper-button[raised].colored {
   background: #007e9e;
-  color: white; }
+  color: #ffffff; }
+  paper-button[raised].colored:hover {
+    background-color: #006680; }
+  paper-button[raised].colored:active {
+    background-color: #00566b; }
+  paper-button[raised].colored:disabled {
+    background-color: #FAFAFA;
+    color: #cccccc; }
+
+paper-button[disabled] {
+  background-color: #FAFAFA;
+  color: #cccccc; }
+  paper-button[disabled].colored {
+    background-color: #FAFAFA;
+    color: #cccccc; }
 
 .card {
   display: block;
   border-radius: 2px;
   box-sizing: border-box;
   height: auto;
-  background: white;
+  background: #ffffff;
   width: 320px;
   margin: 16px auto; }
   .card .cardSection {
@@ -779,7 +804,7 @@ paper-button[raised].colored {
   position: fixed;
   height: 48px;
   bottom: 0px;
-  background-color: white;
+  background-color: #ffffff;
   width: 100%;
   border-top: 1px solid #cccccc; }
   .persistent-footer .text-container {
@@ -811,9 +836,28 @@ paper-button[raised].colored {
   .hint-box.selected {
     background-color: #007e9e; }
   .hint-box.available {
-    background-color: #eeeeee; }
+    background-color: #EEEEEE; }
   .hint-box.unavailable {
-    background-color: #bdbdbd; }
+    background-color: #BDBDBD; }
+
+paper-input-decorator::shadow .focused-underline {
+  background-color: #007e9e; }
+
+paper-input-decorator /deep/ .focused-underline {
+  background-color: #007e9e; }
+
+paper-checkbox::shadow #ink[checked] {
+  color: #007e9e; }
+
+paper-checkbox::shadow #checkbox.checked {
+  border-color: #007e9e;
+  background-color: #007e9e; }
+
+paper-checkbox::shadow #ink {
+  color: #cccccc; }
+
+paper-checkbox::shadow #checkbox {
+  border-color: #cccccc; }
 
 :host,
 :host *,
@@ -823,7 +867,7 @@ paper-button[raised].colored {
 
 paper-tabs {
   color: rgba(0, 0, 0, 0.87);
-  background-color: white;
+  background-color: #ffffff;
   box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.2); }
   paper-tabs::shadow #selectionBar {
     background-color: #8db800; }
@@ -855,3 +899,5 @@ paper-tabs {
   height: 64px; }
   #loadingOverlay paper-spinner::shadow .circle {
     border-color: #7b0c9d; }
+
+/*# sourceMappingURL=uqlibrary-courses.css.map */
