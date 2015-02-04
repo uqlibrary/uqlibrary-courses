@@ -9,20 +9,36 @@
     <div id="cards">
       <swipeable-card class="card" id="readingListCard">
         <paper-shadow z="1">
-          <div class="subhead cardSection cardTitle">Reading List ({{course.learning_resources.reading_lists.items.length}})</div>
+          <div class="subhead cardSection cardTitle">Reading List <span hidden?="{{course.learning_resources.multipleReadingLists}}">({{course.learning_resources.reading_lists.items.length}})</span></div>
 
-          <div class="body1 cardSection" hidden?="{{readingList.length > 0}}">
-          <div class="caption listItemSection listItemNoResultsMessage">
-            No reading lists for this course
-          </div>
-          </div>
-          <a class="link" href="{{readingListsSearchUrl}}" target="_blank" hidden?="{{readingList.length >0}}">
-          <div class="cardSection">
-            <div class="link listItemLink">
-              <core-icon class="link" icon="arrow-forward"></core-icon> Search other reading lists
+          <div hidden?="{{readingList.length > 0}}">
+            <div class="body1 cardSection" hidden?={{course.learning_resources.multipleReadingLists}}>
+              <div class="caption listItemSection listItemNoResultsMessage">
+                No reading lists for this course
+              </div>
             </div>
+            <div class="body1 cardSection" hidden?={{!course.learning_resources.multipleReadingLists}}>
+              <div class="listItemSection">
+                More than one reading list found for {{course.courseId}}. Please select a list:
+               </div>
+            </div>
+            <template repeat="{{item in course.learning_resources.multipleReadingLists }}">
+              <a href="{{item.url}}" target="_blank" on-click="{{linkClicked}}" id="specifyReadingList">
+                <div class="body1 cardSection">
+                  <div class="link listItemSection listItemTitle">{{item.title}}</div>
+                  <div class="caption listItemSection listItemAuthor">{{item.period}}</div>
+                </div>
+              </a>
+            </template>
+
+            <a class="link" href="{{readingListsSearchUrl}}" target="_blank">
+              <div class="cardSection">
+                <div class="link listItemLink">
+                  <core-icon class="link" icon="arrow-forward"></core-icon> Search other reading lists
+                </div>
+              </div>
+            </a>
           </div>
-          </a>
 
           <template repeat="{{item in readingList }}">
             <a href="{{item.itemLink}}" target="_blank" on-click="{{linkClicked}}" id="readingListItem">
@@ -90,20 +106,13 @@
 
     <swipeable-card class="card" id="libraryGuidesCard">
       <paper-shadow z="1">
-        <div class="subhead cardSection cardTitle">Library Guides ({{course.library_guides.length}})</div>
+        <div class="subhead cardSection cardTitle">Library Guides</div>
 
         <div class="body1 cardSection" hidden?="{{libGuides.length > 0}}">
-        <div class="caption listItemSection listItemNoResultsMessage">
-          No Library guides for this course
-        </div>
-        </div>
-        <a class="link" href="{{libGuidesBrowseUrl}}" target="_blank" hidden?="{{libGuides.length >0}}">
-        <div class="cardSection">
-          <div class="link listItemLink">
-            <core-icon class="link" icon="arrow-forward"></core-icon> Browse other library guides
+          <div class="caption listItemSection listItemNoResultsMessage">
+            No Library guides for this course
           </div>
         </div>
-        </a>
         <div id="libGuidesItems">
           <template repeat="{{ guide in libGuides }}">
             <a class="link" href="{{guide.url}}" target="_blank" on-click="{{linkClicked}}" id="libraryGuideItem">
@@ -115,12 +124,13 @@
             </a>
           </template>
         </div>
-        <div class="cardSection" hidden?="{{course.moreItemsCount.libGuides == 0}}">
-        <div class="link listItemLink">
-          <a class="link" href="{{libGuidesLinkUrl + course.SUBJECT}}" target="_blank" on-click="{{linkClicked}}" id="libraryGuidesMoreItems">
-            <core-icon class="link" icon="arrow-forward"></core-icon> {{course.moreItemsCount.libGuides}} more library {{course.moreItemsCount.libGuides == 1 ? 'guide' : 'guides'}}
-          </a>
-        </div>
+
+        <div class="cardSection">
+          <div class="link listItemLink">
+            <a class="link" href="{{libGuidesLinkUrl}}" target="_blank" on-tap="{{linkClicked}}" id="allLibraryGuides">
+              <core-icon class="link" icon="arrow-forward" id="arrow-icon"></core-icon> All Library Guides
+            </a>
+          </div>
         </div>
       </paper-shadow>
     </swipeable-card>
@@ -180,11 +190,11 @@
       visibleItemsCount: {
         readingLists: 2,
         examPapers: 2,
-        libGuides: 2
+        libGuides: 3
       },
       examPapersSearchUrl: 'https://www.library.uq.edu.au/exams/papers.php?stub=',
       ecpLinkUrl: 'http://www.uq.edu.au/study/course.html?course_code=',
-      libGuidesLinkUrl: 'http://guides.library.uq.edu.au/search.php?iid=4053&gid=0&c=0&search=',
+      libGuidesLinkUrl: 'http://guides.library.uq.edu.au',
       libGuidesBrowseUrl: 'http://guides.library.uq.edu.au/browse.php',
       readingListsSearchUrl: 'http://lr.library.uq.edu.au/index.html',
 
