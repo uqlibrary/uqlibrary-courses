@@ -58,7 +58,7 @@
             </a>
           </template>
           <a class="link" href="{{course.learning_resources.reading_lists.url}}" on-click="{{linkClicked}}" id="readingListMoreItems" target="_blank" hidden?="{{course.moreItemsCount.readingLists == 0}}">
-          <div class="cardSection">
+          <div class="cardSection noBorder">
             <div class="link listItemLink">
               <core-icon class="link" icon="arrow-forward"></core-icon> {{course.moreItemsCount.readingLists}} more {{course.moreItemsCount.readingLists == 1 ? 'item' : 'items'}}
             </div>
@@ -95,7 +95,7 @@
           </template>
         </div>
         <a class="link" href="{{examPapersSearchUrl + course.courseId}}" on-click="{{linkClicked}}" id="examPapersMoreItems" target="_blank" hidden?="{{course.moreItemsCount.examPapers == 0}}">
-        <div class="cardSection">
+        <div class="cardSection noBorder">
           <div class="link listItemLink">
             <core-icon class="link" icon="arrow-forward"></core-icon> {{course.moreItemsCount.examPapers}} more past exam {{course.moreItemsCount.examPapers == 1 ? 'paper' : 'papers'}}
           </div>
@@ -125,7 +125,7 @@
           </template>
         </div>
 
-        <div class="cardSection">
+        <div class="cardSection noBorder">
           <div class="link listItemLink">
             <a class="link" href="{{libGuidesLinkUrl}}" target="_blank" on-tap="{{linkClicked}}" id="allLibraryGuides">
               <core-icon class="link" icon="arrow-forward" id="arrow-icon"></core-icon> All Library Guides
@@ -137,14 +137,22 @@
 
     <swipeable-card class="card" id="ecpCard">
       <paper-shadow z="1">
-        <div class="subhead cardSection cardTitle">Electronic Course Profile</div>
+        <div class="subhead cardSection cardTitle">Course Links</div>
         <a class="link" href="{{ecpLinkUrl + course.courseId}}" target="_blank" on-click="{{linkClicked}}" id="electronicCourseProfile">
           <div class="cardSection">
             <div class="link listItemLink">
-              <core-icon class="link" icon="arrow-forward"></core-icon> Link to ECP
+              <core-icon class="link" icon="arrow-forward"></core-icon> Electronic Course Profile
             </div>
           </div>
         </a>
+        <a class="link" on-click="{{linkClicked}}" id="blackboard" href="https://learn.uq.edu.au/{{course.courseId}}" target="_blank">
+          <div class="cardSection noBorder">
+            <div class="link listItemLink">
+              <core-icon class="link" icon="arrow-forward" id="extension-icon"></core-icon> Learn.UQ (Blackboard)
+            </div>
+          </div>
+        </a>
+
       </paper-shadow>
     </swipeable-card>
 
