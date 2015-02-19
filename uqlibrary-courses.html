@@ -114,10 +114,12 @@ Element providing an overview for student's courses
 
           <paper-tabs id="tabs" selected="{{ selectedTab }}" on-core-select="{{ tabSelected }}" hidden?="{{processedCourses.length == 0}}">
             <template repeat="{{ processedCourses as course }}">
-              <paper-tab name="{{ course.courseId }}">
-                <div layout vertical center class="menu">
-                  <span class="tabTitle">{{ course.SUBJECT }}</span>
-                  <span class="tabTitle">{{ course.CATALOG_NBR }}</span>
+              <paper-tab name="{{ course.courseId }}" id="course{{course.courseId}}">
+                <div class="menu">
+                  <uqlibrary-a11y-link>
+                    <div class="tabTitle" layout vertical center>{{ course.SUBJECT }}</div>
+                    <div class="tabTitle" layout vertical center>{{ course.CATALOG_NBR }}</div>
+                  </uqlibrary-a11y-link>
                 </div>
               </paper-tab>
             </template>
@@ -160,7 +162,6 @@ Element providing an overview for student's courses
        * @property courses
        * @type Object
        */
-
       publish: {
         courses: null,
         autoload: true
