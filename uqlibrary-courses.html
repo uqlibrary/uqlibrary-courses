@@ -95,8 +95,7 @@ Element providing an overview for student's courses
       <core-header-panel main class="main">
         <core-toolbar>
           <paper-icon-button id="toolBarLeftButton" icon="menu" core-drawer-toggle></paper-icon-button>
-          <span flex id="toolbar-page-title">My courses</span>
-
+          <h1 flex id="toolbar-page-title">My courses</h1>
         </core-toolbar>
 
         <div id="content">
@@ -114,7 +113,7 @@ Element providing an overview for student's courses
 
           <paper-tabs id="tabs" selected="{{ selectedTab }}" on-core-select="{{ tabSelected }}" hidden?="{{processedCourses.length == 0}}">
             <template repeat="{{ processedCourses as course }}">
-              <paper-tab name="{{ course.courseId }}" id="course{{course.courseId}}">
+              <paper-tab name="{{ course.courseId }}" id="course{{course.courseId}}" aria-label="{{ course.SUBJECT }} {{ course.CATALOG_NBR }}">
                 <div class="menu">
                   <uqlibrary-a11y-link>
                     <div class="tabTitle" layout vertical center>{{ course.SUBJECT }}</div>
