@@ -94,6 +94,8 @@ Element providing an overview for student's courses
 
       <core-header-panel main class="main">
         <core-toolbar>
+          <core-a11y-keys id="a11yToolBarLeftButton" target="{{$.toolBarLeftButton}}" keys="{{keyboardNavigationKeys}}"
+                          on-keys-pressed="{{ a11yKeyPressed }}"></core-a11y-keys>
           <paper-icon-button id="toolBarLeftButton" icon="menu" core-drawer-toggle></paper-icon-button>
           <h1 flex id="toolbar-page-title">My courses</h1>
         </core-toolbar>
@@ -154,6 +156,16 @@ Element providing an overview for student's courses
 
   <script>
     Polymer('uqlibrary-courses', {
+
+      // Accessibility issues fixes
+
+      keyboardNavigationKeys: 'space enter',
+
+      a11yKeyPressed: function(source, event) {
+        if (source.path && source.path.length > 0 && source.path[0].target) {
+          source.path[0].target.fire("tap");
+        }
+      },
 
       /**
        * The `courses` attribute contains information about courses
