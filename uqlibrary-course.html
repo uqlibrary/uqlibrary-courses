@@ -23,7 +23,7 @@
                </div>
             </div>
             <template repeat="{{item in course.learning_resources.multipleReadingLists }}">
-              <a href="{{item.url}}" target="_blank" on-click="{{linkClicked}}" id="specifyReadingList">
+              <a href="{{item.url}}" target="_blank" on-click="{{linkClicked}}" id="specifyReadingList" aria-label="Reading list for {{item.title}} {{item.period}}">
                 <div class="body1 cardSection">
                   <div class="link listItemSection listItemTitle">{{item.title}}</div>
                   <div class="caption listItemSection listItemAuthor">{{item.period}}</div>
@@ -41,7 +41,9 @@
           </div>
 
           <template repeat="{{item in readingList }}">
-            <a href="{{item.itemLink}}" target="_blank" on-click="{{linkClicked}}" id="readingListItem">
+            <a href="{{item.itemLink}}" target="_blank" on-click="{{linkClicked}}" id="readingListItem"
+               aria-label="Reading list item {{item.title}}, {{item.referenceType}}, {{item.importance}}">
+
               <div class="body1 cardSection">
                 <div class="link listItemSection listItemTitle">{{item.title}}</div>
                 <div class="caption listItemSection listItemAuthor" hidden?="{{!item.author}}">
@@ -87,7 +89,7 @@
           <template repeat="{{ paper in examPapers }}">
             <a class="link" href="{{paper.url}}" target="_blank" on-click="{{linkClicked}}" id="examPaperItem">
               <div class="cardSection" >
-                <div class="link listItemLink">
+                <div class="link listItemLink" aria-label="past exam paper for {{paper.period}} format {{paper.url | extractExtension}}">
                   {{paper.period}} ({{paper.url | extractExtension}})
                 </div>
               </div>
@@ -115,7 +117,7 @@
         </div>
         <div id="libGuidesItems">
           <template repeat="{{ guide in libGuides }}">
-            <a class="link" href="{{guide.url}}" target="_blank" on-click="{{linkClicked}}" id="libraryGuideItem">
+            <a class="link" href="{{guide.url}}" target="_blank" on-click="{{linkClicked}}" id="libraryGuideItem" aria-label="library guide for {{guide.title}}">
               <div class="cardSection" >
                 <div class="link listItemLink">
                   {{guide.title}}
