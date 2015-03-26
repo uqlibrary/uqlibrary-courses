@@ -354,16 +354,14 @@ Element providing an overview for student's courses
         this.processedCourses = this.filterCoursesByTerm();
         //Check if there are 2 or more courses with the same code. If found - remove all but the first course
         var _codes = [];
-
+        var _newProcessedCourses = [];
         for( var i=0; i < this.processedCourses.length; i++) {
           if(_codes.indexOf(this.processedCourses[i].courseId) === -1) {
             _codes.push(this.processedCourses[i].courseId);
-          }
-          else {
-
-            this.processedCourses.splice(i,1);
+            _newProcessedCourses.push(this.processedCourses[i])
           }
         }
+        this.processedCourses = _newProcessedCourses;
         this.fire('uqlibrary-courses-loaded');
       },
 
