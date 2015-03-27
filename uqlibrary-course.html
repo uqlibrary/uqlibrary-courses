@@ -7,7 +7,7 @@
     <uqlibrary-ga id="ga" appName="Courses"></uqlibrary-ga>
 
     <div id="cards">
-      <swipeable-card class="card" id="readingListCard">
+      <swipeable-card class="card" id="readingListCard" disableSwipe>
         <paper-shadow z="1">
           <div class="subhead cardSection cardTitle">Reading List <span hidden?="{{course.learning_resources.multipleReadingLists}}">({{course.learning_resources.reading_lists.items.length}})</span></div>
 
@@ -69,7 +69,7 @@
       </paper-shadow>
     </swipeable-card>
 
-    <swipeable-card class="card" id="examPapersCard">
+    <swipeable-card class="card" id="examPapersCard" disableSwipe>
       <paper-shadow z="1">
         <div class="subhead cardSection cardTitle">Past Exam Papers ({{course.learning_resources.exam_papers.length}})</div>
 
@@ -106,7 +106,7 @@
       </paper-shadow>
     </swipeable-card>
 
-    <swipeable-card class="card" id="libraryGuidesCard">
+    <swipeable-card class="card" id="libraryGuidesCard" disableSwipe>
       <paper-shadow z="1">
         <div class="subhead cardSection cardTitle">Library Guides</div>
 
@@ -137,7 +137,7 @@
       </paper-shadow>
     </swipeable-card>
 
-    <swipeable-card class="card" id="ecpCard">
+    <swipeable-card class="card" id="ecpCard" disableSwipe>
       <paper-shadow z="1">
         <div class="subhead cardSection cardTitle">Course Links</div>
         <a class="link" href="{{ecpLinkUrl + course.courseId}}" target="_blank" on-click="{{linkClicked}}" id="electronicCourseProfile">
@@ -158,7 +158,7 @@
       </paper-shadow>
     </swipeable-card>
 
-    <swipeable-card class="card" id="studyLinksCard">
+    <swipeable-card class="card" id="studyLinksCard" disableSwipe>
       <paper-shadow z="1">
         <uqlibrary-courses-study-links course="{{course}}"></uqlibrary-courses-study-links>
       </paper-shadow>
