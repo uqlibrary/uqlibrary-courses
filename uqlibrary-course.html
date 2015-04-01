@@ -34,7 +34,7 @@
             <a class="link" href="{{readingListsSearchUrl}}" target="_blank">
               <div class="cardSection">
                 <div class="link listItemLink">
-                  <core-icon class="link" icon="arrow-forward" aria-label></core-icon> Search other reading lists
+                  <core-icon class="link" icon="arrow-forward" aria-label></core-icon>Search other reading lists
                 </div>
               </div>
             </a>
@@ -62,7 +62,7 @@
           <a class="link" href="{{course.learning_resources.reading_lists.url}}" on-click="{{linkClicked}}" id="readingListMoreItems" target="_blank" hidden?="{{course.moreItemsCount.readingLists == 0}}">
           <div class="cardSection noBorder">
             <div class="link listItemLink">
-              <core-icon class="link" icon="arrow-forward" aria-label></core-icon> {{course.moreItemsCount.readingLists}} more {{course.moreItemsCount.readingLists == 1 ? 'item' : 'items'}}
+              <core-icon class="link" icon="arrow-forward" aria-label></core-icon>{{course.moreItemsCount.readingLists}} more {{course.moreItemsCount.readingLists == 1 ? 'item' : 'items'}}
             </div>
           </div>
           </a>
@@ -81,7 +81,7 @@
         <a class="link" href="{{examPapersSearchUrl}}" target="_blank" hidden?="{{examPapers.length > 0}}" >
         <div class="cardSection">
           <div class="link listItemLink">
-            <core-icon class="link" icon="arrow-forward" aria-label></core-icon> Search for other exam papers
+            <core-icon class="link" icon="arrow-forward" aria-label></core-icon>Search for other exam papers
           </div>
         </div>
         </a>
@@ -99,7 +99,7 @@
         <a class="link" href="{{examPapersSearchUrl + course.courseId}}" on-click="{{linkClicked}}" id="examPapersMoreItems" target="_blank" hidden?="{{course.moreItemsCount.examPapers == 0}}">
         <div class="cardSection noBorder">
           <div class="link listItemLink">
-            <core-icon class="link" icon="arrow-forward" aria-label></core-icon> {{course.moreItemsCount.examPapers}} more past exam {{course.moreItemsCount.examPapers == 1 ? 'paper' : 'papers'}}
+            <core-icon class="link" icon="arrow-forward" aria-label></core-icon>{{course.moreItemsCount.examPapers}} more past exam {{course.moreItemsCount.examPapers == 1 ? 'paper' : 'papers'}}
           </div>
         </div>
         </a>
@@ -130,7 +130,7 @@
         <div class="cardSection noBorder">
           <div class="link listItemLink">
             <a class="link" href="{{libGuidesLinkUrl}}" target="_blank" on-tap="{{linkClicked}}" id="allLibraryGuides">
-              <core-icon class="link" icon="arrow-forward" id="arrow-icon" aria-label></core-icon> All Library Guides
+              <core-icon class="link" icon="arrow-forward" id="arrow-icon" aria-label></core-icon>All Library Guides
             </a>
           </div>
         </div>
@@ -143,14 +143,14 @@
         <a class="link" href="{{ecpLinkUrl + course.courseId}}" target="_blank" on-click="{{linkClicked}}" id="electronicCourseProfile">
           <div class="cardSection">
             <div class="link listItemLink">
-              <core-icon class="link" icon="arrow-forward" aria-label></core-icon> Electronic Course Profile
+              <core-icon class="link" icon="arrow-forward" aria-label></core-icon>Electronic Course Profile
             </div>
           </div>
         </a>
         <a class="link" on-click="{{linkClicked}}" id="blackboard" href="https://learn.uq.edu.au/{{course.courseId}}" target="_blank">
           <div class="cardSection noBorder">
             <div class="link listItemLink">
-              <core-icon class="link" icon="arrow-forward" id="extension-icon"  aria-label></core-icon> Learn.UQ (Blackboard)
+              <core-icon class="link" icon="arrow-forward" id="extension-icon"  aria-label></core-icon>Learn.UQ (Blackboard)
             </div>
           </div>
         </a>
