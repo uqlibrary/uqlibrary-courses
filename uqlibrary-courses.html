@@ -441,7 +441,7 @@ Element providing an overview for student's courses
               // show current courses plus courses that starts  in 3 weeks or ended 1 week before
               startDate.subtract(that.termExtendWeeksRange.before, 'weeks');
               endDate.add(that.termExtendWeeksRange.after, 'weeks');
-              return (today.isAfter(startDate) && today.isBefore(endDate));
+              return course.SUBJECT != "RSCH" && (today.isAfter(startDate) && today.isBefore(endDate));
             }
             else return true;
           });
