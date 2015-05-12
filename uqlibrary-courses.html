@@ -70,7 +70,6 @@ Element providing an overview for student's courses
 -->
 
 <link rel="import" href="../uqlibrary-elements/0.5.4/lib/vulcanized.html">
-
 <link rel="import" href="uqlibrary-course.html">
 <link rel="import" href="uqlibrary-courses-study-links.html">
 
@@ -93,12 +92,21 @@ Element providing an overview for student's courses
       </core-header-panel>
 
       <core-header-panel main class="main">
-        <core-toolbar>
-          <core-a11y-keys id="a11yToolBarLeftButton" target="{{$.toolBarLeftButton}}" keys="{{keyboardNavigationKeys}}"
-                          on-keys-pressed="{{ a11yKeyPressed }}"></core-a11y-keys>
-          <paper-icon-button id="toolBarLeftButton" icon="menu" core-drawer-toggle></paper-icon-button>
-          <h1 flex id="toolbar-page-title">My courses</h1>
-        </core-toolbar>
+          <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="{{toggleMenuDrawer}}"
+                             on-uqlibrary-toolbar-search-button-clicked="{{performSearch}}"
+                             on-uqlibrary-toolbar-search-key-pressed="{{keyPerformSearch}}"
+                             appTitle="My Courses"
+                             appTitleLink="#"
+                             appLinks=""
+                             searchPlaceholderText="Search by course code or title">
+          </uqlibrary-toolbar>
+
+          <!--<core-toolbar>-->
+          <!--<core-a11y-keys id="a11yToolBarLeftButton" target="{{$.toolBarLeftButton}}" keys="{{keyboardNavigationKeys}}"-->
+                          <!--on-keys-pressed="{{ a11yKeyPressed }}"></core-a11y-keys>-->
+          <!--<paper-icon-button id="toolBarLeftButton" icon="menu" core-drawer-toggle></paper-icon-button>-->
+          <!--<h1 flex id="toolbar-page-title">My courses</h1>-->
+        <!--</core-toolbar>-->
 
         <div id="content">
 
