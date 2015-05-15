@@ -308,15 +308,13 @@ Element providing an overview for student's courses
             e.detail.forEach(function(item) {
               suggestions.push({text: item.name + ' (' + item.course_title + ', ' + item.campus + ', '+ item.period + ')'});
             });
-            that.$.toolbar.fire('uqlibrary-toolbar-search-autosuggestions-loaded', {data: suggestions })
+            that.$.toolbar.fire('uqlibrary-toolbar-search-suggestions-loaded', {data: suggestions })
           }
         });
 
-        this.addEventListener('uqlibrary-toolbar-search-key-pressed', function(e) {
 
-        });
 
-        this.addEventListener('uqlibrary-toolbar-search-submit', function(e) {
+        this.addEventListener('uqlibrary-toolbar-search-submitted', function(e) {
 
           // Check only courses from autosuggestion by checking search term structure
           var pattern = /([A-Z]{4})[0-9]{4} \((.*?), (.*?), (.*?)\)/gi;
