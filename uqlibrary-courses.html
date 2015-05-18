@@ -70,7 +70,6 @@ Element providing an overview for student's courses
 -->
 
 <link rel="import" href="../uqlibrary-elements/0.5.4/lib/vulcanized.html">
-
 <link rel="import" href="uqlibrary-course.html">
 <link rel="import" href="uqlibrary-courses-study-links.html">
 
@@ -84,6 +83,7 @@ Element providing an overview for student's courses
     <uqlibrary-api-course-reading-list id="reading_list"></uqlibrary-api-course-reading-list>
     <uqlibrary-api-library-guides id="library_guides"></uqlibrary-api-library-guides>
     <uqlibrary-api-term-dates id="term_dates"></uqlibrary-api-term-dates>
+    <uqlibrary-api-search-suggestions id="search_suggestions" type="learning_resource"></uqlibrary-api-search-suggestions>
 
     <uqlibrary-ga id="ga" appName="Courses"></uqlibrary-ga>
 
@@ -93,12 +93,14 @@ Element providing an overview for student's courses
       </core-header-panel>
 
       <core-header-panel main class="main">
-        <core-toolbar>
-          <core-a11y-keys id="a11yToolBarLeftButton" target="{{$.toolBarLeftButton}}" keys="{{keyboardNavigationKeys}}"
-                          on-keys-pressed="{{ a11yKeyPressed }}"></core-a11y-keys>
-          <paper-icon-button id="toolBarLeftButton" icon="menu" core-drawer-toggle></paper-icon-button>
-          <h1 flex id="toolbar-page-title">My courses</h1>
-        </core-toolbar>
+
+          <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="{{toggleMenuDrawer}}"
+                             appTitle="My Courses"
+                             appTitleLink="#"
+                             appLinks=""
+                             id="toolbar"
+                             searchPlaceholderText="Search for a course by code or title">
+          </uqlibrary-toolbar>
 
         <div id="content">
 
@@ -184,6 +186,8 @@ Element providing an overview for student's courses
       selectedCourse: {},
       transitioning: false,
       user: {},
+      searchTabCreated: false,
+      searchedCourse: null,
 
       // Extend search dates for courses
       termExtendWeeksRange: {
@@ -291,6 +295,60 @@ Element providing an overview for student's courses
             }
           }
         });
+
+        this.addEventListener('uqlibrary-toolbar-search-value-changed', function(e) {
+          if(e.detail.value.length > 2) {
+            that.$.search_suggestions.get(e.detail.value);
+          }
+        });
+
+        this.$.search_suggestions.addEventListener('uqlibrary-api-search-suggestions-loaded', function(e) {
+          var suggestions = [];
+          if(e.detail.length > 0){
+            e.detail.forEach(function(item) {
+              suggestions.push({text: item.name + ' (' + item.course_title + ', ' + item.campus + ', '+ item.period + ')'});
+            });
+            that.$.toolbar.fire('uqlibrary-toolbar-search-suggestions-loaded', {data: suggestions })
+          }
+        });
+
+
+
+        this.addEventListener('uqlibrary-toolbar-search-submitted', function(e) {
+
+          // Check only courses from autosuggestion by checking search term structure
+          var pattern = /([A-Z]{4})[0-9]{4} \((.*?), (.*?), (.*?)\)/gi;
+          if(!pattern.test(e.detail.searchTerm)) {
+            return;
+          }
+
+          that.transitioning = true;
+          var courseId = '';
+          if(e.detail.searchTerm.indexOf(' ') !== -1){
+            courseId = e.detail.searchTerm.substring(0, e.detail.searchTerm.indexOf(' '));
+          } else {
+            courseId = e.detail.searchTerm;
+          }
+          courseId = courseId.toUpperCase();
+
+          that.searchedCourse = {
+            courseId: courseId,
+            CATALOG_NBR: courseId.substring(4),
+            STRM: '',
+            term: e.detail.searchTerm.substring(e.detail.searchTerm.lastIndexOf(',') + 2, e.detail.searchTerm.lastIndexOf(')')),
+            campus: e.detail.searchTerm.substring(e.detail.searchTerm.indexOf(',') + 2, e.detail.searchTerm.lastIndexOf(',')),
+            SUBJECT: courseId.substring(0,4)
+          };
+
+          if(!that.searchTabCreated) {
+            that.courses.unshift(that.searchedCourse);
+            that.searchTabCreated = true;
+          } else {
+            that.courses[0] = that.searchedCourse;
+          }
+          that.$.toolbar.clearSearchForm();
+          that.$.toolbar.deactivateSearch();
+        });
       },
 
       get: function(code) {
@@ -317,7 +375,7 @@ Element providing an overview for student's courses
       },
 
       coursesChanged: function(oldValue, newValue) {
-        if(newValue) {
+      //  if(newValue) {
           if(this.courses.length > 0) {
             var termCodes = [];
             for(var i=0; i < this.courses.length; i++) {
@@ -346,7 +404,7 @@ Element providing an overview for student's courses
             this.processedCourses = [];
             this.fire('uqlibrary-courses-loaded');
           }
-        }
+      //  }
 
       },
 
@@ -397,10 +455,18 @@ Element providing an overview for student's courses
         }
 
         // Filter reading lists to show only list for course semester
-        var term = this.getYearSemesterByCode(course.STRM);
-        var campus = this.getCampusByCode(course.CAMPUS);
+        var term = '',
+            campus = '',
+            semesterString = '';
+        if(this.searchedCourse != null && this.searchedCourse.courseId == course.courseId) {
+          semesterString = this.searchedCourse.term;
+          campus = this.searchedCourse.campus;
+        } else {
+          term = this.getYearSemesterByCode(course.STRM);
+          campus = this.getCampusByCode(course.CAMPUS);
+          semesterString = 'Semester ' + term.semester + ' ' + term.year;
 
-        var semesterString = 'Semester ' + term.semester + ' ' + term.year;
+        }
         var found = [];
 
         for(var i=0; i < course.learning_resources.reading_lists.length; i++) {
@@ -435,6 +501,11 @@ Element providing an overview for student's courses
           var today = moment();
           var that = this;
           return this.courses.filter(function(course) {
+
+            if(course.courseId == that.searchedCode){
+              return true;
+            }
+
             if(that.termDates.hasOwnProperty(course.STRM)){
               var startDate = moment(that.termDates[course.STRM].begin);
               var endDate = moment(that.termDates[course.STRM].end);
