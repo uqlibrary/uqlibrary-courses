@@ -556,8 +556,10 @@ Element providing an overview for student's courses
           return campuses[code]
         }
         else return null;
+      },
 
-
+      toggleMenuDrawer: function(){
+        this.$.drawerPanel.togglePanel();
       }
 
     });
