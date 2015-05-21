@@ -95,6 +95,8 @@ Element providing an overview for student's courses
       <core-header-panel main class="main">
 
           <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="{{toggleMenuDrawer}}"
+                             on-uqlibrary-toolbar-search-value-changed="{{loadAutosuggest}}"
+                             on-uqlibrary-toolbar-search-submitted="{{performSearch}}"
                              appTitle="My Courses"
                              appTitleLink="#"
                              appLinks=""
@@ -204,9 +206,9 @@ Element providing an overview for student's courses
         var courseIndex = null;
 
 
-        this.$.account.addEventListener('uqlibrary-api-account-loaded', function(e) {
+        this.$.account.addEventListener('uqlibrary-api-account-loaded', function (e) {
           if (e.detail.hasSession) {
-            if(e.detail.classes) {
+            if (e.detail.classes) {
               that.user = e.detail;
               that.courses = e.detail.classes;
             }
@@ -215,32 +217,32 @@ Element providing an overview for student's courses
             that.$.account.login(window.location.href);
           }
         });
-        if(this.autoload){
+        if (this.autoload) {
           this.$.account.get();
         }
 
-        this.addEventListener('uqlibrary-courses-loaded', function(){
+        this.addEventListener('uqlibrary-courses-loaded', function () {
           this.get();
         });
 
-        this.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function(e) {
+        this.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
 
-          if(e.detail.length > 0) {
-            for(var i = 0; i < that.processedCourses.length; i++) {
+          if (e.detail.length > 0) {
+            for (var i = 0; i < that.processedCourses.length; i++) {
 
-              for(var j = 0; j < e.detail.length; j++ ) {
-                if(that.processedCourses[i].courseId == e.detail[j].title) {
+              for (var j = 0; j < e.detail.length; j++) {
+                if (that.processedCourses[i].courseId == e.detail[j].title) {
                   that.processedCourses[i]['learning_resources'] = e.detail[j];
 
                   that.filterReadingLists(that.processedCourses[i]);
                   that.filterExamPapers(that.processedCourses[i]);
                   var readingListId = that.getReadingListId(that.processedCourses[i].learning_resources.reading_lists);
 
-                  if(readingListId != '') {
+                  if (readingListId != '') {
                     courseIndex = i;
-                    that.$.reading_list.get( {code: readingListId} );
+                    that.$.reading_list.get({code: readingListId});
                   }
-                  else if(that.processedCourses[i].learning_resources.hasOwnProperty('multipleReadingLists')) {
+                  else if (that.processedCourses[i].learning_resources.hasOwnProperty('multipleReadingLists')) {
 
                   }
                   //finish iterating
@@ -250,105 +252,96 @@ Element providing an overview for student's courses
             }
           }
           else {
-            if(that.selectedTab) {
-              for(var i = 0; i < that.processedCourses.length; i++) {
-                if(that.processedCourses[i].courseId == that.selectedTab) {
-                  that.processedCourses[i]['learning_resources'] = {reading_lists : {items: []}, exam_papers: []};
+            if (that.selectedTab) {
+              for (var i = 0; i < that.processedCourses.length; i++) {
+                if (that.processedCourses[i].courseId == that.selectedTab) {
+                  that.processedCourses[i]['learning_resources'] = {reading_lists: {items: []}, exam_papers: []};
                 }
               }
             }
           }
         });
 
-        this.$.reading_list.addEventListener('uqlibrary-api-course-reading-list', function(e) {
-          if(courseIndex != null) {
+        this.$.reading_list.addEventListener('uqlibrary-api-course-reading-list', function (e) {
+          if (courseIndex != null) {
             var list = e.detail;
             // sort list by item importance
-            var importanceList = {'Required': 1, 'Recommended' : 2, 'Further' : 3};
-            list.sort(function(a, b){
+            var importanceList = {'Required': 1, 'Recommended': 2, 'Further': 3};
+            list.sort(function (a, b) {
               // Item with defined importance should be higher
-              if(a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
+              if (a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
                 return -1;
               }
               // Item with defined importance should be higher
-              if(!a.hasOwnProperty('importance') && b.hasOwnProperty('importance')) {
+              if (!a.hasOwnProperty('importance') && b.hasOwnProperty('importance')) {
                 return 1;
               }
-              if(!a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
+              if (!a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
                 return 0;
               }
               var impA = (importanceList.hasOwnProperty(a.importance) ? importanceList[a.importance] : 999);
               var impB = (importanceList.hasOwnProperty(b.importance) ? importanceList[b.importance] : 999);
-              return impA-impB;
+              return impA - impB;
             });
-            if(that.processedCourses[courseIndex]['learning_resources']['reading_lists']){
+            if (that.processedCourses[courseIndex]['learning_resources']['reading_lists']) {
               that.processedCourses[courseIndex]['learning_resources']['reading_lists']['items'] = e.detail;
             }
 
           }
         });
 
-        this.$.library_guides.addEventListener('uqlibrary-api-library-guides', function(e) {
-          for(var i=0; i < that.courses.length; i++) {
-            if(that.courses[i].courseId == that.selectedTab) {
+        this.$.library_guides.addEventListener('uqlibrary-api-library-guides', function (e) {
+          for (var i = 0; i < that.courses.length; i++) {
+            if (that.courses[i].courseId == that.selectedTab) {
               that.courses[i].library_guides = e.detail;
             }
           }
         });
 
-        this.addEventListener('uqlibrary-toolbar-search-value-changed', function(e) {
-          if(e.detail.value.length > 2) {
-            that.$.search_suggestions.get(e.detail.value);
-          }
-        });
-
-        this.$.search_suggestions.addEventListener('uqlibrary-api-search-suggestions-loaded', function(e) {
+        this.$.search_suggestions.addEventListener('uqlibrary-api-search-suggestions-loaded', function (e) {
           var suggestions = [];
-          if(e.detail.length > 0){
-            e.detail.forEach(function(item) {
-              suggestions.push({text: item.name + ' (' + item.course_title + ', ' + item.campus + ', '+ item.period + ')'});
+          if (e.detail.length > 0) {
+            e.detail.forEach(function (item) {
+              item.text = item.name + ' (' + item.course_title + ', ' + item.campus + ', ' + item.period + ')';
+              suggestions.push(item);
             });
-            that.$.toolbar.fire('uqlibrary-toolbar-search-suggestions-loaded', {data: suggestions })
+
+            that.$.toolbar.suggestions = suggestions;
           }
         });
+      },
 
+      loadAutosuggest: function(event) {
+        if (event.detail.value.length > 2) {
+          this.$.search_suggestions.get(event.detail.value);
+        }
+      },
 
+      performSearch: function(event) {
 
-        this.addEventListener('uqlibrary-toolbar-search-submitted', function(e) {
+        if (!event.detail.searchItem) {
+          return;
+        }
+        var course = event.detail.searchItem;
 
-          // Check only courses from autosuggestion by checking search term structure
-          var pattern = /([A-Z]{4})[0-9]{4} \((.*?), (.*?), (.*?)\)/gi;
-          if(!pattern.test(e.detail.searchTerm)) {
-            return;
-          }
+        this.transitioning = true;
+        this.searchedCourse = {
+          courseId: course.name.toUpperCase(),
+          CATALOG_NBR: course.name.substring(4),
+          STRM: '',
+          term: course.period,
+          campus: course.campus,
+          SUBJECT: course.name.substring(0,4)
+        };
 
-          that.transitioning = true;
-          var courseId = '';
-          if(e.detail.searchTerm.indexOf(' ') !== -1){
-            courseId = e.detail.searchTerm.substring(0, e.detail.searchTerm.indexOf(' '));
-          } else {
-            courseId = e.detail.searchTerm;
-          }
-          courseId = courseId.toUpperCase();
-
-          that.searchedCourse = {
-            courseId: courseId,
-            CATALOG_NBR: courseId.substring(4),
-            STRM: '',
-            term: e.detail.searchTerm.substring(e.detail.searchTerm.lastIndexOf(',') + 2, e.detail.searchTerm.lastIndexOf(')')),
-            campus: e.detail.searchTerm.substring(e.detail.searchTerm.indexOf(',') + 2, e.detail.searchTerm.lastIndexOf(',')),
-            SUBJECT: courseId.substring(0,4)
-          };
-
-          if(!that.searchTabCreated) {
-            that.courses.unshift(that.searchedCourse);
-            that.searchTabCreated = true;
-          } else {
-            that.courses[0] = that.searchedCourse;
-          }
-          that.$.toolbar.clearSearchForm();
-          that.$.toolbar.deactivateSearch();
-        });
+        if(!this.searchTabCreated) {
+          this.courses.unshift(this.searchedCourse);
+          this.searchTabCreated = true;
+        } else {
+          this.courses[0] = this.searchedCourse;
+        }
+        this.$.toolbar.clearSearchForm();
+        this.$.toolbar.deactivateSearch();
       },
 
       get: function(code) {
@@ -375,7 +368,6 @@ Element providing an overview for student's courses
       },
 
       coursesChanged: function(oldValue, newValue) {
-      //  if(newValue) {
           if(this.courses.length > 0) {
             var termCodes = [];
             for(var i=0; i < this.courses.length; i++) {
@@ -404,8 +396,6 @@ Element providing an overview for student's courses
             this.processedCourses = [];
             this.fire('uqlibrary-courses-loaded');
           }
-      //  }
-
       },
 
       processData: function () {
@@ -472,7 +462,6 @@ Element providing an overview for student's courses
         for(var i=0; i < course.learning_resources.reading_lists.length; i++) {
           if(course.learning_resources.reading_lists[i].period == semesterString && course.learning_resources.reading_lists[i].campus.indexOf(campus) !== -1) {
             found.push(course.learning_resources.reading_lists[i]);
-            //break;
           }
         }
 
@@ -483,7 +472,7 @@ Element providing an overview for student's courses
           course.learning_resources.reading_lists = found[0];
         }
         else {
-          course.learning_resources.reading_lists = {items: []};//  course.learning_resources.reading_lists[0];
+          course.learning_resources.reading_lists = {items: []};
           course.learning_resources.multipleReadingLists = found;
         }
       },
