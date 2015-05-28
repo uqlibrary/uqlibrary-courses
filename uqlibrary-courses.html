@@ -77,6 +77,8 @@ Element providing an overview for student's courses
 <polymer-element name="uqlibrary-courses" layout center attributes="courses autoload">
   <template>
     <link rel="stylesheet" href="../uqlibrary-elements/resources/theme/element.css">
+    <link rel="stylesheet" href="uqlibrary-courses.css">
+
     <core-signals on-core-signal-transitioning-change="{{transitioningChangeHandler}}"></core-signals>
     <uqlibrary-api-account id="account"></uqlibrary-api-account>
     <uqlibrary-api-learning-resources id="learning_resources"></uqlibrary-api-learning-resources>
