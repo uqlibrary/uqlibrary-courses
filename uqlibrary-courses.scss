@@ -33,22 +33,3 @@
   }
 
 }
-
-// .card and .responsiveCard should be the same, really. At some point, card should just do what responsiveCard does
-
-.responsiveCard {
-  background: white;
-  box-sizing: border-box;
-  padding: 18px 32px;
-  box-shadow: $shadow-z-1;
-  max-height: 400px;
-  @media screen and (min-width: $responsive-width) {
-    width: 86%;
-    max-width: 600px;
-    margin: 16px auto;
-  }
-  @media screen and (max-width: $responsive-width) {
-    width: 100%;
-    margin: 0;
-  }
-}
