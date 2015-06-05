@@ -1,0 +1,35 @@
+@import "../uqlibrary-elements/resources/theme/variables";
+@import "../uqlibrary-elements/resources/theme/margins";
+
+
+
+//    ____
+//   / ___|___  _   _ _ __ ___  ___ ___
+//  | |   / _ \| | | | '__/ __|/ _ \ __|
+//  | |___ (_) | |_| | |  \__ \  __\__ \
+//   \____\___/ \__,_|_|  |___/\___|___/
+//
+//UQ My Library Courses app
+
+.listItemSection {
+
+  &.listItemTitle {
+    padding-bottom: $single-line-list-item-padding-top;
+  }
+  &.listItemAuthor {
+    font-style: italic;
+    padding-bottom: $single-line-list-item-padding-top;
+  }
+  &.listItemType {
+    color: $primary;
+    font-style: italic;
+  }
+  &.listItemNotes {
+    font-style: italic;
+    padding-bottom: $single-line-list-item-padding-top;
+  }
+  &.listItemNoResultsMessage {
+    font-style: italic;
+  }
+
+}
