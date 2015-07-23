@@ -1,0 +1,15 @@
+.listItemSection.listItemTitle {
+  padding-bottom: 16px; }
+.listItemSection.listItemAuthor {
+  font-style: italic;
+  padding-bottom: 16px; }
+.listItemSection.listItemType {
+  color: #7b0c9d;
+  font-style: italic; }
+.listItemSection.listItemNotes {
+  font-style: italic;
+  padding-bottom: 16px; }
+.listItemSection.listItemNoResultsMessage {
+  font-style: italic; }
+
+/*# sourceMappingURL=uqlibrary-courses.css.map */
