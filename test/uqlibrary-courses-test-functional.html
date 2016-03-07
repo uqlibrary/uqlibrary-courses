@@ -18,13 +18,14 @@
   window.addEventListener('polymer-ready', function() {
     var coursesEl = document.querySelector('uqlibrary-courses');
     var courseLoadedEventListeners = [];
+    var isDone = false;
 
     describe('uqlibrary-courses', function () {
       before(function () {
       });
 
       afterEach(function () {
-
+        isDone = false;
         //remove all previous listeners
         for(var i=0; i< courseLoadedEventListeners.length; i++) {
           coursesEl.removeEventListener('uqlibrary-courses-loaded', courseLoadedEventListeners[i]);
@@ -44,8 +45,10 @@
               var noCoursesMessage = coursesEl.shadowRoot.querySelector('#noCoursesMessage');
               var isHidden = noCoursesMessage.getAttribute('hidden');
               assert.isNull(isHidden, 'noCoursesMessage is hidden');
-              coursesEl.removeEventListener('uqlibrary-courses-loaded');
-              done();
+              if (!isDone) {
+                isDone = true;
+                done();
+              }
             }, 1000);
           };
           coursesEl.addEventListener('uqlibrary-courses-loaded', noCoursesListener);

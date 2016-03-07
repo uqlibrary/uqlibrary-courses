@@ -1,4 +1,4 @@
-5!--
+<!--
 Element providing an overview for student's courses
 
 ##### Example
@@ -90,11 +90,13 @@ Element providing an overview for student's courses
     <uqlibrary-ga id="ga" appName="Courses"></uqlibrary-ga>
 
     <core-drawer-panel id="drawerPanel" class="drawer" drawerWidth="256px" responsiveWidth="768px">
-      <core-header-panel drawer>
-        <uqlibrary-menu account="{{user}}"></uqlibrary-menu>
-      </core-header-panel>
 
-      <core-header-panel main class="main">
+      <div drawer class="left-drawer" fit style="overflow: scroll;">
+        <uqlibrary-menu id="uqlibraryMenu" account="{{user}}"></uqlibrary-menu>
+      </div>
+
+
+      <div main layout vertical class="main">
 
           <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="{{toggleMenuDrawer}}"
                              on-uqlibrary-toolbar-search-value-changed="{{loadAutosuggest}}"
@@ -106,7 +108,9 @@ Element providing an overview for student's courses
                              searchPlaceholderText="Search for a course by code or title">
           </uqlibrary-toolbar>
 
-        <div id="content">
+        <div main layout vertical fit relative style="margin-top: 64px;">
+          <div id="content" fit style="overflow: scroll;">
+
 
           <div id="noCoursesMessage" hidden?="{{ processedCourses == null || processedCourses.length > 0 }}">
             <paper-shadow class="card" z="1">
@@ -154,7 +158,8 @@ Element providing an overview for student's courses
           </template>
           </core-animated-pages>
         </div>
-      </core-header-panel>
+        </div>
+      </div>
 
     </core-drawer-panel>
 
