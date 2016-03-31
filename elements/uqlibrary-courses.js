@@ -103,7 +103,7 @@ Polymer({
         for (var i = 0; i < that.processedCourses.length; i++) {
           for (var j = 0; j < e.detail.length; j++) {
             if (that.processedCourses[i].courseId == e.detail[j].title) {
-              that.processedCourses[i]['learning_resources'] = e.detail[j];
+              that.processedCourses[i].learning_resources = e.detail[j];
               that.filterReadingLists(that.processedCourses[i]);
               that.filterExamPapers(that.processedCourses[i]);
               var readingListId = that.getReadingListId(that.processedCourses[i].learning_resources.reading_lists);
@@ -425,8 +425,5 @@ Polymer({
   },
   _computeAriaLabel: function (course) {
     return course.SUBJECT + ' ' + course.CATALOG_NBR;
-  },
-  _courseNotLoaded: function (course) {
-    return !course.learning_resources.reading_lists.items || !course.learning_resources.exam_papers || !course.library_guides;
   }
 });
