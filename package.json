@@ -1,0 +1,31 @@
+{
+  "name": "uqlibrary-courses",
+  "version": "1.0.0",
+  "description": "Web component to display Academic stats",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "wct"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uqlibrary/uqlibrary-courses.git"
+  },
+  "keywords": [
+    "research",
+    "uq",
+    "library"
+  ],
+  "author": "cam@uq.edu.au",
+  "bugs": {
+    "url": "https://github.com/uqlibrary/uqlibrary-courses/issues"
+  },
+  "devDependencies": {
+    "web-component-tester": "~4.2.2"
+  },
+  "dependencies": {
+    "bower": "~1.7.7"
+  }
+}

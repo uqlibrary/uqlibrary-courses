@@ -1,0 +1,204 @@
+<link rel="import" href="elements.html">
+<style is="custom-style">
+  [layout] {
+    @apply(--layout);
+  }
+
+  [layout][center] {
+    @apply(--layout-center);
+  }
+</style>
+<dom-module id="uqlibrary-course">
+  <style include="courses-styles">
+    :host[layout] {
+      @apply(--layout);
+    }
+
+    :host[layout][center] {
+      @apply(--layout-center);
+    }
+  </style>
+  <template>
+
+    <uqlibrary-ga id="ga" appname="Courses"></uqlibrary-ga>
+
+    <div id="cards">
+      <iron-swipeable-container id="readingListCard">
+        <paper-card elevation="1">
+          <div class="subhead cardSection cardTitle">Reading List <span
+              hidden$="{{course.learning_resources.multipleReadingLists}}">(<span>{{course.learning_resources.reading_lists.items.length}}</span>)</span>
+          </div>
+
+          <div hidden$="{{_hasReadingList(readingList)}}">
+            <div class="body1 cardSection" hidden$="{{course.learning_resources.multipleReadingLists}}">
+              <div class="caption listItemSection listItemNoResultsMessage">
+                No reading lists for this course
+              </div>
+            </div>
+            <div class="body1 cardSection" hidden$="{{!course.learning_resources.multipleReadingLists}}">
+              <div class="listItemSection">
+                More than one reading list found for <span>{{course.courseId}}</span>. Please select a list:
+              </div>
+            </div>
+            <template is="dom-repeat" items="{{course.learning_resources.multipleReadingLists}}" as="item">
+              <a target="_blank" on-click="linkClicked" id="specifyReadingList" href$="{{item.url}}"
+                 aria-label$="{{_computeAriaLabel(item)}}">
+                <div class="body1 cardSection">
+                  <div class="link listItemSection listItemTitle">{{item.title}}</div>
+                  <div class="caption listItemSection listItemAuthor">{{item.period}}</div>
+                </div>
+              </a>
+            </template>
+
+            <a class="link" target="_blank" href$="{{readingListsSearchUrl}}">
+              <div class="cardSection">
+                <div class="link listItemLink">
+                  <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
+                  Search other reading lists
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <template is="dom-repeat" items="{{readingList}}" as="item">
+            <a target="_blank" on-click="linkClicked" id="readingListItem" href$="{{item.itemLink}}"
+               aria-label$="{{_computeAriaLabel2(item)}}">
+
+              <div class="body1 cardSection">
+                <div class="link listItemSection listItemTitle">{{item.title}}</div>
+                <div class="caption listItemSection listItemAuthor" hidden$="{{!item.author}}">
+                  <i><span>{{item.author}}</span> <span>{{item.year}}</span> </i>
+                </div>
+
+                <div class="caption listItemSection listItemNotes" hidden$="{{_notesEmpty(item)}}">
+                  <span hidden$="{{_pagesEmpty(item)}}">Pages from <span>{{item.startPage}}</span> to <span>{{item.endPage}}</span><br></span>
+                  <span>{{trimNotes(item.notes)}}</span>
+                </div>
+
+                <div class="caption listItemSection listItemType"><span>{{item.referenceType}}</span> <span
+                    hidden$="{{!item.importance}}">- <span>{{item.importance}}</span></span></div>
+              </div>
+            </a>
+          </template>
+          <a class="link" on-click="linkClicked" id="readingListMoreItems" target="_blank"
+             href$="{{course.learning_resources.reading_lists.url}}" hidden$="{{_hasMoreReadingListItems(course)}}">
+            <div class="cardSection noBorder">
+              <div class="link listItemLink">
+                <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
+                <span>{{course.moreItemsCount.readingLists}}</span> more <span>{{_pluralise('item', course.moreItemsCount.readingLists)}}</span>
+              </div>
+            </div>
+          </a>
+        </paper-card>
+      </iron-swipeable-container>
+
+      <iron-swipeable-container id="examPapersCard">
+        <paper-material elevation="1">
+          <div class="subhead cardSection cardTitle">Past Exam Papers (<span>{{course.learning_resources.exam_papers.length}}</span>)
+          </div>
+
+          <div class="body1 cardSection" hidden$="{{_hasExamPapers(examPapers)}}">
+            <div class="caption listItemSection listItemNoResultsMessage">
+              No Past Exam Papers for this course
+            </div>
+          </div>
+          <a class="link" target="_blank" href$="{{examPapersSearchUrl}}" hidden$="{{_hasExamPapers(examPapers)}}">
+            <div class="cardSection">
+              <div class="link listItemLink">
+                <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
+                Search for other exam papers
+              </div>
+            </div>
+          </a>
+          <div id="examPaperItems">
+            <template is="dom-repeat" items="{{examPapers}}" as="paper">
+              <a class="link" target="_blank" on-click="linkClicked" id="examPaperItem" href$="{{paper.url}}">
+                <div class="cardSection">
+                  <div class="link listItemLink" aria-label$="{{_computeAriaLabel3(paper)}}">
+                    <span>{{paper.period}}</span> (<span>{{extractExtension(paper.url)}}</span>)
+                  </div>
+                </div>
+              </a>
+            </template>
+          </div>
+          <a class="link" on-click="linkClicked" id="examPapersMoreItems" target="_blank"
+             href$="{{_courseLink(course, examPapersSearchUrl)}}" hidden$="{{_hasMoreExamPaperItems(course)}}">
+            <div class="cardSection noBorder">
+              <div class="link listItemLink">
+                <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
+                <span>{{course.moreItemsCount.examPapers}}</span> more past exam
+                <span>{{_pluralise('paper', course.moreItemsCount.examPapers)}}</span>
+              </div>
+            </div>
+          </a>
+        </paper-material>
+      </iron-swipeable-container>
+
+      <iron-swipeable-container id="libraryGuidesCard">
+        <paper-material elevation="1">
+          <div class="subhead cardSection cardTitle">Library Guides</div>
+
+          <div class="body1 cardSection" hidden$="{{_hasLibGuides(libGuides)}}">
+            <div class="caption listItemSection listItemNoResultsMessage">
+              No Library guides for this course
+            </div>
+          </div>
+          <div id="libGuidesItems">
+            <template is="dom-repeat" items="{{libGuides}}" as="guide">
+              <a class="link" target="_blank" on-click="linkClicked" id="libraryGuideItem" href$="{{guide.url}}"
+                 aria-label$="{{_computeAriaLabel4(guide)}}">
+                <div class="cardSection">
+                  <div class="link listItemLink">
+                    <span>{{guide.title}}</span>
+                  </div>
+                </div>
+              </a>
+            </template>
+          </div>
+
+          <div class="cardSection noBorder">
+            <div class="link listItemLink">
+              <a class="link" target="_blank" on-tap="linkClicked" id="allLibraryGuides" href$="{{libGuidesLinkUrl}}">
+                <iron-icon class="link" icon="arrow-forward" id="arrow-icon" aria-label=""></iron-icon>
+                All Library Guides
+              </a>
+            </div>
+          </div>
+        </paper-material>
+      </iron-swipeable-container>
+
+      <iron-swipeable-container id="ecpCard">
+        <paper-material elevation="1">
+          <div class="subhead cardSection cardTitle">Course Links</div>
+          <a class="link" target="_blank" on-click="linkClicked" id="{{_courseLink(course, ecpLinkUrl)}}"
+             href$="{{_courseLink(course, ecpLinkUrl)}}">
+            <div class="cardSection">
+              <div class="link listItemLink">
+                <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
+                Electronic Course Profile
+              </div>
+            </div>
+          </a>
+          <a class="link" on-click="linkClicked" id="blackboard" target="{{_courseLink(course)}}"
+             href$="{{_courseLink(course)}}">
+            <div class="cardSection noBorder">
+              <div class="link listItemLink">
+                <iron-icon class="link" icon="arrow-forward" id="extension-icon" aria-label=""></iron-icon>
+                Learn.UQ (Blackboard)
+              </div>
+            </div>
+          </a>
+
+        </paper-material>
+      </iron-swipeable-container>
+
+      <iron-swipeable-container id="studyLinksCard">
+        <paper-material elevation="1">
+          <uqlibrary-courses-study-links course="{{course}}"></uqlibrary-courses-study-links>
+        </paper-material>
+      </iron-swipeable-container>
+
+    </div>
+  </template>
+  <script src="uqlibrary-course.js"></script>
+</dom-module>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+  <title>uqlibrary-courses test</title>
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../elements/uqlibrary-courses.html">
+</head>
+<body>
+
+<test-fixture id="element">
+  <template>
+    <uqlibrary-courses></uqlibrary-courses>
+  </template>
+</test-fixture>
+
+<script>
+  suite('<uqlibrary-courses> tests', function () {
+    var element;
+
+    setup(function () {
+      element = fixture('element');
+    });
+
+    test('It should display and have two tabs', function () {
+      expect(element).to.not.be.null;
+    });
+
+    test('it should have two tabs', function () {
+      var els = element.querySelectorAll('paper-tab');
+      expect(els.length).to.equal(2);
+    });
+
+    test('it should have Trending Publications tab active', function (done) {
+      element.$.account.addEventListener('uqlibrary-api-account-loaded', function (e) {
+        var el = element.querySelector('paper-tab.iron-selected');
+        expect(el.textContent).to.match(/^\s*Trending Publications\s*$/);
+        done();
+      });
+    });
+
+    test('it should allow clicking Metrics tab', function (done) {
+      element.$.account.addEventListener('uqlibrary-api-account-loaded', function (e) {
+        var el = element.querySelector('paper-tab:not(.iron-selected)');
+        el.click();
+        var sel = element.querySelector('paper-tab.iron-selected');
+        expect(sel.textContent).to.match(/^\s*Metrics\s*$/);
+        done();
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

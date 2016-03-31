@@ -1,0 +1,168 @@
+<link rel="import" href="elements.html">
+
+<!--
+Element providing an overview for student's courses
+
+##### Example
+
+    <uqlibrary-courses></uqlibrary-courses>
+
+    <script>
+    (function () {
+
+      window.addEventListener('polymer-ready', function() {
+
+        var courses = document.querySelector('uqlibrary-courses');
+
+        courses.courses = [
+            {
+              "ACAD_CAREER": "UGRD",
+              "DESCR": "Financial Management",
+              "SUBJECT": "FINM",
+              "CATALOG_NBR": "2401",
+              "CAMPUS": "STLUC",
+              "INSTRUCTION_MODE": "IN",
+              "ACAD_GROUP": "BEL"
+            },
+            {
+              "ACAD_CAREER": "UGRD",
+              "DESCR": "Elect Commerce Systems Dev",
+              "SUBJECT": "INFS",
+              "CATALOG_NBR": "2244",
+              "CAMPUS": "STLUC",
+              "INSTRUCTION_MODE": "IN",
+              "ACAD_GROUP": "BEL"
+            },
+            {
+              "ACAD_CAREER": "UGRD",
+              "DESCR": "Working with Groups & Teams",
+              "SUBJECT": "MGTS",
+              "CATALOG_NBR": "2961",
+              "CAMPUS": "GATTN",
+              "INSTRUCTION_MODE": "EX",
+              "ACAD_GROUP": "SCI"
+            },
+            {
+              "ACAD_CAREER": "UGRD",
+              "DESCR": "Financial Reporting",
+              "SUBJECT": "ACCT",
+              "CATALOG_NBR": "2101",
+              "CAMPUS": "STLUC",
+              "INSTRUCTION_MODE": "IN",
+              "ACAD_GROUP": "BEL"
+            },
+            {
+              "ACAD_CAREER": "UGRD",
+              "DESCR": "Elect Com Infrastructure Mgmt",
+              "SUBJECT": "MGTS",
+              "CATALOG_NBR": "3204",
+              "CAMPUS": "STLUC",
+              "INSTRUCTION_MODE": "IN",
+              "ACAD_GROUP": "BEL"
+            }
+          ];
+      });
+    }());
+  </script>
+
+@element uqlibrary-courses
+@blurb Element providing an overview for student's courses
+@status alpha
+@homepage http://uqlibrary.github.io/uqlibrary-courses
+-->
+<dom-module id="uqlibrary-courses">
+  <template>
+    <style is="custom-style" include="courses-styles">
+      :host {
+        @apply(--uql-app-host);
+        @apply(--layout-center);
+      }
+
+      #content {
+        @apply(--layout-fit);
+        overflow: scroll;
+      }
+
+      #noCoursesMessage {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+      }
+
+      paper-card {
+        width: 95%;
+        margin-top: 1em;
+      }
+
+      uqlibrary-courses-study-links {
+        width: 95%;
+        margin-top: 1em;
+      }
+
+      #spinner {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+        @apply(--layout-self-center);
+        @apply(--layout-center-justified);
+      }
+
+    </style>
+
+    <iron-signals on-iron-signal-transitioning-change="transitioningChangeHandler"></iron-signals>
+    <uqlibrary-api-account id="account"></uqlibrary-api-account>
+    <uqlibrary-api-learning-resources id="learning_resources"></uqlibrary-api-learning-resources>
+    <uqlibrary-api-course-reading-list id="reading_list"></uqlibrary-api-course-reading-list>
+    <uqlibrary-api-library-guides id="library_guides"></uqlibrary-api-library-guides>
+    <uqlibrary-api-term-dates id="term_dates"></uqlibrary-api-term-dates>
+    <uqlibrary-api-search-suggestions id="search_suggestions"
+                                      type="learning_resource"></uqlibrary-api-search-suggestions>
+
+    <uqlibrary-ga id="ga" appname="Courses"></uqlibrary-ga>
+
+    <div main>
+      <div id="content">
+
+        <uqlibrary-overlay id="loadingOverlay" opened$="{{_loadingCourses(processedCourses)}}">
+          <div id="spinner">
+            <paper-spinner active></paper-spinner>
+          </div>
+        </uqlibrary-overlay>
+
+        <div id="noCoursesMessage" hidden$="{{_hasCourses(processedCourses)}}">
+          <paper-card elevation="1">
+            <div class="card-actions">Courses will be shown 3 weeks prior to the start of
+              semester
+            </div>
+            <div class="card-actions">Please check back closer to the next enrollment period</div>
+          </paper-card>
+          <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
+        </div>
+
+        <paper-tabs id="tabs" selected="{{ selectedTab }}" on-core-select=" tabSelected "
+                    hidden$="{{_loadingOrNoCourses(processedCourses)}}">
+          <template is="dom-repeat" items="{{processedCourses}}" as="course">
+            <paper-tab name="{{ course.courseId }}" id="{{_computeId(course)}}"
+                       aria-label$="{{_computeAriaLabel(course)}}">
+              <div class="menu">
+                <div class="tabTitle" layout="" vertical="" center="">{{ course.SUBJECT }}</div>
+                <div class="tabTitle" layout="" vertical="" center="">{{ course.CATALOG_NBR }}</div>
+              </div>
+            </paper-tab>
+          </template>
+        </paper-tabs>
+
+        <neon-animated-pages id="animatedPages" transitions="slide-from-right" block="" selected="{{selectedTab}}"
+                             entry-animation="slide-from-right-animation"
+                             exit-animation="slide-left-animation"
+                             hidden$="{{_noCourses(processedCourses)}}">
+
+          <template is="dom-repeat" items="{{processedCourses}}" as="course">
+            <section id="{{ course.courseId }}" name="{{ course.courseId }}">
+              <uqlibrary-course course="{{course}}" hidden$="{{_courseNotLoaded(course)}}"></uqlibrary-course>
+            </section>
+          </template>
+        </neon-animated-pages>
+      </div>
+    </div>
+  </template>
+  <script src="uqlibrary-courses.js"></script>
+</dom-module>
