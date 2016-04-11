@@ -118,52 +118,68 @@ Element providing an overview for student's courses
 
     <uqlibrary-ga id="ga" appname="Courses"></uqlibrary-ga>
 
-    <div main>
-      <div id="content">
+    <paper-drawer-panel id="drawerPanel" class="drawer" drawerWidth="256px" responsiveWidth="768px">
 
-        <uqlibrary-overlay id="loadingOverlay" opened$="{{_loadingCourses(processedCourses)}}">
-          <div id="spinner">
-            <paper-spinner active></paper-spinner>
-          </div>
-        </uqlibrary-overlay>
-
-        <div id="noCoursesMessage" hidden$="{{_hasCourses(processedCourses)}}">
-          <paper-card elevation="1">
-            <div class="card-actions">Courses will be shown 3 weeks prior to the start of
-              semester
-            </div>
-            <div class="card-actions">Please check back closer to the next enrollment period</div>
-          </paper-card>
-          <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
-        </div>
-
-        <paper-tabs id="tabs" selected="{{selectedTab}}" attr-for-selected="name"
-                    hidden$="{{_loadingOrNoCourses(processedCourses)}}">
-          <template is="dom-repeat" items="{{processedCourses}}" as="course">
-            <paper-tab name="{{course.courseId}}" id="{{_computeId(course)}}"
-                       aria-label$="{{_computeAriaLabel(course)}}">
-              <div class="menu">
-                <div class="tabTitle" layout="" vertical="" center="">{{ course.SUBJECT }}</div>
-                <div class="tabTitle" layout="" vertical="" center="">{{ course.CATALOG_NBR }}</div>
-              </div>
-            </paper-tab>
-          </template>
-        </paper-tabs>
-
-        <neon-animated-pages id="animatedPages" transitions="slide-from-right" block="" selected="{{selectedTab}}"
-                             attr-for-selected="name"
-                             entry-animation="slide-from-right-animation"
-                             exit-animation="slide-left-animation"
-                             hidden$="{{_noCourses(processedCourses)}}">
-
-          <template is="dom-repeat" items="{{processedCourses}}" as="course">
-            <section id="{{ course.courseId }}" name="{{ course.courseId }}">
-              <uqlibrary-course course="{{course}}"></uqlibrary-course>
-            </section>
-          </template>
-        </neon-animated-pages>
+      <div drawer class="left-drawer" fit style="overflow: scroll;">
+        <uqlibrary-menu id="uqlibraryMenu" account="{{user}}"></uqlibrary-menu>
       </div>
-    </div>
+
+
+      <div main>
+        <div id="content">
+
+          <uqlibrary-overlay id="loadingOverlay" opened$="{{_loadingCourses(processedCourses)}}">
+            <div id="spinner">
+              <paper-spinner active></paper-spinner>
+            </div>
+          </uqlibrary-overlay>
+
+          <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="{{toggleMenuDrawer}}"
+                             on-uqlibrary-toolbar-search-value-changed="{{loadAutosuggest}}"
+                             on-uqlibrary-toolbar-search-submitted="{{performSearch}}"
+                             app-title="My Courses"
+                             id="toolbar"
+                             search-placeholder-text="Search for a course by code or title">
+          </uqlibrary-toolbar>
+
+          <div id="noCoursesMessage" hidden$="{{_hasCourses(processedCourses)}}">
+            <paper-card elevation="1">
+              <div class="card-actions">Courses will be shown 3 weeks prior to the start of
+                semester
+              </div>
+              <div class="card-actions">Please check back closer to the next enrollment period</div>
+            </paper-card>
+            <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
+          </div>
+
+          <paper-tabs id="tabs" selected="{{selectedTab}}" attr-for-selected="name"
+                      hidden$="{{_loadingOrNoCourses(processedCourses)}}">
+            <template is="dom-repeat" items="{{processedCourses}}" as="course">
+              <paper-tab name="{{course.courseId}}" id="{{_computeId(course)}}"
+                         aria-label$="{{_computeAriaLabel(course)}}">
+                <div class="menu">
+                  <div class="tabTitle" layout="" vertical="" center="">{{ course.SUBJECT }}</div>
+                  <div class="tabTitle" layout="" vertical="" center="">{{ course.CATALOG_NBR }}</div>
+                </div>
+              </paper-tab>
+            </template>
+          </paper-tabs>
+
+          <neon-animated-pages id="animatedPages" transitions="slide-from-right" block="" selected="{{selectedTab}}"
+                               attr-for-selected="name"
+                               entry-animation="slide-from-right-animation"
+                               exit-animation="slide-left-animation"
+                               hidden$="{{_noCourses(processedCourses)}}">
+
+            <template is="dom-repeat" items="{{processedCourses}}" as="course">
+              <section id="{{ course.courseId }}" name="{{ course.courseId }}">
+                <uqlibrary-course course="{{course}}"></uqlibrary-course>
+              </section>
+            </template>
+          </neon-animated-pages>
+        </div>
+      </div>
+    </paper-drawer-panel>
   </template>
   <script src="uqlibrary-courses.js"></script>
 </dom-module>
