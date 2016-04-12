@@ -5,7 +5,15 @@ Polymer({
       notify: true,
       type: Object,
       value: function () {
-        return {};
+        return {
+          learning_resources: {
+            reading_lists: {
+              items: []
+            },
+            exam_papers: []
+          },
+          library_guides: []
+        };
       }
     },
     ecpLinkUrl: {
@@ -74,7 +82,7 @@ Polymer({
       libGuides: 0
     });
     var that = this;
-    this.$.cards.addEventListener('swipeable-card-swipe-away', function (e) {
+    this.$.cards.addEventListener('iron-swipe', function (e) {
       Polymer.dom(Polymer.dom(e.target).parentNode).removeChild(e.target);
       // removes this card
       Polymer.dom(that.$.cards).appendChild(e.target);
