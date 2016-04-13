@@ -62,7 +62,6 @@ Polymer({
   ],
   ready: function () {
     var that = this;
-    console.log(this.course);
 
     this.set('course.moreItemsCount', {
       readingLists: 0,

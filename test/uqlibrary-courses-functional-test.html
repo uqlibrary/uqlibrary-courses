@@ -9,7 +9,7 @@
   <script src="../bower_components/web-component-tester/browser.js"></script>
   <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
 
-  <link rel="import" href="../elements/uqlibrary-courses.html">
+  <link rel="import" href="../elements/elements.html">
 </head>
 <body>
 
@@ -27,30 +27,34 @@
       element = fixture('element');
     });
 
-    test('It should display and have two tabs', function () {
+    test('It should display', function () {
       expect(element).to.not.be.null;
     });
 
     test('it should have two tabs', function () {
-      var els = element.querySelectorAll('paper-tab');
-      expect(els.length).to.equal(2);
-    });
-
-    test('it should have Trending Publications tab active', function (done) {
-      element.$.account.addEventListener('uqlibrary-api-account-loaded', function (e) {
-        var el = element.querySelector('paper-tab.iron-selected');
-        expect(el.textContent).to.match(/^\s*Trending Publications\s*$/);
-        done();
+      flush(function () {
+        var els = element.querySelectorAll('paper-tab');
+        expect(els.length).to.equal(2);
       });
     });
 
-    test('it should allow clicking Metrics tab', function (done) {
-      element.$.account.addEventListener('uqlibrary-api-account-loaded', function (e) {
-        var el = element.querySelector('paper-tab:not(.iron-selected)');
-        el.click();
-        var sel = element.querySelector('paper-tab.iron-selected');
-        expect(sel.textContent).to.match(/^\s*Metrics\s*$/);
-        done();
+    test('it should have the first tab active', function () {
+      flush(function () {
+        setTimeout(function () {
+          var el = element.querySelector('paper-tab.iron-selected');
+          expect(el.textContent).to.match(/^\s*FINM\s*2401\s*$/);
+        }, 100);
+      });
+    });
+
+    test('it should allow clicking other tab', function () {
+      flush(function () {
+        setTimeout(function () {
+          var el = element.querySelector('paper-tab:not(.iron-selected)');
+          el.click();
+          var sel = element.querySelector('paper-tab.iron-selected');
+          expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
+        }, 100);
       });
     });
   });
