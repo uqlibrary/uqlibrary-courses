@@ -77,34 +77,6 @@ Element providing an overview for student's courses
         @apply(--uql-app-host);
         @apply(--layout-center);
       }
-
-      #content {
-        @apply(--layout-fit);
-        overflow: scroll;
-      }
-
-      #noCoursesMessage {
-        @apply(--layout-vertical);
-        @apply(--layout-center);
-      }
-
-      paper-card {
-        width: 95%;
-        margin-top: 1em;
-      }
-
-      uqlibrary-courses-study-links {
-        width: 95%;
-        margin-top: 1em;
-      }
-
-      #spinner {
-        @apply(--layout-horizontal);
-        @apply(--layout-flex);
-        @apply(--layout-self-center);
-        @apply(--layout-center-justified);
-      }
-
     </style>
 
     <iron-signals on-iron-signal-transitioning-change="transitioningChangeHandler"></iron-signals>

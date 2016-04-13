@@ -4,17 +4,6 @@
     :host {
       @apply(--layout-center);
     }
-
-    iron-swipeable-container {
-      @apply(--layout-center);
-      text-align: center;
-    }
-
-    paper-card {
-      width: 95%;
-      margin-top: 1em;
-      text-align: left;
-    }
   </style>
   <template>
 
@@ -23,8 +12,10 @@
     <div id="cards">
       <iron-swipeable-container id="readingListCard">
         <paper-card elevation="1">
-          <div class="subhead card-actions cardTitle">Reading List <span
-              hidden$="{{course.learning_resources.multipleReadingLists}}">(<span>{{course.learning_resources.reading_lists.items.length}}</span>)</span>
+          <div class="header paper-card">
+            <div class="subhead title-text cardTitle paper-card"> Reading List <span
+                hidden$="{{course.learning_resources.multipleReadingLists}}">(<span>{{course.learning_resources.reading_lists.items.length}}</span>)</span>
+            </div>
           </div>
 
           <div hidden$="{{_hasReadingList(readingList)}}">
@@ -92,7 +83,9 @@
 
       <iron-swipeable-container id="examPapersCard">
         <paper-card elevation="1">
-          <div class="subhead card-actions cardTitle">Past Exam Papers (<span>{{course.learning_resources.exam_papers.length}}</span>)
+          <div class="header paper-card">
+            <div class="subhead card-actions paper-card title-text cardTitle">Past Exam Papers (<span>{{course.learning_resources.exam_papers.length}}</span>)
+            </div>
           </div>
 
           <div class="body1 card-actions" hidden$="{{_hasExamPapers(examPapers)}}">
@@ -134,7 +127,9 @@
 
       <iron-swipeable-container id="libraryGuidesCard">
         <paper-card elevation="1">
-          <div class="subhead card-actions cardTitle">Library Guides</div>
+          <div class="header paper-card">
+            <div class="subhead card-actions title-text paper-card cardTitle">Library Guides</div>
+          </div>
 
           <div class="body1 card-actions" hidden$="{{_hasLibGuides(libGuides)}}">
             <div class="caption listItemSection listItemNoResultsMessage">
@@ -167,7 +162,9 @@
 
       <iron-swipeable-container id="ecpCard">
         <paper-card elevation="1">
-          <div class="subhead card-actions cardTitle">Course Links</div>
+          <div class="header paper-card">
+            <div class="subhead card-actions title-text paper-card cardTitle">Course Links</div>
+          </div>
           <a class="link" target="_blank" on-click="linkClicked" id="{{_courseLink(course, ecpLinkUrl)}}"
              href$="{{_courseLink(course, ecpLinkUrl)}}">
             <div class="card-actions">
