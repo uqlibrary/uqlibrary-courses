@@ -23,7 +23,6 @@ Polymer({
       }
     },
     processedCourses: {
-      value: null,
       type: Array,
       value: function () {
         return null;
@@ -78,110 +77,107 @@ Polymer({
     this.$.drawerPanel.togglePanel();
   },
   ready: function () {
-    var that = this;
-    var courseIndex = null;
-    this.$.account.addEventListener('uqlibrary-api-account-loaded', function (e) {
-      if (e.detail.hasSession) {
-        if (e.detail.classes) {
-          that.user = e.detail;
-          that.courses = e.detail.classes;
-        }
-      }
-      else {
-        // Not logged in
-        that.$.account.login(window.location.href);
-      }
-    });
+    this.courseIndex = null;
+
     if (this.autoload) {
       this.$.account.get();
     }
-    this.addEventListener('uqlibrary-courses-loaded', function () {
-      this.get();
-    });
-    this.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-      if (e.detail.length > 0) {
-        for (var i = 0; i < that.processedCourses.length; i++) {
-          for (var j = 0; j < e.detail.length; j++) {
-            if (that.processedCourses[i].courseId == e.detail[j].title) {
-              that.set('processedCourses.' + i + '.learning_resources', e.detail[j]);
-              that.filterReadingLists(that.processedCourses[i]);
-              that.filterExamPapers(that.processedCourses[i]);
-              //that.notifyPath('processedCourses');
-              var readingListId = that.getReadingListId(that.processedCourses[i].learning_resources.reading_lists);
-              if (readingListId != '') {
-                courseIndex = i;
-                that.$.reading_list.get({code: readingListId});
-              }
-              else if (that.processedCourses[i].learning_resources.hasOwnProperty('multipleReadingLists')) {
-              }
-              //finish iterating
-              j = e.detail.length;
-            }
-          }
-        }
-      }
-      else {
-        if (that.selectedTab) {
-          for (var i = 0; i < that.processedCourses.length; i++) {
-            if (that.processedCourses[i].courseId == that.selectedTab) {
-              that.set('processedCourses.' + i + '.learning_resources', {
-                reading_lists: {items: []},
-                exam_papers: []
-              });
-            }
-          }
-        }
-      }
-    });
-    this.$.reading_list.addEventListener('uqlibrary-api-course-reading-list', function (e) {
-      if (courseIndex != null) {
-        var list = e.detail;
-        // sort list by item importance
-        var importanceList = {
-          'Required': 1,
-          'Recommended': 2,
-          'Further': 3
-        };
-        list.sort(function (a, b) {
-          // Item with defined importance should be higher
-          if (a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
-            return -1;
-          }
-          // Item with defined importance should be higher
-          if (!a.hasOwnProperty('importance') && b.hasOwnProperty('importance')) {
-            return 1;
-          }
-          if (!a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
-            return 0;
-          }
-          var impA = importanceList.hasOwnProperty(a.importance) ? importanceList[a.importance] : 999;
-          var impB = importanceList.hasOwnProperty(b.importance) ? importanceList[b.importance] : 999;
-          return impA - impB;
-        });
-        if (that.processedCourses[courseIndex].learning_resources.reading_lists) {
-          that.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists.items', e.detail);
-        }
-      }
-    });
-    this.$.library_guides.addEventListener('uqlibrary-api-library-guides', function (e) {
-      for (var i = 0; i < that.courses.length; i++) {
-        if (that.courses[i].courseId == that.selectedTab) {
-          that.courses[i].library_guides = e.detail;
-        }
-      }
-    });
-    this.$.search_suggestions.addEventListener('uqlibrary-api-search-suggestions-loaded', function (e) {
-      var suggestions = [];
-      if (e.detail.length > 0) {
-        e.detail.forEach(function (item) {
-          item.text = item.name + ' (' + item.course_title + ', ' + item.campus + ', ' + item.period + ')';
-          suggestions.push(item);
-        });
-        that.$.toolbar.suggestions = suggestions;
-      }
-    });
   },
-  loadAutosuggest: function (event) {
+  searchSuggestionsLoaded: function (e) {
+    var suggestions = [];
+    if (e.detail.length > 0) {
+      e.detail.forEach(function (item) {
+        item.text = item.name + ' (' + item.course_title + ', ' + item.campus + ', ' + item.period + ')';
+        suggestions.push(item);
+      });
+      this.$.toolbar.suggestions = suggestions;
+    }
+  },
+  libraryGuidesLoaded: function (e) {
+    for (var i = 0; i < this.courses.length; i++) {
+      if (this.courses[i].courseId == this.selectedTab) {
+        this.courses[i].library_guides = e.detail;
+      }
+    }
+  },
+  accountLoaded: function (e) {
+    if (e.detail.hasSession) {
+      if (e.detail.classes) {
+        this.user = e.detail;
+        this.courses = e.detail.classes;
+      }
+    }
+    else {
+      // Not logged in
+      this.$.account.login(window.location.href);
+    }
+  },
+  readingListLoaded: function (e) {
+    if (this.courseIndex != null) {
+      var list = e.detail;
+      // sort list by item importance
+      var importanceList = {
+        'Required': 1,
+        'Recommended': 2,
+        'Further': 3
+      };
+      list.sort(function (a, b) {
+        // Item with defined importance should be higher
+        if (a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
+          return -1;
+        }
+        // Item with defined importance should be higher
+        if (!a.hasOwnProperty('importance') && b.hasOwnProperty('importance')) {
+          return 1;
+        }
+        if (!a.hasOwnProperty('importance') && !b.hasOwnProperty('importance')) {
+          return 0;
+        }
+        var impA = importanceList.hasOwnProperty(a.importance) ? importanceList[a.importance] : 999;
+        var impB = importanceList.hasOwnProperty(b.importance) ? importanceList[b.importance] : 999;
+        return impA - impB;
+      });
+      if (this.processedCourses[this.courseIndex].learning_resources.reading_lists) {
+        this.set('processedCourses.' + this.courseIndex + '.learning_resources.reading_lists.items', e.detail);
+      }
+    }
+  },
+  learningResourcesLoaded: function (e) {
+    if (e.detail.length > 0) {
+      for (var i = 0; i < this.processedCourses.length; i++) {
+        for (var j = 0; j < e.detail.length; j++) {
+          if (this.processedCourses[i].courseId == e.detail[j].title) {
+            this.set('processedCourses.' + i + '.learning_resources', e.detail[j]);
+            this.filterReadingLists(this.processedCourses[i]);
+            this.filterExamPapers(this.processedCourses[i]);
+            //this.notifyPath('processedCourses');
+            var readingListId = this.getReadingListId(this.processedCourses[i].learning_resources.reading_lists);
+            if (readingListId != '') {
+              this.courseIndex = i;
+              this.$.reading_list.get({code: readingListId});
+            }
+            else if (this.processedCourses[i].learning_resources.hasOwnProperty('multipleReadingLists')) {
+            }
+            //finish iterating
+            j = e.detail.length;
+          }
+        }
+      }
+    }
+    else {
+      if (this.selectedTab) {
+        for (var i = 0; i < this.processedCourses.length; i++) {
+          if (this.processedCourses[i].courseId == this.selectedTab) {
+            this.set('processedCourses.' + i + '.learning_resources', {
+              reading_lists: {items: []},
+              exam_papers: []
+            });
+          }
+        }
+      }
+    }
+  },
+  loadAutosuggest: function (event) {uqlibrary-api-search-suggestions-loaded
     if (event.detail.value.length > 2) {
       this.$.search_suggestions.get(event.detail.value);
     }
@@ -201,11 +197,11 @@ Polymer({
       SUBJECT: course.name.substring(0, 4)
     };
     if (!this.searchTabCreated) {
-      this.courses.unshift(this.searchedCourse);
+      this.unshift('courses', this.searchedCourse);
       this.searchTabCreated = true;
     }
     else {
-      this.set('courses' + ('.' + 0), this.searchedCourse);
+      this.set('courses.0', this.searchedCourse);
     }
     this.$.toolbar.clearSearchForm();
     this.$.toolbar.deactivateSearch();
@@ -260,6 +256,7 @@ Polymer({
     else {
       this.set('processedCourses', []);
       this.fire('uqlibrary-courses-loaded');
+      this.get();
     }
   },
   processData: function () {
@@ -275,6 +272,7 @@ Polymer({
     }
     this.set('processedCourses', _newProcessedCourses);
     this.fire('uqlibrary-courses-loaded');
+    this.get();
   },
   selectedTabChanged: function (newValue, oldValue) {
     // check oldValue to prevent load on init

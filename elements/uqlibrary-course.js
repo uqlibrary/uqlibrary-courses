@@ -1,21 +1,6 @@
 Polymer({
   is: 'uqlibrary-course',
   properties: {
-    course: {
-      notify: true,
-      type: Object,
-      value: function () {
-        return {
-          learning_resources: {
-            reading_lists: {
-              items: []
-            },
-            exam_papers: []
-          },
-          library_guides: []
-        };
-      }
-    },
     ecpLinkUrl: {
       type: String,
       value: 'http://www.uq.edu.au/study/course.html?course_code='

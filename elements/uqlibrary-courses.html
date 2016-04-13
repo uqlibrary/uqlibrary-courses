@@ -108,13 +108,13 @@ Element providing an overview for student's courses
     </style>
 
     <iron-signals on-iron-signal-transitioning-change="transitioningChangeHandler"></iron-signals>
-    <uqlibrary-api-account id="account"></uqlibrary-api-account>
-    <uqlibrary-api-learning-resources id="learning_resources"></uqlibrary-api-learning-resources>
-    <uqlibrary-api-course-reading-list id="reading_list"></uqlibrary-api-course-reading-list>
-    <uqlibrary-api-library-guides id="library_guides"></uqlibrary-api-library-guides>
+    <uqlibrary-api-account id="account" on-uqlibrary-api-account-loaded="accountLoaded"></uqlibrary-api-account>
+    <uqlibrary-api-learning-resources id="learning_resources" on-uqlibrary-api-learning-resources="learningResourcesLoaded"></uqlibrary-api-learning-resources>
+    <uqlibrary-api-course-reading-list id="reading_list" on-uqlibrary-api-course-reading-list="readingListLoaded"></uqlibrary-api-course-reading-list>
+    <uqlibrary-api-library-guides id="library_guides" on-uqlibrary-api-library-guides="libraryGuidesLoaded"></uqlibrary-api-library-guides>
     <uqlibrary-api-term-dates id="term_dates"></uqlibrary-api-term-dates>
     <uqlibrary-api-search-suggestions id="search_suggestions"
-                                      type="learning_resource"></uqlibrary-api-search-suggestions>
+                                      type="learning_resource" on-uqlibrary-api-search-suggestions-loaded="searchSuggestionsLoaded"></uqlibrary-api-search-suggestions>
 
     <uqlibrary-ga id="ga" appname="Courses"></uqlibrary-ga>
 
@@ -154,12 +154,12 @@ Element providing an overview for student's courses
 
           <paper-tabs id="tabs" selected="{{selectedTab}}" attr-for-selected="name"
                       hidden$="{{_loadingOrNoCourses(processedCourses)}}">
-            <template is="dom-repeat" items="{{processedCourses}}" as="course">
-              <paper-tab name="{{course.courseId}}" id="{{_computeId(course)}}"
-                         aria-label$="{{_computeAriaLabel(course)}}">
+            <template is="dom-repeat" items="{{processedCourses}}">
+              <paper-tab name="{{item.courseId}}" id="{{_computeId(item)}}"
+                         aria-label$="{{_computeAriaLabel(item)}}">
                 <div class="menu">
-                  <div class="tabTitle" layout="" vertical="" center="">{{ course.SUBJECT }}</div>
-                  <div class="tabTitle" layout="" vertical="" center="">{{ course.CATALOG_NBR }}</div>
+                  <div class="tabTitle" layout="" vertical="" center="">{{ item.SUBJECT }}</div>
+                  <div class="tabTitle" layout="" vertical="" center="">{{ item.CATALOG_NBR }}</div>
                 </div>
               </paper-tab>
             </template>
@@ -171,9 +171,9 @@ Element providing an overview for student's courses
                                exit-animation="slide-left-animation"
                                hidden$="{{_noCourses(processedCourses)}}">
 
-            <template is="dom-repeat" items="{{processedCourses}}" as="course">
-              <section id="{{ course.courseId }}" name="{{ course.courseId }}">
-                <uqlibrary-course course="{{course}}"></uqlibrary-course>
+            <template is="dom-repeat" items="{{processedCourses}}">
+              <section id="{{ item.courseId }}" name="{{ item.courseId }}">
+                <uqlibrary-course course="{{item}}"></uqlibrary-course>
               </section>
             </template>
           </neon-animated-pages>
