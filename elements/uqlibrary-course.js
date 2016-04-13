@@ -62,6 +62,7 @@ Polymer({
   ],
   ready: function () {
     var that = this;
+    console.log(this.course);
 
     this.set('course.moreItemsCount', {
       readingLists: 0,
@@ -132,7 +133,7 @@ Polymer({
     }
   },
   linkClicked: function (e, detail, sender) {
-    var _id = e.target.dataset.id;
+    var _id = e.currentTarget.dataset.title;
     if (_id) {
       this.$.ga.addEvent('Link Clicked', _id);
     }

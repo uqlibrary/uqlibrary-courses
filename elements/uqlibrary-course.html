@@ -30,7 +30,7 @@
               </div>
             </div>
             <template is="dom-repeat" items="{{course.learning_resources.multipleReadingLists}}" as="item">
-              <a target="_blank" on-click="linkClicked" id="specifyReadingList" href$="{{item.url}}"
+              <a target="_blank" on-click="linkClicked" data-title="specifyReadingList" href$="{{item.url}}"
                  aria-label$="{{_computeAriaLabel(item)}}">
                 <div class="body1 card-actions">
                   <div class="link listItemSection listItemTitle">{{item.title}}</div>
@@ -50,7 +50,7 @@
           </div>
 
           <template is="dom-repeat" items="{{readingList}}" as="item">
-            <a target="_blank" on-click="linkClicked" id="readingListItem" href$="{{item.itemLink}}"
+            <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="{{item.itemLink}}"
                aria-label$="{{_computeAriaLabel2(item)}}">
 
               <div class="body1 card-actions">
@@ -69,7 +69,7 @@
               </div>
             </a>
           </template>
-          <a class="link" on-click="linkClicked" id="readingListMoreItems" target="_blank"
+          <a class="link" on-click="linkClicked" data-title="readingListMoreItems" target="_blank"
              href$="{{course.learning_resources.reading_lists.url}}" hidden$="{{_hasMoreReadingListItems(course)}}">
             <div class="card-actions noBorder">
               <div class="link listItemLink">
@@ -103,7 +103,7 @@
           </a>
           <div id="examPaperItems">
             <template is="dom-repeat" items="{{examPapers}}" as="paper">
-              <a class="link" target="_blank" on-click="linkClicked" data-id="examPaperItem" href$="{{paper.url}}">
+              <a class="link" target="_blank" on-click="linkClicked" data-title="examPaperItem" href$="{{paper.url}}">
                 <div class="card-actions">
                   <div class="link listItemLink" aria-label$="{{_computeAriaLabel3(paper)}}">
                     <span>{{paper.period}}</span> (<span>{{extractExtension(paper.url)}}</span>)

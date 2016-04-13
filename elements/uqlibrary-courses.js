@@ -144,7 +144,7 @@ Polymer({
           var course = this.processedCourses[i];
           if (course.courseId == e.detail[j].title) {
             this.set('processedCourses.' + i + '.learning_resources',  e.detail[j]);
-            this.filterReadingLists(course);
+            this.filterReadingLists(i);
             var readingListId = this.getReadingListId(course.learning_resources.reading_lists);
             if (readingListId != '') {
               this.courseIndex = i;
@@ -297,12 +297,13 @@ Polymer({
       data: {transitioning: this.transitioning}
     });
   },
-  filterReadingLists: function (course) {
+  filterReadingLists: function (courseIndex) {
+    var course = this.processedCourses[courseIndex];
     if (course.learning_resources.reading_lists.length == 0) {
       return;
     }
     if (course.learning_resources.reading_lists.length == 1) {
-      course.learning_resources.reading_lists = course.learning_resources.reading_lists[0];
+      this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists', course.learning_resources.reading_lists[0]);
       return;
     }
     // Filter reading lists to show only list for course semester
@@ -318,20 +319,20 @@ Polymer({
     }
     var found = [];
     for (var i = 0; i < course.learning_resources.reading_lists.length; i++) {
-      if (course.learning_resources.reading_lists[i].period == semesterString && course.learning_resources.reading_lists[i].campus.indexOf(
+      if (course.learning_resources.reading_lists[i].period == semesterString && courseIndex.learning_resources.reading_lists[i].campus.indexOf(
           campus) !== -1) {
         found.push(course.learning_resources.reading_lists[i]);
       }
     }
     if (found.length == 0) {
-      course.learning_resources.reading_lists = {items: []};
+      this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists', {items: []});
     }
     else if (found.length == 1) {
-      course.learning_resources.reading_lists = found[0];
+      this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists', found[0]);
     }
     else {
-      course.learning_resources.reading_lists = {items: []};
-      course.learning_resources.multipleReadingLists = found;
+      this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists', {items: []});
+      this.set('processedCourses.' + courseIndex + '.learning_resources.multipleReadingLists', found);
     }
   },
   filterCoursesByTerm: function (course) {
