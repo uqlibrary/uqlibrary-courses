@@ -53,20 +53,21 @@ Polymer({
           libGuides: 2
         };
       }
-    },
-    observers: [
-      'courseExamPapersChanged(course.learning_resources.exam_papers)',
-      'libraryGuidesChanged(course.library_guides)',
-      'courseReadingListItemsChanged(course.learning_resources.reading_lists.items)'
-    ]
+    }
   },
+  observers: [
+    'courseExamPapersChanged(course.learning_resources.exam_papers)',
+    'libraryGuidesChanged(course.library_guides)',
+    'courseReadingListItemsChanged(course.learning_resources.reading_lists.items)'
+  ],
   ready: function () {
+    var that = this;
+
     this.set('course.moreItemsCount', {
       readingLists: 0,
       examPapers: 0,
       libGuides: 0
     });
-    var that = this;
     this.$.cards.addEventListener('iron-swipe', function (e) {
       Polymer.dom(Polymer.dom(e.target).parentNode).removeChild(e.target);
       // removes this card
@@ -77,8 +78,6 @@ Polymer({
       e.target.style.webkitTransform = 'translate3d(0px, 0px, 0px) rotate(0deg)';
       that.$.ga.addEvent('Course Card Swiped Away', e.target.getAttribute('id'));
     });
-  },
-  created: function () {
   },
   extractExtension: function (url) {
     return url.substring(url.lastIndexOf('.') + 1);
@@ -133,7 +132,7 @@ Polymer({
     }
   },
   linkClicked: function (e, detail, sender) {
-    var _id = sender.getAttribute('id');
+    var _id = e.target.dataset.id;
     if (_id) {
       this.$.ga.addEvent('Link Clicked', _id);
     }
@@ -148,7 +147,8 @@ Polymer({
   _hasMoreReadingListItems: function (course) {
     if (course.hasOwnProperty('moreItemsCount')) {
       return course.moreItemsCount.readingLists > 0;
-    } else {
+    }
+    else {
       return false;
     }
   },
@@ -167,7 +167,8 @@ Polymer({
   _hasMoreExamPaperItems: function (course) {
     if (course.hasOwnProperty('moreItemsCount')) {
       return course.moreItemsCount.examPapers > 0;
-    } else {
+    }
+    else {
       return false;
     }
   },

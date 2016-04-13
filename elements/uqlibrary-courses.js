@@ -16,12 +16,6 @@ Polymer({
       type: String,
       value: 'space enter'
     },
-    learningResources: {
-      type: Object,
-      value: function () {
-        return {};
-      }
-    },
     processedCourses: {
       type: Array,
       value: function () {
@@ -96,7 +90,8 @@ Polymer({
   libraryGuidesLoaded: function (e) {
     for (var i = 0; i < this.courses.length; i++) {
       if (this.courses[i].courseId == this.selectedTab) {
-        this.courses[i].library_guides = e.detail;
+        this.set('courses.' + i + '.library_guides', e.detail);
+        this.set('processedCourses.' + i + '.library_guides', e.detail);
       }
     }
   },
@@ -146,17 +141,16 @@ Polymer({
     if (e.detail.length > 0) {
       for (var i = 0; i < this.processedCourses.length; i++) {
         for (var j = 0; j < e.detail.length; j++) {
-          if (this.processedCourses[i].courseId == e.detail[j].title) {
-            this.set('processedCourses.' + i + '.learning_resources', e.detail[j]);
-            this.filterReadingLists(this.processedCourses[i]);
-            this.filterExamPapers(this.processedCourses[i]);
-            //this.notifyPath('processedCourses');
-            var readingListId = this.getReadingListId(this.processedCourses[i].learning_resources.reading_lists);
+          var course = this.processedCourses[i];
+          if (course.courseId == e.detail[j].title) {
+            this.set('processedCourses.' + i + '.learning_resources',  e.detail[j]);
+            this.filterReadingLists(course);
+            var readingListId = this.getReadingListId(course.learning_resources.reading_lists);
             if (readingListId != '') {
               this.courseIndex = i;
               this.$.reading_list.get({code: readingListId});
             }
-            else if (this.processedCourses[i].learning_resources.hasOwnProperty('multipleReadingLists')) {
+            else if (course.learning_resources.hasOwnProperty('multipleReadingLists')) {
             }
             //finish iterating
             j = e.detail.length;
@@ -169,7 +163,9 @@ Polymer({
         for (var i = 0; i < this.processedCourses.length; i++) {
           if (this.processedCourses[i].courseId == this.selectedTab) {
             this.set('processedCourses.' + i + '.learning_resources', {
-              reading_lists: {items: []},
+              reading_lists: {
+                items: []
+              },
               exam_papers: []
             });
           }
@@ -177,7 +173,7 @@ Polymer({
       }
     }
   },
-  loadAutosuggest: function (event) {uqlibrary-api-search-suggestions-loaded
+  loadAutosuggest: function (event) {
     if (event.detail.value.length > 2) {
       this.$.search_suggestions.get(event.detail.value);
     }
@@ -215,7 +211,9 @@ Polymer({
         if (this.processedCourses[i].courseId == code) {
           if (!this.processedCourses[i].hasOwnProperty('learning_resources')) {
             this.set('processedCourses.' + i + '.learning_resources', {
-              reading_lists: [],
+              reading_lists: {
+                items: []
+              },
               exam_papers: []
             });
             this.$.learning_resources.get({code: code});
@@ -334,12 +332,6 @@ Polymer({
     else {
       course.learning_resources.reading_lists = {items: []};
       course.learning_resources.multipleReadingLists = found;
-    }
-  },
-  filterExamPapers: function (course) {
-    for (var i = 0; i < course.learning_resources.exam_papers.length; i++) {
-      if (course.learning_resources.exam_papers[i].course != course.learning_resources.course_title) {
-      }
     }
   },
   filterCoursesByTerm: function (course) {

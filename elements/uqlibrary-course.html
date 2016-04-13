@@ -110,7 +110,7 @@
           </a>
           <div id="examPaperItems">
             <template is="dom-repeat" items="{{examPapers}}" as="paper">
-              <a class="link" target="_blank" on-click="linkClicked" id="examPaperItem" href$="{{paper.url}}">
+              <a class="link" target="_blank" on-click="linkClicked" data-id="examPaperItem" href$="{{paper.url}}">
                 <div class="card-actions">
                   <div class="link listItemLink" aria-label$="{{_computeAriaLabel3(paper)}}">
                     <span>{{paper.period}}</span> (<span>{{extractExtension(paper.url)}}</span>)
