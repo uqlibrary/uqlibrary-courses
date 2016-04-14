@@ -31,29 +31,34 @@
       expect(element).to.not.be.null;
     });
 
-    test('it should have two tabs', function () {
-      flush(function () {
-        var els = element.querySelectorAll('paper-tab');
-        expect(els.length).to.equal(2);
-      });
-    });
-
-    test('it should have the first tab active', function () {
+    test('it should have two tabs', function (done) {
       flush(function () {
         setTimeout(function () {
-          var el = element.querySelector('paper-tab.iron-selected');
-          expect(el.textContent).to.match(/^\s*FINM\s*2401\s*$/);
+          var els = element.querySelectorAll('paper-tab');
+          expect(els.length).to.equal(2);
+          done();
         }, 100);
       });
     });
 
-    test('it should allow clicking other tab', function () {
+    test('it should have the first tab active', function (done) {
+      flush(function () {
+        setTimeout(function () {
+          var el = element.querySelector('paper-tab.iron-selected');
+          expect(el.textContent).to.match(/^\s*FINM\s*2401\s*$/);
+          done();
+        }, 100);
+      });
+    });
+
+    test('it should allow clicking other tab', function (done) {
       flush(function () {
         setTimeout(function () {
           var el = element.querySelector('paper-tab:not(.iron-selected)');
           el.click();
           var sel = element.querySelector('paper-tab.iron-selected');
           expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
+          done();
         }, 100);
       });
     });
