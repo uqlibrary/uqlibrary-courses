@@ -1,11 +1,16 @@
+/**
+ * Pulls the students courses and lets them search for other courses
+ */
 Polymer({
   is: 'uqlibrary-courses',
   properties: {
+    // autoload the account
     autoload: {
       type: Boolean,
       value: true,
       notify: true
     },
+    // raw courses
     courses: {
       value: null,
       notify: true,
@@ -16,6 +21,7 @@ Polymer({
       type: String,
       value: 'space enter'
     },
+    // courses which we work on and send to child elements
     processedCourses: {
       type: Array,
       value: function () {
@@ -67,9 +73,6 @@ Polymer({
       }
     }
   },
-  togglePanel: function () {
-    this.$.drawerPanel.togglePanel();
-  },
   ready: function () {
     this.courseIndex = null;
 
@@ -77,6 +80,11 @@ Polymer({
       this.$.account.get();
     }
   },
+  /**
+   * Callback for autocomplete, format results and send to dropdown
+   *
+   * @param e
+   */
   searchSuggestionsLoaded: function (e) {
     var suggestions = [];
     if (e.detail.length > 0) {
@@ -87,6 +95,11 @@ Polymer({
       this.$.toolbar.suggestions = suggestions;
     }
   },
+  /**
+   * Callback for when the library guides for a course are loaded
+   *
+   * @param e
+   */
   libraryGuidesLoaded: function (e) {
     for (var i = 0; i < this.courses.length; i++) {
       if (this.courses[i].courseId == this.selectedTab) {
@@ -95,6 +108,10 @@ Polymer({
       }
     }
   },
+  /**
+   * Callback for loaded account, we get the users courses from here
+   * @param e
+   */
   accountLoaded: function (e) {
     if (e.detail.hasSession) {
       if (e.detail.classes) {
@@ -107,6 +124,11 @@ Polymer({
       this.$.account.login(window.location.href);
     }
   },
+  /**
+   * Call back when reading lists for course are loaded
+   *
+   * @param e
+   */
   readingListLoaded: function (e) {
     if (this.courseIndex != null) {
       var list = e.detail;
@@ -137,6 +159,12 @@ Polymer({
       }
     }
   },
+  /**
+   * Learning resources is pretty much everything about a course resources, the exams, the guides and the reading_lists
+   * Once loaded we get the reading lists etc
+   *
+   * @param e
+   */
   learningResourcesLoaded: function (e) {
     if (e.detail.length > 0) {
       for (var i = 0; i < this.processedCourses.length; i++) {
@@ -173,11 +201,21 @@ Polymer({
       }
     }
   },
+  /**
+   * Call back to make request for search
+   *
+   * @param event
+   */
   loadAutosuggest: function (event) {
     if (event.detail.value.length > 2) {
       this.$.search_suggestions.get(event.detail.value);
     }
   },
+  /**
+   * Make the search request once the user has asked for one
+   *
+   * @param event
+   */
   performSearch: function (event) {
     if (!event.detail.searchItem) {
       return;
@@ -202,6 +240,12 @@ Polymer({
     this.$.toolbar.clearSearchForm();
     this.$.toolbar.deactivateSearch();
   },
+  /**
+   * Get the requested course for the user, if none is requested
+   * just pass back the first course we have in memory
+   *
+   * @param code
+   */
   get: function (code) {
     if ((!code || code == '') && this.processedCourses.length > 0) {
       code = this.processedCourses[0].courseId;
@@ -228,6 +272,12 @@ Polymer({
       this.selectedTab = code;
     }
   },
+  /**
+   * Run when the courses are updated
+   *
+   * @param newValue
+   * @param oldValue
+   */
   coursesChanged: function (newValue, oldValue) {
     if (this.courses && (this.courses.length > 0)) {
       var termCodes = [];
@@ -257,6 +307,9 @@ Polymer({
       this.get();
     }
   },
+  /**
+   * Not really sure, seems to deal with filtering courses once the term dates are returned
+   */
   processData: function () {
     this.set('processedCourses', this.filterCoursesByTerm());
     //Check if there are 2 or more courses with the same code. If found - remove all but the first course
@@ -297,6 +350,13 @@ Polymer({
       data: {transitioning: this.transitioning}
     });
   },
+  /**
+   * If we have no reading lists, do nothing.  If we have one one reading this we set the course reading lists to that
+   * if we have multiple reading lists, we set the reading lists to nothing and return the reading lists in the
+   * multiple reading lists variable instead.  Kind of lame but don't want to break it by changing it
+   *
+   * @param courseIndex
+   */
   filterReadingLists: function (courseIndex) {
     var course = this.processedCourses[courseIndex];
     if (course.learning_resources.reading_lists.length == 0) {
@@ -335,7 +395,12 @@ Polymer({
       this.set('processedCourses.' + courseIndex + '.learning_resources.multipleReadingLists', found);
     }
   },
-  filterCoursesByTerm: function (course) {
+  /**
+   * Find courses which match the loaded term dates
+   *
+   * @returns {*}
+   */
+  filterCoursesByTerm: function () {
     if (this.termDates) {
       var today = moment();
       var that = this;
@@ -356,6 +421,12 @@ Polymer({
       });
     }
   },
+  /**
+   * Parse the reading list id from the reading_list url
+   *
+   * @param reading_list
+   * @returns {string}
+   */
   getReadingListId: function (reading_list) {
     var id = '';
     if (reading_list.hasOwnProperty('url')) {
@@ -367,6 +438,12 @@ Polymer({
     }
     return id;
   },
+  /**
+   * No idea
+   *
+   * @param code
+   * @returns {{year: number, semester: number}}
+   */
   getYearSemesterByCode: function (code) {
     var term = code;
     var year = 2000 + parseInt((parseInt(term) - 5000 + '').substring(0, 2));
@@ -384,6 +461,12 @@ Polymer({
       semester: semester
     };
   },
+  /**
+   * Return prettier representation of campus given its code
+   *
+   * @param code
+   * @returns {*}
+   */
   getCampusByCode: function (code) {
     var campuses = {
       'STLUC': 'St Lucia',
