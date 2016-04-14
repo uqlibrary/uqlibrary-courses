@@ -37,7 +37,7 @@
           var els = element.querySelectorAll('paper-tab');
           expect(els.length).to.equal(2);
           done();
-        }, 100);
+        }, 500);
       });
     });
 
@@ -47,7 +47,7 @@
           var el = element.querySelector('paper-tab.iron-selected');
           expect(el.textContent).to.match(/^\s*FINM\s*2401\s*$/);
           done();
-        }, 100);
+        }, 500);
       });
     });
 
@@ -59,7 +59,7 @@
           var sel = element.querySelector('paper-tab.iron-selected');
           expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
           done();
-        }, 100);
+        }, 500);
       });
     });
   });
