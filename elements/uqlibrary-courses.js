@@ -241,9 +241,9 @@ Polymer({
       this.courses.sort(function (a, b) {
         return a.STRM - b.STRM;
       });
-      //filter courses to show only current
-      var that = this;
       if (termCodes.length > 0) {
+        //filter courses to show only current
+        var that = this;
         this.$.term_dates.addEventListener('uqlibrary-api-term-dates', function (e) {
           that.termDates = e.detail;
           that.processData();
