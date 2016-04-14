@@ -398,7 +398,7 @@ Polymer({
       return null;
   },
   toggleMenuDrawer: function () {
-    this.$.drawerPanel.togglePanel();
+    this.fire('uqlibrary-toggle-drawer');
   },
   _loadingCourses: function (processedCourses) {
     return !Array.isArray(processedCourses);
