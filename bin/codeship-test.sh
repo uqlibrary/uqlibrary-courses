@@ -7,7 +7,7 @@ if [ ${PIPE_NUM} == 1 ]; then
     echo "Starting local WCT tests"
     npm install
     bower install
-    wct
+    wct test/index.html
 else
     echo "Pipe not used"
 fi
