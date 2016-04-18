@@ -379,7 +379,7 @@ Polymer({
     }
     var found = [];
     for (var i = 0; i < course.learning_resources.reading_lists.length; i++) {
-      if (course.learning_resources.reading_lists[i].period == semesterString && courseIndex.learning_resources.reading_lists[i].campus.indexOf(
+      if (course.learning_resources.reading_lists[i].period == semesterString && course.learning_resources.reading_lists[i].campus.indexOf(
           campus) !== -1) {
         found.push(course.learning_resources.reading_lists[i]);
       }
