@@ -14,7 +14,7 @@
     "url": "https://github.com/uqlibrary/uqlibrary-courses.git"
   },
   "keywords": [
-    "research",
+    "courses",
     "uq",
     "library"
   ],
@@ -23,7 +23,9 @@
     "url": "https://github.com/uqlibrary/uqlibrary-courses/issues"
   },
   "devDependencies": {
-    "web-component-tester": "~4.2.2"
+    "web-component-tester": "~4.2.2",
+    "gulp": "~3.9.1",
+    "browser-sync": "~2.12.3"
   },
   "dependencies": {
     "bower": "~1.7.7"
