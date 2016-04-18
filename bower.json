@@ -22,5 +22,6 @@
   "devDependencies": {
     "web-component-tester": "^4.2.2",
     "test-fixture": "PolymerElements/test-fixture#^1.1.0"
-  }
+  },
+  "ignore": []
 }
