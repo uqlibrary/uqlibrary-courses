@@ -48,9 +48,9 @@
 
           <template is="dom-repeat" items="{{readingList}}" as="item">
             <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="{{item.itemLink}}"
-               aria-label$="{{_computeAriaLabel2(item)}}">
+               aria-label$="{{_computeAriaLabel2(item)}}" class="reading-list-item">
 
-              <div class="body1 card-actions">
+              <div class="card-actions">
                 <div class="link listItemSection listItemTitle">{{item.title}}</div>
                 <div class="caption listItemSection listItemAuthor" hidden$="{{!item.author}}">
                   <i><span>{{item.author}}</span> <span>{{item.year}}</span> </i>
@@ -100,7 +100,7 @@
           </a>
           <div id="examPaperItems">
             <template is="dom-repeat" items="{{examPapers}}" as="paper">
-              <a class="link" target="_blank" on-click="linkClicked" data-title="examPaperItem" href$="{{paper.url}}">
+              <a class="link exam-paper-item" target="_blank" on-click="linkClicked" data-title="examPaperItem" href$="{{paper.url}}">
                 <div class="card-actions">
                   <div class="link listItemLink" aria-label$="{{_computeAriaLabel3(paper)}}">
                     <span>{{paper.period}}</span> (<span>{{extractExtension(paper.url)}}</span>)
@@ -135,7 +135,7 @@
           </div>
           <div id="libGuidesItems">
             <template is="dom-repeat" items="{{libGuides}}" as="guide">
-              <a class="link" target="_blank" on-click="linkClicked" id="libraryGuideItem" href$="{{guide.url}}"
+              <a class="link library-guide-item" target="_blank" on-click="linkClicked" data-title="libraryGuideItem" href$="{{guide.url}}"
                  aria-label$="{{_computeAriaLabel4(guide)}}">
                 <div class="card-actions">
                   <div class="link listItemLink">

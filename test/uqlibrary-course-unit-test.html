@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
-  <title>uqlibrary-courses test</title>
+  <title>uqlibrary-course test</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -11,52 +11,161 @@
   <link rel="import" href="../../test-fixture/test-fixture.html">
 
 
-  <link rel="import" href="../elements/uqlibrary-courses.html">
+  <link rel="import" href="../elements/uqlibrary-course.html">
 </head>
 <body>
 
 <test-fixture id="element">
   <template>
-    <uqlibrary-courses autoload="false"></uqlibrary-courses>
+    <uqlibrary-course></uqlibrary-course>
   </template>
 </test-fixture>
 
 <script>
-  document.cookie = "UQLMockData=enabled";
-
-  suite('<uqlibrary-courses> tests', function () {
+  suite('<uqlibrary-course> tests', function () {
     var element;
+
+    var course = {
+      title: "ACCT2101",
+      course_title: "Financial Reporting",
+      library_guides: [
+        {
+          "title": "Company and Industry Information",
+          "url": "http://guides.library.uq.edu.au/company-information?hs=a"
+        },
+        {
+          "title": "Finance",
+          "url": "http://guides.library.uq.edu.au/finance?hs=a"
+        }
+      ],
+      learning_resources: {
+        reading_lists: {
+          title: "ACCT2101 St Lucia",
+          campus: "St Lucia",
+          url: "http://lr.library.uq.edu.au/lists/A97E01A9-741C-818E-0CB2-94B606D08156",
+          period: "Semester 1 2015",
+          items: [
+            {
+              "referenceType": "Book",
+              "title": "Financial accounting: an integrated approach",
+              "importance": "Required",
+              "author": "Trotman, K. T.; Gibbins, Michael; Carson, Elizabeth",
+              "publisher": "Cengage Learning",
+              "year": "2013",
+              "placePublished": "South Melbourne, Vic",
+              "isbn": "9780170214414",
+              "catalogueRecordId": "b3205953",
+              "itemLink": "http://lr.library.uq.edu.au/items/24081F45-B7F8-06ED-705C-977A83A86E3A.html"
+            },
+            {
+              "referenceType": "Book",
+              "title": "Financial reporting handbook 2013: incorporating all the standards as at 1 December 2012",
+              "importance": "Required",
+              "author": "Locke, Claire; Institute of Chartered Accountants in Australia",
+              "publisher": "Wiley",
+              "year": "2013",
+              "placePublished": "Milton, Qld",
+              "isbn": "9781118452349",
+              "catalogueRecordId": "b3207519",
+              "itemLink": "http://lr.library.uq.edu.au/items/4A3B11E1-543B-285C-475F-A6FDA361524B.html"
+            },
+            {
+              "referenceType": "Webpage",
+              "title": "Past Central Exam Papers",
+              "notes": "Follow the link and search for past exam papers by course code",
+              "url": "https://www.library.uq.edu.au/#exampapers",
+              "itemLink": "http://lr.library.uq.edu.au/items/6A68C13A-D517-098C-E39A-328EEB1FB2EF.html"
+            },
+            {
+              "referenceType": "Document",
+              "title": "Australian Accounting Standards Board",
+              "author": "Australian Accounting Standards Board",
+              "publisher": "AASB.",
+              "url": "http://www.aasb.gov.au/",
+              "placePublished": "Melbourne",
+              "catalogueRecordId": "b2071657",
+              "itemLink": "http://lr.library.uq.edu.au/items/6BCB6F68-CDEF-BC65-8E4A-DFA481BF83BE.html"
+            },
+            {
+              "referenceType": "Book",
+              "title": "Accounting handbook: 2013",
+              "importance": "Required",
+              "author": "Shying, Mark; Subramanian, Ram; CPA Australia",
+              "publisher": "Pearson Australia for CPA",
+              "year": "2013",
+              "placePublished": "Frenchs Forest, N.S.W.",
+              "isbn": "9781486006519",
+              "catalogueRecordId": "b3198928",
+              "itemLink": "http://lr.library.uq.edu.au/items/DE51909A-B752-2F68-A2A3-A284F0C9111E.html"
+            }
+          ]
+        },
+        exam_papers: [
+          {
+            url: "https://www.library.uq.edu.au/pdfserve.php?image=1101sum/acct2101_st.pdf",
+            period: "Semester 1 2011",
+            course: "ACCT2101"
+          },
+          {
+            url: "https://www.library.uq.edu.au/pdfserve.php?image=1102sum/acct2101_ipwst.pdf ",
+            period: "Semester 2 2011",
+            course: "ACCT2101"
+          }
+        ]
+      }
+    };
 
     setup(function () {
       element = fixture('element');
     });
 
-    test('It should display', function () {
-      expect(element).to.not.be.null;
+    test('Title should reflect correct number of reading list items', function () {
+      element.setCourse(course);
+
+      var rlEl = element.querySelector('#readingListCard');
+
+      var title = rlEl.querySelector('div.cardTitle');
+      expect(title.textContent).to.contain('Reading List (5)');
     });
 
-    test('it should have two tabs', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var els = element.querySelectorAll('paper-tab');
+    test('It should have the right number of reading list items', function (done) {
+      element.setCourse(course);
+
+      flush(function () {
+        var rlEl = element.querySelector('#readingListCard');
+        var els = rlEl.querySelectorAll('a.reading-list-item');
         expect(els.length).to.equal(2);
         done();
       });
     });
 
-    test('it should have the first tab active', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var el = element.querySelector('paper-tab.iron-selected');
-        expect(el.textContent).to.match(/^\s*FINM\s*2401\s*$/);
+    test('Title should reflect number of exam papers', function () {
+      element.setCourse(course);
+
+      var examEl = element.querySelector('#examPapersCard');
+
+      var title = examEl.querySelector('div.cardTitle');
+      expect(title.textContent).to.contain('Past Exam Papers (2)');
+    });
+
+    test('It should have the right number of exam papers', function (done) {
+      element.setCourse(course);
+
+      flush(function () {
+        var examEl = element.querySelector('#examPapersCard');
+        var els = examEl.querySelectorAll('.exam-paper-item');
+        expect(els.length).to.equal(2);
         done();
       });
     });
 
-    test('it should allow clicking other tab', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var el = element.querySelector('paper-tab:not(.iron-selected)');
-        el.click();
-        var sel = element.querySelector('paper-tab.iron-selected');
-        expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
+    test('It should have the right number of library guides', function (done) {
+      element.setCourse(course);
+
+      flush(function () {
+        var lgEl = element.querySelector('#libraryGuidesCard');
+        var els = lgEl.querySelectorAll('.library-guide-item');
+        expect(els.length).to.equal(2);
         done();
       });
     });

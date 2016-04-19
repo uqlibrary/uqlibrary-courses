@@ -1,3 +1,4 @@
+/*
 var path = require('path');
 
 var ret = {
@@ -16,3 +17,4 @@ var ret = {
 };
 
 module.exports = ret;
+*/
