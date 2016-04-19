@@ -183,14 +183,6 @@ Polymer({
   _hasReadingList: function (readingList) {
     return readingList.length > 0;
   },
-  _hasMoreReadingListItems: function (course) {
-    if (course.hasOwnProperty('moreItemsCount')) {
-      return course.moreItemsCount.readingLists > 0;
-    }
-    else {
-      return false;
-    }
-  },
   _hasExamPapers: function (examPapers) {
     return examPapers.length > 0;
   },
@@ -202,14 +194,6 @@ Polymer({
       url = 'https://learn.uq.edu.au/';
     }
     return url + course.courseId;
-  },
-  _hasMoreExamPaperItems: function (course) {
-    if (course.hasOwnProperty('moreItemsCount')) {
-      return course.moreItemsCount.examPapers > 0;
-    }
-    else {
-      return false;
-    }
   },
   _hasLibGuides: function (libGuides) {
     return libGuides.length > 0;
