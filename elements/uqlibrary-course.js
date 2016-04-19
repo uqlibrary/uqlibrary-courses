@@ -1,3 +1,6 @@
+/**
+ * Displays a single course, comprised of reading lists, exam papers and library guides
+ */
 Polymer({
   is: 'uqlibrary-course',
   properties: {
@@ -79,9 +82,21 @@ Polymer({
       that.$.ga.addEvent('Course Card Swiped Away', e.target.getAttribute('id'));
     });
   },
+  /**
+   * Get extension of filename
+   *
+   * @param url
+   * @returns {string}
+   */
   extractExtension: function (url) {
     return url.substring(url.lastIndexOf('.') + 1);
   },
+  /**
+   * Don't want to display too many notes, so trim them down
+   *
+   * @param value
+   * @returns {*}
+   */
   trimNotes: function (value) {
     if (value && value.length > this.notesTrimLength) {
       var _trimmed = value.substring(0, this.notesTrimLength);
@@ -92,51 +107,76 @@ Polymer({
     else
       return value;
   },
+  /**
+   * Callback for the reading list learning resources
+   *
+   * @param newValue
+   */
   courseReadingListItemsChanged: function (newValue) {
     if (newValue) {
       // slice reading list array to show limited number items
-      if (this.visibleItemsCount.readingLists && this.visibleItemsCount.readingLists > 0 && newValue.length >= this.visibleItemsCount.readingLists) {
-        this.readingList = newValue.slice(0, this.visibleItemsCount.readingLists);
+      if (this.visibleItemsCount.readingLists && (this.visibleItemsCount.readingLists > 0) && (newValue.length >= this.visibleItemsCount.readingLists)) {
+        this.set('readingList', newValue.slice(0, this.visibleItemsCount.readingLists));
         this.set('course.moreItemsCount.readingLists', newValue.length - this.visibleItemsCount.readingLists);
       }
       else {
-        this.readingList = newValue;
+        this.set('readingList', newValue);
         this.set('course.moreItemsCount.readingLists', 0);
       }
     }
   },
+  /**
+   * Callback for the exam papers learning resources
+   *
+   * @param newValue
+   */
   courseExamPapersChanged: function (newValue) {
     if (newValue) {
       // slice reading list array to show limited number items
-      if (this.visibleItemsCount.examPapers && this.visibleItemsCount.examPapers > 0 && newValue.length >= this.visibleItemsCount.examPapers) {
-        this.examPapers = newValue.slice(0, this.visibleItemsCount.examPapers);
+      if (this.visibleItemsCount.examPapers && (this.visibleItemsCount.examPapers > 0) && (newValue.length >= this.visibleItemsCount.examPapers)) {
+        this.set('examPapers', newValue.slice(0, this.visibleItemsCount.examPapers));
         this.set('course.moreItemsCount.examPapers', newValue.length - this.visibleItemsCount.examPapers);
       }
       else {
-        this.examPapers = newValue;
+        this.set('examPapers', newValue);
         this.set('course.moreItemsCount.examPapers', 0);
       }
     }
   },
+  /**
+   * Callback for library guides changing
+   *
+   * @param newValue
+   */
   libraryGuidesChanged: function (newValue) {
     if (newValue) {
       // slice reading list array to show limited number items
-      if (this.visibleItemsCount.libGuides && this.visibleItemsCount.libGuides > 0 && newValue.length > this.visibleItemsCount.libGuides) {
-        this.libGuides = newValue.slice(0, this.visibleItemsCount.libGuides);
+      if (this.visibleItemsCount.libGuides && (this.visibleItemsCount.libGuides > 0) && (newValue.length > this.visibleItemsCount.libGuides)) {
+        this.set('libGuides', newValue.slice(0, this.visibleItemsCount.libGuides));
         this.set('course.moreItemsCount.libGuides', newValue.length - this.visibleItemsCount.libGuides);
       }
       else {
-        this.libGuides = newValue;
+        this.set('libGuides', newValue);
         this.set('course.moreItemsCount.libGuides', 0);
       }
     }
   },
+  /**
+   * Just fires an analytics event
+   *
+   * @param e
+   */
   linkClicked: function (e) {
     var _id = e.currentTarget.dataset.title;
     if (_id) {
       this.$.ga.addEvent('Link Clicked', _id);
     }
   },
+  /**
+   * Allow the course to be set (use from outside of polymer in demo, test etc)
+   *
+   * @param course
+   */
   setCourse: function (course) {
     this.set('course', course);
   },
