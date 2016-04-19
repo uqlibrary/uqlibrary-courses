@@ -131,15 +131,14 @@ Polymer({
       }
     }
   },
-  linkClicked: function (e, detail, sender) {
+  linkClicked: function (e) {
     var _id = e.currentTarget.dataset.title;
     if (_id) {
       this.$.ga.addEvent('Link Clicked', _id);
     }
   },
-  hostAttributes: {
-    'layout': '',
-    'center': ''
+  setCourse: function (course) {
+    this.set('course', course);
   },
   _hasReadingList: function (readingList) {
     return readingList.length > 0;
