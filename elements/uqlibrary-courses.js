@@ -12,9 +12,7 @@ Polymer({
     },
     // raw courses
     courses: {
-      value: null,
-      notify: true,
-      observer: 'coursesChanged'
+      value: null
     },
     // Accessibility issues fixes
     keyboardNavigationKeys: {
@@ -73,6 +71,9 @@ Polymer({
       }
     }
   },
+  observers: [
+    'coursesChanged(courses.*)'
+  ],
   ready: function () {
     this.courseIndex = null;
 
@@ -115,8 +116,8 @@ Polymer({
   accountLoaded: function (e) {
     if (e.detail.hasSession) {
       if (e.detail.classes) {
-        this.user = e.detail;
-        this.courses = e.detail.classes;
+        this.set('user', e.detail);
+        this.set('courses', e.detail.classes);
       }
     }
     else {
@@ -217,27 +218,26 @@ Polymer({
    * @param event
    */
   performSearch: function (event) {
-    if (!event.detail.searchItem) {
+    if (!event.detail.searchTerm) {
       return;
     }
-    var course = event.detail.searchItem;
+    var course = event.detail.searchTerm;
     this.transitioning = true;
-    this.searchedCourse = {
+    this.set('searchedCourse', {
       courseId: course.name.toUpperCase(),
       CATALOG_NBR: course.name.substring(4),
       STRM: '',
       term: course.period,
       campus: course.campus,
       SUBJECT: course.name.substring(0, 4)
-    };
+    });
     if (!this.searchTabCreated) {
       this.unshift('courses', this.searchedCourse);
-      this.searchTabCreated = true;
+      this.set('searchTabCreated', true);
     }
     else {
       this.set('courses.0', this.searchedCourse);
     }
-    this.$.toolbar.clearSearchForm();
     this.$.toolbar.deactivateSearch();
   },
   /**
@@ -266,19 +266,16 @@ Polymer({
             this.set('processedCourses.' + i + '.library_guides', []);
             this.$.library_guides.get({code: this.processedCourses[i].courseId});
           }
-          this.selectedCourse = this.processedCourses[i];
+          this.set('selectedCourse', this.processedCourses[i]);
         }
       }
-      this.selectedTab = code;
+      this.set('selectedTab', code);
     }
   },
   /**
    * Run when the courses are updated
-   *
-   * @param newValue
-   * @param oldValue
    */
-  coursesChanged: function (newValue, oldValue) {
+  coursesChanged: function () {
     if (this.courses && (this.courses.length > 0)) {
       var termCodes = [];
       for (var i = 0; i < this.courses.length; i++) {
