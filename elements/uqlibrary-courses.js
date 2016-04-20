@@ -238,12 +238,9 @@ Polymer({
       SUBJECT: course.name.substring(0, 4)
     });
     if (!this.searchTabCreated) {
-      this.unshift('courses', this.searchedCourse);
       this.set('searchTabCreated', true);
     }
-    else {
-      this.set('courses.0', this.searchedCourse);
-    }
+    this.unshift('courses', this.searchedCourse);
     this.$.toolbar.deactivateSearch();
   },
   /**
