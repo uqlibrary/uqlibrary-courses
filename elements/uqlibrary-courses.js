@@ -12,7 +12,12 @@ Polymer({
     },
     // raw courses
     courses: {
+      //type: Array,
       value: null
+    },
+    coursesLoaded: {
+      type: Boolean,
+      value: false
     },
     // Accessibility issues fixes
     keyboardNavigationKeys: {
@@ -172,7 +177,7 @@ Polymer({
         for (var j = 0; j < e.detail.length; j++) {
           var course = this.processedCourses[i];
           if (course.courseId == e.detail[j].title) {
-            this.set('processedCourses.' + i + '.learning_resources',  e.detail[j]);
+            this.set('processedCourses.' + i + '.learning_resources', e.detail[j]);
             this.filterReadingLists(i);
             var readingListId = this.getReadingListId(course.learning_resources.reading_lists);
             if (readingListId != '') {
@@ -227,6 +232,7 @@ Polymer({
       courseId: course.name.toUpperCase(),
       CATALOG_NBR: course.name.substring(4),
       STRM: '',
+      DESCR: course.course_title,
       term: course.period,
       campus: course.campus,
       SUBJECT: course.name.substring(0, 4)
@@ -276,27 +282,30 @@ Polymer({
    * Run when the courses are updated
    */
   coursesChanged: function (newValue) {
-    if (this.courses && (this.courses.length > 0)) {
-      var termCodes = [];
-      for (var i = 0; i < this.courses.length; i++) {
-        this.set('courses' + ('.' + i) + '.courseId', this.courses[i].SUBJECT + this.courses[i].CATALOG_NBR);
-        if (termCodes.indexOf(this.courses[i].STRM) === -1) {
-          termCodes.push(this.courses[i].STRM);
+    if (Array.isArray(this.courses)) {
+      if (newValue > 0) {
+        var termCodes = [];
+        for (var i = 0; i < this.courses.length; i++) {
+          this.set('courses' + ('.' + i) + '.courseId', this.courses[i].SUBJECT + this.courses[i].CATALOG_NBR);
+          if (termCodes.indexOf(this.courses[i].STRM) === -1) {
+            termCodes.push(this.courses[i].STRM);
+          }
+        }
+        //sort courses by term
+        this.courses.sort(function (a, b) {
+          return a.STRM - b.STRM;
+        });
+        if (termCodes.length > 0) {
+          //filter courses to show only current
+          var that = this;
+          this.$.term_dates.addEventListener('uqlibrary-api-term-dates', function (e) {
+            that.termDates = e.detail;
+            that.processData();
+          });
+          this.$.term_dates.get({codes: termCodes});
         }
       }
-      //sort courses by term
-      this.courses.sort(function (a, b) {
-        return a.STRM - b.STRM;
-      });
-      if (termCodes.length > 0) {
-        //filter courses to show only current
-        var that = this;
-        this.$.term_dates.addEventListener('uqlibrary-api-term-dates', function (e) {
-          that.termDates = e.detail;
-          that.processData();
-        });
-        this.$.term_dates.get({codes: termCodes});
-      }
+      this.set('coursesLoaded', true);
     }
     else {
       // initialise courses
@@ -359,7 +368,8 @@ Polymer({
       return;
     }
     if (course.learning_resources.reading_lists.length == 1) {
-      this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists', course.learning_resources.reading_lists[0]);
+      this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists',
+        course.learning_resources.reading_lists[0]);
       return;
     }
     // Filter reading lists to show only list for course semester
@@ -479,17 +489,23 @@ Polymer({
   toggleMenuDrawer: function () {
     this.fire('uqlibrary-toggle-drawer');
   },
-  _loadingCourses: function (processedCourses) {
-    return !Array.isArray(processedCourses);
-  },
-  _hasCourses: function (processedCourses) {
-    return !this._loadingCourses(processedCourses) && (processedCourses.length > 0);
-  },
-  _noCourses: function (processedCourses) {
-    return !this._loadingCourses(processedCourses) && (processedCourses.length === 0);
+  /**
+   *
+   * @param processedCourses
+   * @returns {boolean}
+   * @private
+   */
+  _loadingOrHasCourses: function (processedCourses) {
+    if (!this.coursesLoaded) {
+      return true;
+    }
+    return processedCourses.length > 0;
   },
   _loadingOrNoCourses: function (processedCourses) {
-    return this._loadingCourses(processedCourses) || this._noCourses(processedCourses);
+    if (!this.coursesLoaded) {
+      return true;
+    }
+    return processedCourses === 0;
   },
   _computeId: function (course) {
     return 'course' + course.courseId;
