@@ -218,7 +218,7 @@ Polymer({
    * @param event
    */
   performSearch: function (event) {
-    if (!event.detail.searchTerm) {
+    if (!event.detail.searchTerm || !event.detail.searchTerm.hasOwnProperty('name')) {
       return;
     }
     var course = event.detail.searchTerm;
