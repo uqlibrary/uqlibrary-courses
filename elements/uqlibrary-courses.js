@@ -72,7 +72,7 @@ Polymer({
     }
   },
   observers: [
-    'coursesChanged(courses.*)'
+    'coursesChanged(courses.length)'
   ],
   ready: function () {
     this.courseIndex = null;
@@ -275,7 +275,7 @@ Polymer({
   /**
    * Run when the courses are updated
    */
-  coursesChanged: function () {
+  coursesChanged: function (newValue) {
     if (this.courses && (this.courses.length > 0)) {
       var termCodes = [];
       for (var i = 0; i < this.courses.length; i++) {
@@ -299,9 +299,8 @@ Polymer({
       }
     }
     else {
+      // initialise courses
       this.set('processedCourses', []);
-      this.fire('uqlibrary-courses-loaded');
-      this.get();
     }
   },
   /**
@@ -324,7 +323,7 @@ Polymer({
   },
   selectedTabChanged: function (newValue, oldValue) {
     // check oldValue to prevent load on init
-    if (oldValue != '' && newValue != '') {
+    if (oldValue !== newValue) {
       this.get(newValue);
       this.$.ga.addEvent('Course selected', newValue);
     }

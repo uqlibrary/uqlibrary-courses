@@ -7,36 +7,37 @@
   </style>
   <template>
     <div id="cards">
+      <h2 class="course-title">[[course.DESCR]]</h2>
       <iron-swipeable-container id="readingListCard">
         <paper-card elevation="1">
           <div class="header paper-card">
             <div class="subhead title-text cardTitle paper-card"> Reading List <span
-                hidden$="{{course.learning_resources.multipleReadingLists}}">(<span>{{course.learning_resources.reading_lists.items.length}}</span>)</span>
+                hidden$="[[course.learning_resources.multipleReadingLists]]">(<span>[[course.learning_resources.reading_lists.items.length]]</span>)</span>
             </div>
           </div>
 
-          <div hidden$="{{_hasReadingList(readingList)}}">
-            <div class="body1 card-actions" hidden$="{{course.learning_resources.multipleReadingLists}}">
+          <div hidden$="[[_hasReadingList(readingList)]]">
+            <div class="body1 card-actions" hidden$="[[course.learning_resources.multipleReadingLists]]">
               <div class="caption listItemSection listItemNoResultsMessage">
                 No reading lists for this course
               </div>
             </div>
-            <div class="body1 card-actions" hidden$="{{!course.learning_resources.multipleReadingLists}}">
+            <div class="body1 card-actions" hidden$="[[!course.learning_resources.multipleReadingLists]]">
               <div class="listItemSection">
-                More than one reading list found for <span>{{course.courseId}}</span>. Please select a list:
+                More than one reading list found for <span>[[course.courseId]]</span>. Please select a list:
               </div>
             </div>
-            <template is="dom-repeat" items="{{course.learning_resources.multipleReadingLists}}" as="item">
-              <a target="_blank" on-click="linkClicked" data-title="specifyReadingList" href$="{{item.url}}"
-                 aria-label$="{{_computeAriaLabel(item)}}">
+            <template is="dom-repeat" items="[[course.learning_resources.multipleReadingLists]]" as="item">
+              <a target="_blank" on-click="linkClicked" data-title="specifyReadingList" href$="[[item.url]]"
+                 aria-label$="[[_computeAriaLabel(item)]]">
                 <div class="body1 card-actions">
-                  <div class="link listItemSection listItemTitle">{{item.title}}</div>
-                  <div class="caption listItemSection listItemAuthor">{{item.period}}</div>
+                  <div class="link listItemSection listItemTitle">[[item.title]]</div>
+                  <div class="caption listItemSection listItemAuthor">[[item.period]]</div>
                 </div>
               </a>
             </template>
 
-            <a class="link" target="_blank" href$="{{readingListsSearchUrl}}">
+            <a class="link" target="_blank" href$="[[readingListsSearchUrl]]">
               <div class="card-actions">
                 <div class="link listItemLink">
                   <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
@@ -47,31 +48,31 @@
           </div>
 
           <template is="dom-repeat" items="[[readingList]]" as="item">
-            <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="{{item.itemLink}}"
-               aria-label$="{{_computeAriaLabel2(item)}}" class="reading-list-item">
+            <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="[[item.itemLink]]"
+               aria-label$="[[_computeAriaLabel2(item)]]" class="reading-list-item">
 
               <div class="card-actions">
                 <div class="link listItemSection listItemTitle">[[item.title]]</div>
-                <div class="caption listItemSection listItemAuthor" hidden$="{{!item.author}}">
+                <div class="caption listItemSection listItemAuthor" hidden$="[[!item.author]]">
                   <i><span>[[item.author]]</span> <span>[[item.year]]</span> </i>
                 </div>
 
-                <div class="caption listItemSection listItemNotes" hidden$="{{_notesEmpty(item)}}">
-                  <span hidden$="{{_pagesEmpty(item)}}">Pages from <span>[[item.startPage]]</span> to <span>[[item.endPage]]</span><br></span>
-                  <span>{{trimNotes(item.notes)}}</span>
+                <div class="caption listItemSection listItemNotes" hidden$="[[_notesEmpty(item)]]">
+                  <span hidden$="[[_pagesEmpty(item)]]">Pages from <span>[[item.startPage]]</span> to <span>[[item.endPage]]</span><br></span>
+                  <span>[[trimNotes(item.notes)]]</span>
                 </div>
 
                 <div class="caption listItemSection listItemType"><span>[[item.referenceType]]</span> <span
-                    hidden$="{{!item.importance}}">- <span>[[item.importance]]</span></span></div>
+                    hidden$="[[!item.importance]]">- <span>[[item.importance]]</span></span></div>
               </div>
             </a>
           </template>
           <a class="link" on-click="linkClicked" data-title="readingListMoreItems" target="_blank"
-             href$="{{course.learning_resources.reading_lists.url}}" hidden$="[[!course.moreItemsCount.readingLists]]">
+             href$="[[course.learning_resources.reading_lists.url]]" hidden$="[[!course.moreItemsCount.readingLists]]">
             <div class="card-actions noBorder">
               <div class="link listItemLink">
                 <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
-                <span>[[course.moreItemsCount.readingLists]]</span> more <span>{{_pluralise('item', course.moreItemsCount.readingLists)}}</span>
+                <span>[[course.moreItemsCount.readingLists]]</span> more <span>[[_pluralise('item', course.moreItemsCount.readingLists)]]</span>
               </div>
             </div>
           </a>
@@ -85,12 +86,12 @@
             </div>
           </div>
 
-          <div class="body1 card-actions" hidden$="{{_hasExamPapers(examPapers)}}">
+          <div class="body1 card-actions" hidden$="[[_hasExamPapers(examPapers)]]">
             <div class="caption listItemSection listItemNoResultsMessage">
               No Past Exam Papers for this course
             </div>
           </div>
-          <a class="link" target="_blank" href$="{{examPapersSearchUrl}}" hidden$="{{_hasExamPapers(examPapers)}}">
+          <a class="link" target="_blank" href$="[[examPapersSearchUrl]]" hidden$="[[_hasExamPapers(examPapers)]]">
             <div class="card-actions">
               <div class="link listItemLink">
                 <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
@@ -100,21 +101,21 @@
           </a>
           <div id="examPaperItems">
             <template is="dom-repeat" items="[[examPapers]]" as="paper">
-              <a class="link exam-paper-item" target="_blank" on-click="linkClicked" data-title="examPaperItem" href$="{{paper.url}}">
+              <a class="link exam-paper-item" target="_blank" on-click="linkClicked" data-title="examPaperItem" href$="[[paper.url]]">
                 <div class="card-actions">
-                  <div class="link listItemLink" aria-label$="{{_computeAriaLabel3(paper)}}">
-                    <span>[[paper.period]]</span> (<span>{{extractExtension(paper.url)}}</span>)
+                  <div class="link listItemLink" aria-label$="[[_computeAriaLabel3(paper)]]">
+                    <span>[[paper.period]]</span> (<span>[[extractExtension(paper.url)]]</span>)
                   </div>
                 </div>
               </a>
             </template>
           </div>
           <a class="link" on-click="linkClicked" id="examPapersMoreItems" target="_blank"
-             href$="{{_courseLink(course, examPapersSearchUrl)}}" hidden$="[[!course.moreItemsCount.examPapers]]">
+             href$="[[_courseLink(course, examPapersSearchUrl)]]" hidden$="[[!course.moreItemsCount.examPapers]]">
             <div class="card-actions noBorder">
               <div class="link listItemLink">
                 <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
-                <span>[[course.moreItemsCount.examPapers]]</span> more past exam <span>{{_pluralise('paper', course.moreItemsCount.examPapers)}}</span>
+                <span>[[course.moreItemsCount.examPapers]]</span> more past exam <span>[[_pluralise('paper', course.moreItemsCount.examPapers)]]</span>
               </div>
             </div>
           </a>
@@ -127,15 +128,15 @@
             <div class="subhead card-actions title-text paper-card cardTitle">Library Guides</div>
           </div>
 
-          <div class="body1 card-actions" hidden$="{{_hasLibGuides(libGuides)}}">
+          <div class="body1 card-actions" hidden$="[[_hasLibGuides(libGuides)]]">
             <div class="caption listItemSection listItemNoResultsMessage">
               No Library guides for this course
             </div>
           </div>
           <div id="libGuidesItems">
             <template is="dom-repeat" items="[[libGuides]]" as="guide">
-              <a class="link library-guide-item" target="_blank" on-click="linkClicked" data-title="libraryGuideItem" href$="{{guide.url}}"
-                 aria-label$="{{_computeAriaLabel4(guide)}}">
+              <a class="link library-guide-item" target="_blank" on-click="linkClicked" data-title="libraryGuideItem" href$="[[guide.url]]"
+                 aria-label$="[[_computeAriaLabel4(guide)]]">
                 <div class="card-actions">
                   <div class="link listItemLink">
                     <span>[[guide.title]]</span>
@@ -147,7 +148,7 @@
 
           <div class="card-actions noBorder">
             <div class="link listItemLink">
-              <a class="link" target="_blank" on-tap="linkClicked" id="allLibraryGuides" href$="{{libGuidesLinkUrl}}">
+              <a class="link" target="_blank" on-tap="linkClicked" id="allLibraryGuides" href$="[[libGuidesLinkUrl]]">
                 <iron-icon class="link" icon="arrow-forward" id="arrow-icon" aria-label=""></iron-icon>
                 All Library Guides
               </a>
@@ -161,8 +162,8 @@
           <div class="header paper-card">
             <div class="subhead card-actions title-text paper-card cardTitle">Course Links</div>
           </div>
-          <a class="link" target="_blank" on-click="linkClicked" id="{{_courseLink(course, ecpLinkUrl)}}"
-             href$="{{_courseLink(course, ecpLinkUrl)}}">
+          <a class="link" target="_blank" on-click="linkClicked" id="[[_courseLink(course, ecpLinkUrl)]]"
+             href$="[[_courseLink(course, ecpLinkUrl)]]">
             <div class="card-actions">
               <div class="link listItemLink">
                 <iron-icon class="link" icon="arrow-forward" aria-label=""></iron-icon>
@@ -170,8 +171,8 @@
               </div>
             </div>
           </a>
-          <a class="link" on-click="linkClicked" id="blackboard" target="{{_courseLink(course)}}"
-             href$="{{_courseLink(course)}}">
+          <a class="link" on-click="linkClicked" id="blackboard" target="[[_courseLink(course)]]"
+             href$="[[_courseLink(course)]]">
             <div class="card-actions noBorder">
               <div class="link listItemLink">
                 <iron-icon class="link" icon="arrow-forward" id="extension-icon" aria-label=""></iron-icon>
