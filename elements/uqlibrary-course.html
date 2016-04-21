@@ -106,9 +106,8 @@
             </div>
           </template>
 
-          <div class="card-actions">
-            <a on-click="linkClicked" id="examPapersMoreItems" target="_blank"
-               href$="[[_courseLink(course, examPapersSearchUrl)]]" hidden$="[[!course.moreItemsCount.examPapers]]">
+          <div class="card-actions" hidden$="[[!course.moreItemsCount.examPapers]]">
+            <a on-click="linkClicked" id="examPapersMoreItems" target="_blank" href$="[[_courseLink(course, examPapersSearchUrl)]]">
                   <iron-icon icon="arrow-forward" aria-label=""></iron-icon>
                   <span>[[course.moreItemsCount.examPapers]]</span> more past exam <span>[[_pluralise('paper', course.moreItemsCount.examPapers)]]</span>
             </a>
