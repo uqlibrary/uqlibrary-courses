@@ -116,18 +116,24 @@ Element providing an overview for student's courses
                            >
         </uqlibrary-toolbar>
 
-        <div id="noCoursesMessage" hidden$="[[_loadingOrHasCourses(processedCourses)]]">
-          <paper-card elevation="1" heading="No Listed Courses">
-            <div class="card-actions">Courses will be shown 3 weeks prior to the start of
-              semester
+        <div id="noCoursesMessage" hidden$="[[_loadingOrHasCourses(coursesLoaded, processedCourses)]]">
+
+          <paper-card elevation="1" heading="No listed courses">
+
+            <div class="card-content">
+              <p>Courses will be shown 3 weeks prior to the start of
+              semester</p>
+              <p>Please check back closer to the next enrollment period</p>
             </div>
-            <div class="card-actions">Please check back closer to the next enrollment period</div>
+
           </paper-card>
+
           <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
+
         </div>
 
         <paper-tabs id="tabs" selected="{{selectedTab}}" attr-for-selected="name"
-                    hidden$="[[_loadingOrNoCourses(processedCourses)]]">
+                    hidden$="[[_loadingOrNoCourses(coursesLoaded, processedCourses)]]">
           <template is="dom-repeat" items="[[processedCourses]]">
             <paper-tab name="[[item.courseId]]" id="[[_computeId(item)]]"
                        aria-label$="[[_computeAriaLabel(item)]]">
@@ -143,7 +149,7 @@ Element providing an overview for student's courses
                              attr-for-selected="name"
                              entry-animation="slide-from-right-animation"
                              exit-animation="slide-left-animation"
-                             hidden$="[[_loadingOrNoCourses(processedCourses)]]">
+                             hidden$="[[_loadingOrNoCourses(coursesLoaded, processedCourses)]]">
 
           <template is="dom-repeat" items="[[processedCourses]]">
             <section id="[[ item.courseId ]]" name="[[ item.courseId ]]">
