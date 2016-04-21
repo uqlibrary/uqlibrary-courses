@@ -124,33 +124,33 @@
       element = fixture('element');
     });
 
-    test('Title should reflect correct number of reading list items', function () {
-      element.setCourse(course);
-
-      var rlEl = element.querySelector('#readingListCard');
-
-      var title = rlEl.querySelector('div.cardTitle');
-      expect(title.textContent).to.contain('Reading List (5)');
+    test('Title should reflect correct number of reading list items', function (done) {
+      flush(function () {
+        element.setCourse(course);
+        var readingListsCard = element.querySelector('#readingListCard').querySelectorAll("paper-card")[1];
+        expect(readingListsCard.heading).to.contain('Reading lists (5)');
+        done();
+      });
     });
 
     test('It should have the right number of reading list items', function (done) {
       element.setCourse(course);
 
       flush(function () {
-        var rlEl = element.querySelector('#readingListCard');
-        var els = rlEl.querySelectorAll('a.reading-list-item');
-        expect(els.length).to.equal(2);
+        var readingListsCard = element.querySelector('#readingListCard').querySelectorAll("paper-card")[1];
+        var readingListHeaders = readingListsCard.querySelectorAll(".headline");
+        expect(readingListHeaders.length).to.equal(2);
         done();
       });
     });
 
-    test('Title should reflect number of exam papers', function () {
-      element.setCourse(course);
-
-      var examEl = element.querySelector('#examPapersCard');
-
-      var title = examEl.querySelector('div.cardTitle');
-      expect(title.textContent).to.contain('Past Exam Papers (2)');
+    test('Title should reflect number of exam papers', function (done) {
+      flush(function () {
+        element.setCourse(course);
+        var card = element.querySelector('#examPapersCard').querySelector("paper-card");
+        expect(card.heading).to.contain('Past exam papers (2)');
+        done();
+      });
     });
 
     test('It should have the right number of exam papers', function (done) {

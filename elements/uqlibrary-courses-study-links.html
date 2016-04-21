@@ -2,60 +2,57 @@
 
 <dom-module id="uqlibrary-courses-study-links">
   <template>
+
     <style is="custom-style" include="courses-styles">
       :host {
         @apply(--layout-center);
       }
-
-      paper-card {
-        width: 100%;
-      }
     </style>
-    <paper-card elevation="1" heading="Study Help">
 
-      <a class="link" on-click="linkClicked" id="referencingGuides"
-         href="https://www.library.uq.edu.au/help/referencing-style-guides" target="_blank">
-        <div class="card-actions">
-          <iron-icon class="link" icon="description" id="referencing-icon" aria-label=""></iron-icon>
+    <uqlibrary-ga id="ga" app-name="Courses"></uqlibrary-ga>
+
+    <paper-card elevation="1" heading="Study help">
+
+      <div class="card-actions">
+      <a on-click="linkClicked" id="referencingGuides"
+         href="https://web.library.uq.edu.au/research-tools-techniques/referencing/referencing-style-guides" target="_blank">
+          <iron-icon icon="description" id="referencing-icon" aria-label=""></iron-icon>
           Referencing guides
-        </div>
       </a>
-
-      <a class="link" on-click="linkClicked" id="library101"
-         href="https://learn.uq.edu.au/webapps/login/?new_loc=%2Fwebapps%2Fblackboard%2Fexecute%2FenrollCourse%3Fcontext%3DCourse%26course_id%3D_13002_1"
-         target="_blank">
-        <div class="card-actions">
-          <iron-icon class="link" icon="extension" id="extension-icon" aria-label=""></iron-icon>
-          Library 101
-        </div>
-      </a>
-
-      <div hidden$="{{_computeHidden(course)}}">
-        <a class="link" on-tap="linkClicked" id="lawOnlineTutorial"
-           href="https://www.library.uq.edu.au/help/law-online-tutorial" target="_blank">
-          <div class="card-actions">
-            <iron-icon class="link" icon="account-balance" id="law-icon" aria-label=""></iron-icon>
-            Law Online Tutorial
-          </div>
-        </a>
       </div>
 
 
-      <a class="link" on-tap="linkClicked" id="assignmentPlanner"
-         href="https://www.library.uq.edu.au/services/assign/indexmail_tab2.phtml" target="_blank">
-        <div class="card-actions">
-          <iron-icon class="link" icon="notification:event-available" id="assignment-icon" aria-label=""></iron-icon>
-          Assignment Planner
-        </div>
+      <div class="card-actions">
+      <a on-click="linkClicked" id="library101"
+         href="https://learn.uq.edu.au/webapps/login/?new_loc=%2Fwebapps%2Fblackboard%2Fexecute%2FenrollCourse%3Fcontext%3DCourse%26course_id%3D_13002_1"
+         target="_blank">
+          <iron-icon icon="extension" id="extension-icon" aria-label=""></iron-icon>
+          Library 101
       </a>
+      </div>
 
-      <a class="link" href="https://www.library.uq.edu.au/help/training" target="_blank" on-tap="linkClicked"
-         id="libraryTraining">
-        <div class="card-actions">
-          <iron-icon class="link" src="../icons/bb.svg" id="bb-icon" aria-label=""></iron-icon>
-          Library training
-        </div>
+      <div class="card-actions" hidden$="{{_computeHidden(course)}}">
+           href="https://web.library.uq.edu.au/library-services/training/law-online-tutorial" target="_blank">
+            <iron-icon icon="account-balance" id="law-icon" aria-label=""></iron-icon>
+            Law Online Tutorial
+        </a>
+      </div>
+
+      <div class="card-actions">
+      <a on-tap="linkClicked" id="assignmentPlanner"
+         href="https://www.library.uq.edu.au/services/assign/indexmail_tab2.phtml" target="_blank">
+          <iron-icon icon="notification:event-available" id="assignment-icon" aria-label=""></iron-icon>
+          Assignment planner
       </a>
+      </div>
+
+      <div class="card-actions">
+      <a href="https://web.library.uq.edu.au/library-services/training" target="_blank" on-tap="linkClicked"
+         id="libraryTraining">
+          <iron-icon icon="icons:info-outline" id="bb-icon" aria-label=""></iron-icon>
+          Library training
+      </a>
+      </div>
     </paper-card>
   </template>
   <script src="uqlibrary-courses-study-links.js"></script>
