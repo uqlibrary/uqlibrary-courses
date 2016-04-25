@@ -99,13 +99,13 @@ Element providing an overview for student's courses
     <uqlibrary-ga id="ga" appname="Courses"></uqlibrary-ga>
 
     <div id="content">
-      <uqlibrary-overlay id="loadingOverlay" hidden$="[[coursesLoaded]]">
+      <uqlibrary-overlay id="loadingOverlay" hidden$="[[_coursesLoaded(processedCourses)]]">
         <div class="spinner">
           <paper-spinner active></paper-spinner>
         </div>
       </uqlibrary-overlay>
 
-      <div hidden$="[[!coursesLoaded]]">
+      <div>
         <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="toggleMenuDrawer"
                            on-uqlibrary-toolbar-search-value-changed="loadAutosuggest"
                            on-uqlibrary-toolbar-search-submitted="performSearch"
@@ -122,6 +122,7 @@ Element providing an overview for student's courses
               semester
             </div>
             <div class="card-actions">Please check back closer to the next enrollment period</div>
+            <div class="card-actions">You can search for information on courses above</div>
           </paper-card>
           <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
         </div>

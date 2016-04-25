@@ -250,7 +250,7 @@ Polymer({
    * @param code
    */
   get: function (code) {
-    if ((!code || code == '') && this.processedCourses.length > 0) {
+    if ((!code || code == '') && Array.isArray(this.processedCourses) && (this.processedCourses.length > 0)) {
       code = this.processedCourses[0].courseId;
     }
     if (code) {
@@ -302,11 +302,6 @@ Polymer({
           this.$.term_dates.get({codes: termCodes});
         }
       }
-      this.set('coursesLoaded', true);
-    }
-    else {
-      // initialise courses
-      this.set('processedCourses', []);
     }
   },
   /**
@@ -493,16 +488,13 @@ Polymer({
    * @private
    */
   _loadingOrHasCourses: function (processedCourses) {
-    if (!this.coursesLoaded) {
-      return true;
-    }
-    return processedCourses.length > 0;
+    return !this._coursesLoaded(processedCourses) || processedCourses.length > 0;
+  },
+  _coursesLoaded: function (processedCourses) {
+    return Array.isArray(processedCourses);
   },
   _loadingOrNoCourses: function (processedCourses) {
-    if (!this.coursesLoaded) {
-      return true;
-    }
-    return processedCourses === 0;
+    return !this._coursesLoaded(processedCourses) || processedCourses.length === 0;
   },
   _computeId: function (course) {
     return 'course' + course.courseId;
