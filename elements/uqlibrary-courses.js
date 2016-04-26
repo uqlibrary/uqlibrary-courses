@@ -120,6 +120,9 @@ Polymer({
    */
   accountLoaded: function (e) {
     if (e.detail.hasSession) {
+      if (!e.detail.classes || e.detail.classes.length === 0)
+        this.set('coursesLoaded', true);
+
       if (e.detail.classes) {
         this.set('user', e.detail);
         this.set('courses', e.detail.classes);
@@ -487,14 +490,21 @@ Polymer({
    * @returns {boolean}
    * @private
    */
-  _loadingOrHasCourses: function (processedCourses) {
-    return !this._coursesLoaded(processedCourses) || processedCourses.length > 0;
-  },
   _coursesLoaded: function (processedCourses) {
     return Array.isArray(processedCourses);
   },
-  _loadingOrNoCourses: function (processedCourses) {
-    return !this._coursesLoaded(processedCourses) || processedCourses.length === 0;
+  _loadingOrHasCourses: function (coursesLoaded, processedCourses) {
+    if (!this.coursesLoaded) {
+      return true;
+    }
+
+    return processedCourses.length > 0;
+  },
+  _loadingOrNoCourses: function (coursesLoaded, processedCourses) {
+    if (!this.coursesLoaded) {
+      return true;
+    }
+    return processedCourses === 0;
   },
   _computeId: function (course) {
     return 'course' + course.courseId;

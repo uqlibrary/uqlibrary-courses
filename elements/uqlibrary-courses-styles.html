@@ -1,6 +1,7 @@
 <dom-module id="courses-styles">
   <template>
     <style is="custom-style" include="common-styles">
+
       #content {
         @apply(--layout-fit);
         overflow: scroll;
@@ -11,26 +12,7 @@
       }
 
       #noCoursesMessage {
-        @apply(--layout-vertical);
-        @apply(--layout-center);
-      }
-
-      paper-card {
-        width: 95%;
-        text-align: left;
-      }
-
-      paper-card div.listItemSection {
-        font-size: 14px;
-      }
-
-      paper-card div.listItemTitle {
-        font-size: 18px;
-      }
-
-      uqlibrary-courses-study-links {
-        width: 95%;
-        margin-top: 1em;
+        text-align: center;
       }
 
       .spinner {
@@ -44,27 +26,22 @@
       iron-swipeable-container {
         @apply(--layout-center);
         text-align: center;
-        margin-bottom: 1em;
       }
 
-      .listItemSection.listItemTitle {
-        padding-bottom: 16px;
+      paper-card {
+        width: 95%;
+        text-align: left;
+        margin: 8px 0;
       }
-      .listItemSection.listItemAuthor {
-        font-style: italic;
-        padding-bottom: 16px;
+
+      .card-actions {
+        padding: 16px;
       }
-      .listItemSection.listItemType {
-        color: #7b0c9d;
-        font-style: italic;
+
+      .card-actions iron-icon {
+        margin-right: 16px;
       }
-      .listItemSection.listItemNotes {
-        font-style: italic;
-        padding-bottom: 16px;
-      }
-      .listItemSection.listItemNoResultsMessage {
-        font-style: italic;
-      }
+
     </style>
   </template>
 </dom-module>

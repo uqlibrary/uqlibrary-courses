@@ -56,6 +56,10 @@ Polymer({
           libGuides: 2
         };
       }
+    },
+    course: {
+      type: Object,
+      observer: '_setCourse'
     }
   },
   observers: [
@@ -63,14 +67,18 @@ Polymer({
     'libraryGuidesChanged(course.library_guides)',
     'courseReadingListItemsChanged(course.learning_resources.reading_lists.items)'
   ],
-  ready: function () {
-    var that = this;
 
+  _setCourse: function() {
     this.set('course.moreItemsCount', {
       readingLists: 0,
       examPapers: 0,
       libGuides: 0
     });
+
+  },
+  ready: function () {
+    var that = this;
+
     this.$.cards.addEventListener('iron-swipe', function (e) {
       Polymer.dom(Polymer.dom(e.target).parentNode).removeChild(e.target);
       // removes this card

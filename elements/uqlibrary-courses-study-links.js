@@ -2,7 +2,7 @@ Polymer({
   is: 'uqlibrary-courses-study-links',
   properties: {
     course: {
-      notify: true
+      type: Object
     }
   },
   linkClicked: function (e, detail, sender) {
@@ -12,6 +12,6 @@ Polymer({
     }
   },
   _computeHidden: function (course) {
-    return course.SUBJECT != 'LAWS';
+    return course.SUBJECT !== 'LAWS';
   }
 });

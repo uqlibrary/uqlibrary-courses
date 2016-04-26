@@ -96,7 +96,7 @@ Element providing an overview for student's courses
                                       type="learning_resource"
                                       on-uqlibrary-api-search-suggestions-loaded="searchSuggestionsLoaded"></uqlibrary-api-search-suggestions>
 
-    <uqlibrary-ga id="ga" appname="Courses"></uqlibrary-ga>
+    <uqlibrary-ga id="ga" app-name="Courses"></uqlibrary-ga>
 
     <div id="content">
       <uqlibrary-overlay id="loadingOverlay" hidden$="[[_coursesLoaded(processedCourses)]]">
@@ -110,25 +110,30 @@ Element providing an overview for student's courses
                            on-uqlibrary-toolbar-search-value-changed="loadAutosuggest"
                            on-uqlibrary-toolbar-search-submitted="performSearch"
                            item-label="text"
-                           app-title="My Courses"
+                           app-title="Courses"
                            id="toolbar"
                            search-placeholder-text="Search for a course by code or title"
                            >
         </uqlibrary-toolbar>
 
-        <div id="noCoursesMessage" hidden$="[[_loadingOrHasCourses(processedCourses)]]">
-          <paper-card elevation="1" heading="No Listed Courses">
-            <div class="card-actions">Courses will be shown 3 weeks prior to the start of
-              semester
+        <div id="noCoursesMessage" hidden$="[[_loadingOrHasCourses(coursesLoaded, processedCourses)]]">
+
+          <paper-card elevation="1" heading="No listed courses">
+
+            <div class="card-content">
+              <p>Courses will be shown 3 weeks prior to the start of
+              semester</p>
+              <p>Please check back closer to the next enrollment period</p>
+              <p>You can search for information on courses above</p>
             </div>
-            <div class="card-actions">Please check back closer to the next enrollment period</div>
-            <div class="card-actions">You can search for information on courses above</div>
           </paper-card>
+
           <uqlibrary-courses-study-links></uqlibrary-courses-study-links>
+
         </div>
 
         <paper-tabs id="tabs" selected="{{selectedTab}}" attr-for-selected="name"
-                    hidden$="[[_loadingOrNoCourses(processedCourses)]]">
+                    hidden$="[[_loadingOrNoCourses(coursesLoaded, processedCourses)]]">
           <template is="dom-repeat" items="[[processedCourses]]">
             <paper-tab name="[[item.courseId]]" id="[[_computeId(item)]]"
                        aria-label$="[[_computeAriaLabel(item)]]">
@@ -144,7 +149,7 @@ Element providing an overview for student's courses
                              attr-for-selected="name"
                              entry-animation="slide-from-right-animation"
                              exit-animation="slide-left-animation"
-                             hidden$="[[_loadingOrNoCourses(processedCourses)]]">
+                             hidden$="[[_loadingOrNoCourses(coursesLoaded, processedCourses)]]">
 
           <template is="dom-repeat" items="[[processedCourses]]">
             <section id="[[ item.courseId ]]" name="[[ item.courseId ]]">
