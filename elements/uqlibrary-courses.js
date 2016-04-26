@@ -120,9 +120,6 @@ Polymer({
    */
   accountLoaded: function (e) {
     if (e.detail.hasSession) {
-      if (!e.detail.classes || e.detail.classes.length === 0)
-        this.set('coursesLoaded', true);
-
       if (e.detail.classes) {
         this.set('user', e.detail);
         this.set('courses', e.detail.classes);
@@ -322,6 +319,7 @@ Polymer({
       }
     }
     this.set('processedCourses', _newProcessedCourses);
+    this.set('coursesLoaded', true);
     this.fire('uqlibrary-courses-loaded');
     this.get();
   },
@@ -504,7 +502,7 @@ Polymer({
     if (!this.coursesLoaded) {
       return true;
     }
-    return processedCourses === 0;
+    return processedCourses.length === 0;
   },
   _computeId: function (course) {
     return 'course' + course.courseId;
