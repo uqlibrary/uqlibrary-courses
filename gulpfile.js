@@ -42,6 +42,10 @@ gulp.task("live", [], function () {
     {
       match: /(document\.cookie="UQLMockData)/g,
       replace: "// $1"
+    },
+    {
+      match: /\/\/ (delete_cookie)/g,
+      replace: "$1"
     }
   ];
   browsersync(browsersyncConfig);
