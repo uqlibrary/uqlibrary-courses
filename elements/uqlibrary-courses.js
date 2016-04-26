@@ -482,28 +482,6 @@ Polymer({
   toggleMenuDrawer: function () {
     this.fire('uqlibrary-toggle-drawer');
   },
-  /**
-   *
-   * @param processedCourses
-   * @returns {boolean}
-   * @private
-   */
-  _coursesLoaded: function (processedCourses) {
-    return Array.isArray(processedCourses);
-  },
-  _loadingOrHasCourses: function (coursesLoaded, processedCourses) {
-    if (!this.coursesLoaded) {
-      return true;
-    }
-
-    return processedCourses.length > 0;
-  },
-  _loadingOrNoCourses: function (coursesLoaded, processedCourses) {
-    if (!this.coursesLoaded) {
-      return true;
-    }
-    return processedCourses.length === 0;
-  },
   _computeId: function (course) {
     return 'course' + course.courseId;
   },

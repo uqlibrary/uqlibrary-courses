@@ -99,13 +99,13 @@ Element providing an overview for student's courses
     <uqlibrary-ga id="ga" app-name="Courses"></uqlibrary-ga>
 
     <div id="content">
-      <uqlibrary-overlay id="loadingOverlay" hidden$="[[_coursesLoaded(processedCourses)]]">
+      <uqlibrary-overlay id="loadingOverlay" hidden$="[[!_coursesLoaded]]">
         <div class="spinner">
           <paper-spinner active></paper-spinner>
         </div>
       </uqlibrary-overlay>
 
-      <div>
+      <div hidden$="!coursesLoaded">
         <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="toggleMenuDrawer"
                            on-uqlibrary-toolbar-search-value-changed="loadAutosuggest"
                            on-uqlibrary-toolbar-search-submitted="performSearch"
@@ -116,7 +116,7 @@ Element providing an overview for student's courses
                            >
         </uqlibrary-toolbar>
 
-        <div id="noCoursesMessage" hidden$="[[_loadingOrHasCourses(coursesLoaded, processedCourses)]]">
+        <div id="noCoursesMessage" hidden$="[[processedCourses.length]]">
 
           <paper-card elevation="1" heading="No listed courses">
 
@@ -133,7 +133,7 @@ Element providing an overview for student's courses
         </div>
 
         <paper-tabs id="tabs" selected="{{selectedTab}}" attr-for-selected="name"
-                    hidden$="[[_loadingOrNoCourses(coursesLoaded, processedCourses)]]">
+                    hidden$="[[!processedCourses.length]]">
           <template is="dom-repeat" items="[[processedCourses]]">
             <paper-tab name="[[item.courseId]]" id="[[_computeId(item)]]"
                        aria-label$="[[_computeAriaLabel(item)]]">
@@ -148,8 +148,7 @@ Element providing an overview for student's courses
         <neon-animated-pages id="animatedPages" transitions="slide-from-right" selected="{{selectedTab}}"
                              attr-for-selected="name"
                              entry-animation="slide-from-right-animation"
-                             exit-animation="slide-left-animation"
-                             hidden$="[[_loadingOrNoCourses(coursesLoaded, processedCourses)]]">
+                             exit-animation="slide-left-animation">
 
           <template is="dom-repeat" items="[[processedCourses]]">
             <section id="[[ item.courseId ]]" name="[[ item.courseId ]]">
