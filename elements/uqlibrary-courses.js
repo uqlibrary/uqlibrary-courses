@@ -4,6 +4,13 @@
 Polymer({
   is: 'uqlibrary-courses',
   properties: {
+    /**
+     * Whether to show the hamburger menu
+     */
+    standAlone: {
+      type: Object,
+      value: true
+    },
     // autoload the account
     autoload: {
       type: Boolean,
@@ -18,11 +25,6 @@ Polymer({
     coursesLoaded: {
       type: Boolean,
       value: false
-    },
-    // Accessibility issues fixes
-    keyboardNavigationKeys: {
-      type: String,
-      value: 'space enter'
     },
     // courses which we work on and send to child elements
     processedCourses: {
@@ -223,11 +225,15 @@ Polymer({
    * @param event
    */
   performSearch: function (event) {
-    if (!event.detail.searchTerm || !event.detail.searchTerm.hasOwnProperty('name')) {
+
+    //only search based on suggestions selected
+    if (typeof(event.detail.searchItem) === 'undefined') {
       return;
     }
-    var course = event.detail.searchTerm;
+
+    var course = event.detail.searchItem;
     this.transitioning = true;
+
     this.set('searchedCourse', {
       courseId: course.name.toUpperCase(),
       CATALOG_NBR: course.name.substring(4),
@@ -237,11 +243,13 @@ Polymer({
       campus: course.campus,
       SUBJECT: course.name.substring(0, 4)
     });
+
     if (!this.searchTabCreated) {
       this.set('searchTabCreated', true);
     }
+
     this.unshift('courses', this.searchedCourse);
-    this.$.toolbar.deactivateSearch();
+    this.$.toolbar.searchTerm = "";
   },
   /**
    * Get the requested course for the user, if none is requested

@@ -107,10 +107,12 @@ Element providing an overview for student's courses
 
       <div hidden$="!coursesLoaded">
         <uqlibrary-toolbar on-uqlibrary-toolbar-menu-clicked="toggleMenuDrawer"
-                           on-uqlibrary-toolbar-search-value-changed="loadAutosuggest"
+                           on-search-term-changed="loadAutosuggest"
                            on-uqlibrary-toolbar-search-submitted="performSearch"
+                           enable-search="true"
+                           enable-menu="[[!standAlone]]"
                            item-label="text"
-                           app-title="Courses"
+                           header-title="Courses"
                            id="toolbar"
                            search-placeholder-text="Search for a course by code or title"
                            >
