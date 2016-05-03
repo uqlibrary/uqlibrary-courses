@@ -25,11 +25,11 @@
 
             <div hidden$="[[_hasReadingList(readingList)]]">
 
-              <div class="card-actions" hidden$="[[course.learning_resources.multipleReadingLists]]">
+              <div class="card-content" hidden$="[[course.learning_resources.multipleReadingLists]]">
                   No reading lists for this course
               </div>
 
-              <div class="card-actions" hidden$="[[!course.learning_resources.multipleReadingLists]]">
+              <div class="card-content" hidden$="[[!course.learning_resources.multipleReadingLists]]">
                   More than one reading list found for <span>[[course.courseId]]</span>. Please select a list:
               </div>
 
@@ -52,23 +52,23 @@
 
             <template is="dom-repeat" items="[[readingList]]" as="item">
               <div class="card-actions">
-                  <div class="headline">
+                  <div class="subhead">
                     <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="[[item.itemLink]]"
                        aria-label$="[[_computeAriaLabel2(item)]]" class="reading-list-item">[[item.title]]</a>
                   </div>
 
-                  <div class="subhead" hidden$="[[!item.author]]">
+                  <div class="body1" hidden$="[[!item.author]]">
                     <i><span>[[item.author]], [[item.year]]</span> </i>
                   </div>
 
-                  <div class="subhead" hidden$="[[_notesEmpty(item)]]">
+                  <div class="body1" hidden$="[[_notesEmpty(item)]]">
                     <span hidden$="[[_pagesEmpty(item)]]">
                       Pages from <span>[[item.startPage]]</span> to <span>[[item.endPage]]</span>
                     </span>
                     <span>[[trimNotes(item.notes)]]</span>
                   </div>
 
-                  <div class="subhead"><span>[[item.referenceType]]</span> <span
+                  <div class="body1"><span>[[item.referenceType]]</span> <span
                       hidden$="[[!item.importance]]">- <span>[[item.importance]]</span></span></div>
                 </div>
 
