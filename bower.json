@@ -16,8 +16,13 @@
     "polymer": "Polymer/polymer#^1.4",
     "uqlibrary-ga": "uqlibrary/uqlibrary-ga#^1.0.3",
     "uqlibrary-styles": "uqlibrary/uqlibrary-styles#^1.0.0",
+<<<<<<< HEAD
     "uqlibrary-api": "uqlibrary/uqlibrary-api#^1.0.5",
     "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar#v1.0.9"
+=======
+    "uqlibrary-api": "uqlibrary/uqlibrary-api#^1.0.1",
+    "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar#v1.0.7"
+>>>>>>> polymer1.0
   },
   "devDependencies": {
     "web-component-tester": "^4.2.2",
