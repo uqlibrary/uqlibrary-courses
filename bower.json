@@ -17,7 +17,7 @@
     "uqlibrary-ga": "uqlibrary/uqlibrary-ga#^1.0.3",
     "uqlibrary-styles": "uqlibrary/uqlibrary-styles#^1.0.0",
     "uqlibrary-api": "uqlibrary/uqlibrary-api#^1.0.5",
-    "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar#v1.0.9"
+    "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar#v1.1.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.2.2",
