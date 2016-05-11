@@ -24,6 +24,10 @@
         margin: 2em;
       }
 
+      .card-content.border, paper-item.border, paper-icon-item.border {
+        border-top: 1px solid var(--border-color);
+      }
+
       iron-swipeable-container {
         @apply(--layout-center);
         text-align: center;
@@ -35,15 +39,6 @@
         text-align: left;
         margin: 8px 0;
       }
-
-      .card-actions {
-        padding: 16px;
-      }
-
-      .card-actions iron-icon {
-        margin-right: 16px;
-      }
-
     </style>
   </template>
 </dom-module>
