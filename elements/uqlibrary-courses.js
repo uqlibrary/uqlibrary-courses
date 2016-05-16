@@ -267,9 +267,7 @@ Polymer({
           if (!this.processedCourses[i].hasOwnProperty('learning_resources')) {
             this.set('processedCourses.' + i + '.learning_resources', {
               reading_lists: {
-                items: []
-              },
-              exam_papers: []
+              }
             });
             this.$.learning_resources.get({code: code});
           }

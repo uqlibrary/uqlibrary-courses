@@ -9,10 +9,7 @@ Polymer({
       value: 'http://www.uq.edu.au/study/course.html?course_code='
     },
     examPapers: {
-      type: Array,
-      value: function () {
-        return [];
-      }
+      type: Array
     },
     examPapersSearchUrl: {
       type: String,
@@ -38,10 +35,7 @@ Polymer({
       value: 90
     },
     readingList: {
-      type: Array,
-      value: function () {
-        return [];
-      }
+      type: Array
     },
     readingListsSearchUrl: {
       type: String,
@@ -60,6 +54,20 @@ Polymer({
     course: {
       type: Object,
       observer: '_setCourse'
+    },
+    /**
+     * Whether the reading list has been loaded
+     */
+    _readingListLoaded: {
+      type: Boolean,
+      value: false
+    },
+    /**
+     * Whether exam papers have been loaded
+     */
+    _examPapersLoaded: {
+      type: Boolean,
+      value: false
     }
   },
   observers: [
@@ -78,17 +86,6 @@ Polymer({
   },
   ready: function () {
     var that = this;
-
-    this.$.cards.addEventListener('iron-swipe', function (e) {
-      Polymer.dom(Polymer.dom(e.target).parentNode).removeChild(e.target);
-      // removes this card
-      Polymer.dom(that.$.cards).appendChild(e.target);
-      // adds this card to the end of the set of cards
-      e.target.style.opacity = 1;
-      e.target.style.transform = 'translate3d(0px, 0px, 0px) rotate(0deg)';
-      e.target.style.webkitTransform = 'translate3d(0px, 0px, 0px) rotate(0deg)';
-      that.$.ga.addEvent('Course Card Swiped Away', e.target.getAttribute('id'));
-    });
   },
   /**
    * Get extension of filename
@@ -131,6 +128,8 @@ Polymer({
         this.set('readingList', newValue);
         this.set('course.moreItemsCount.readingLists', 0);
       }
+
+      this._readingListLoaded = true;
     }
   },
   /**
@@ -149,6 +148,8 @@ Polymer({
         this.set('examPapers', newValue);
         this.set('course.moreItemsCount.examPapers', 0);
       }
+
+      this._examPapersLoaded = true;
     }
   },
   /**

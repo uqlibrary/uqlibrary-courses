@@ -127,7 +127,7 @@
     test('Title should reflect correct number of reading list items', function (done) {
       flush(function () {
         element.setCourse(course);
-        var readingListsCard = element.querySelector('#readingListCard').querySelectorAll("paper-card")[1];
+        var readingListsCard = element.$.readingLists;
         expect(readingListsCard.heading).to.contain('Reading lists (5)');
         done();
       });
@@ -137,7 +137,7 @@
       element.setCourse(course);
 
       flush(function () {
-        var readingListsCard = element.querySelector('#readingListCard').querySelectorAll("paper-card")[1];
+        var readingListsCard = element.$.readingLists;
         var readingListHeaders = readingListsCard.querySelectorAll(".subhead");
         expect(readingListHeaders.length).to.equal(2);
         done();
@@ -147,7 +147,7 @@
     test('Title should reflect number of exam papers', function (done) {
       flush(function () {
         element.setCourse(course);
-        var card = element.querySelector('#examPapersCard').querySelector("paper-card");
+        var card = element.$.pastExamPapers;
         expect(card.heading).to.contain('Past exam papers (2)');
         done();
       });
@@ -157,7 +157,7 @@
       element.setCourse(course);
 
       flush(function () {
-        var examEl = element.querySelector('#examPapersCard');
+        var examEl = element.$.pastExamPapers;
         var els = examEl.querySelectorAll('.exam-paper-item');
         expect(els.length).to.equal(2);
         done();
@@ -168,7 +168,7 @@
       element.setCourse(course);
 
       flush(function () {
-        var lgEl = element.querySelector('#libraryGuidesCard');
+        var lgEl = element.$.libGuides;
         var els = lgEl.querySelectorAll('.library-guide-item');
         expect(els.length).to.equal(2);
         done();

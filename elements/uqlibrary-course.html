@@ -11,163 +11,173 @@
 
       <uqlibrary-ga id="ga" app-name="Courses"></uqlibrary-ga>
 
-      <h2 class="course-title">[[course.SUBJECT]][[course.CATALOG_NBR]] - [[course.DESCR]]</h2>
+      <h1>[[course.SUBJECT]][[course.CATALOG_NBR]] - [[course.DESCR]]</h1>
 
-      <iron-swipeable-container id="readingListCard">
+      <paper-card elevation="1" heading="Reading lists"
+                  hidden$="[[_readingListLoaded]]">
+        <div class="spinner">
+          <paper-spinner active></paper-spinner>
+          <div>Loading</div>
+        </div>
+      </paper-card>
 
-        <paper-card elevation="1" heading="Reading lists" hidden$="[[course.learning_resources.reading_lists.items.length]]">
-          <div class="spinner">
-            <paper-spinner active></paper-spinner>
+      <paper-card
+          id="readingLists"
+          elevation="1" hidden$="[[!_readingListLoaded]]"
+          heading="Reading lists ([[course.learning_resources.reading_lists.items.length]])">
+        <div hidden$="[[_hasReadingList(readingList)]]">
+          <div class="card-content border" hidden$="[[course.learning_resources.multipleReadingLists]]">
+            No reading lists for this course
           </div>
-        </paper-card>
+          <div class="card-content border" hidden$="[[!course.learning_resources.multipleReadingLists]]">
+            More than one reading list found for <span>[[course.courseId]]</span>. Please select a list:
+          </div>
 
-        <paper-card elevation="1" hidden$="[[!course.learning_resources.reading_lists.items.length]]" heading="Reading lists ([[course.learning_resources.reading_lists.items.length]])">
-            <div hidden$="[[_hasReadingList(readingList)]]">
-              <div class="card-content border" hidden$="[[course.learning_resources.multipleReadingLists]]">
-                  No reading lists for this course
-              </div>
-              <div class="card-content border" hidden$="[[!course.learning_resources.multipleReadingLists]]">
-                  More than one reading list found for <span>[[course.courseId]]</span>. Please select a list:
-              </div>
+          <template is="dom-repeat" items="[[course.learning_resources.multipleReadingLists]]" as="item">
+            <div class="card-content border">
+              <a target="_blank" on-click="linkClicked" data-title="specifyReadingList" href$="[[item.url]]"
+                 aria-label$="[[_computeAriaLabel(item)]]">
+                [[item.title]], [[item.period]]
+              </a>
+            </div>
+          </template>
 
-              <template is="dom-repeat" items="[[course.learning_resources.multipleReadingLists]]" as="item">
-                <div class="card-content border">
-                  <a target="_blank" on-click="linkClicked" data-title="specifyReadingList" href$="[[item.url]]" aria-label$="[[_computeAriaLabel(item)]]">
-                    [[item.title]], [[item.period]]
-                  </a>
-                </div>
-              </template>
+          <div class="card-actions">
+            <a target="_blank" href$="[[readingListsSearchUrl]]">
+              <iron-icon icon="arrow-forward" aria-label=""></iron-icon>
+              Search other reading lists
+            </a>
+          </div>
 
-              <div class="card-actions">
-                <a target="_blank" href$="[[readingListsSearchUrl]]">
-                      <iron-icon icon="arrow-forward" aria-label=""></iron-icon>
-                      Search other reading lists
-                </a>
-              </div>
+        </div>
 
+        <template is="dom-repeat" items="[[readingList]]">
+          <div class="card-content border">
+            <div class="subhead">
+              <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="[[item.itemLink]]"
+                 aria-label$="[[_computeAriaLabel2(item)]]" class="reading-list-item">[[item.title]]</a>
             </div>
 
-            <template is="dom-repeat" items="[[readingList]]">
-              <div class="card-content border">
-                  <div class="subhead">
-                    <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="[[item.itemLink]]"
-                       aria-label$="[[_computeAriaLabel2(item)]]" class="reading-list-item">[[item.title]]</a>
-                  </div>
+            <div class="body1" hidden$="[[!item.author]]">
+              <i><span>[[item.author]], [[item.year]]</span> </i>
+            </div>
 
-                  <div class="body1" hidden$="[[!item.author]]">
-                    <i><span>[[item.author]], [[item.year]]</span> </i>
-                  </div>
-
-                  <div class="body1" hidden$="[[_notesEmpty(item)]]">
+            <div class="body1" hidden$="[[_notesEmpty(item)]]">
                     <span hidden$="[[_pagesEmpty(item)]]">
                       Pages from <span>[[item.startPage]]</span> to <span>[[item.endPage]]</span>
                     </span>
-                    <span>[[trimNotes(item.notes)]]</span>
-                  </div>
-
-                  <div class="body1">
-                    [[item.referenceType]]
-                    <span hidden$="[[!item.importance]]">- <span>[[item.importance]]</span></span>
-                  </div>
-              </div>
-            </template>
-
-            <div class="card-actions" hidden$="[[!course.moreItemsCount.readingLists]]">
-              <a on-click="linkClicked" data-title="readingListMoreItems" target="_blank"
-                 href$="[[course.learning_resources.reading_lists.url]]">
-                <paper-icon-item>
-                  <iron-icon icon="arrow-forward" item-icon></iron-icon>
-                  [[course.moreItemsCount.readingLists]] more [[_pluralise('item', course.moreItemsCount.readingLists)]]
-                </paper-icon-item>
-              </a>
+              <span>[[trimNotes(item.notes)]]</span>
             </div>
-        </paper-card>
-      </iron-swipeable-container>
 
-      <iron-swipeable-container id="examPapersCard">
-        <paper-card elevation="1" heading="Past exam papers ([[course.learning_resources.exam_papers.length]])">
-
-          <div class="card-content border" hidden$="[[_hasExamPapers(examPapers)]]">
-            <i>No Past Exam Papers for this course</i>
+            <div class="body1">
+              [[item.referenceType]]
+              <span hidden$="[[!item.importance]]">- <span>[[item.importance]]</span></span>
+            </div>
           </div>
+        </template>
 
-          <div class="card-actions" hidden$="[[_hasExamPapers(examPapers)]]">
-            <a target="_blank" href$="[[examPapersSearchUrl]]">
-              <paper-icon-item>
-                <iron-icon icon="arrow-forward" item-icon></iron-icon> Search for other exam papers
-              </paper-icon-item>
-            </a>
-          </div>
+        <div class="card-actions" hidden$="[[!course.moreItemsCount.readingLists]]">
+          <a on-click="linkClicked" data-title="readingListMoreItems" target="_blank"
+             href$="[[course.learning_resources.reading_lists.url]]">
+            <paper-icon-item>
+              <iron-icon icon="arrow-forward" item-icon></iron-icon>
+              [[course.moreItemsCount.readingLists]] more [[_pluralise('item', course.moreItemsCount.readingLists)]]
+            </paper-icon-item>
+          </a>
+        </div>
+      </paper-card>
 
-          <template is="dom-repeat" items="[[examPapers]]" as="paper">
-            <a class="exam-paper-item" target="_blank" on-click="linkClicked" data-title="examPaperItem" href$="[[paper.url]]" aria-label$="[[_computeAriaLabel3(paper)]]">
-              <paper-item class="border">[[paper.period]] ([[extractExtension(paper.url)]])</paper-item>
+      <paper-card elevation="1" heading="Past exam papers" hidden$="[[_examPapersLoaded]]">
+        <div class="spinner">
+          <paper-spinner active></paper-spinner>
+          <div>Loading</div>
+        </div>
+      </paper-card>
+
+      <paper-card
+          id="pastExamPapers"
+          elevation="1"
+          heading="Past exam papers ([[course.learning_resources.exam_papers.length]])"
+          hidden$="[[!_examPapersLoaded]]">
+
+        <div class="card-content border" hidden$="[[_hasExamPapers(examPapers)]]">
+          <i>No Past Exam Papers for this course</i>
+        </div>
+
+        <div class="card-actions" hidden$="[[_hasExamPapers(examPapers)]]">
+          <a target="_blank" href$="[[examPapersSearchUrl]]">
+            <paper-icon-item>
+              <iron-icon icon="arrow-forward" item-icon></iron-icon>
+              Search for other exam papers
+            </paper-icon-item>
+          </a>
+        </div>
+
+        <template is="dom-repeat" items="[[examPapers]]" as="paper">
+          <a class="exam-paper-item" target="_blank" on-click="linkClicked" data-title="examPaperItem"
+             href$="[[paper.url]]" aria-label$="[[_computeAriaLabel3(paper)]]">
+            <paper-item class="border">[[paper.period]] ([[extractExtension(paper.url)]])</paper-item>
+          </a>
+        </template>
+
+        <div class="card-actions" hidden$="[[!course.moreItemsCount.examPapers]]">
+          <a on-click="linkClicked" id="examPapersMoreItems" target="_blank"
+             href$="[[_courseLink(course, examPapersSearchUrl)]]">
+            <paper-icon-item>
+              <iron-icon icon="arrow-forward" item-icon></iron-icon>
+              [[course.moreItemsCount.examPapers]] more past exam [[_pluralise('paper',
+              course.moreItemsCount.examPapers)]]
+            </paper-icon-item>
+          </a>
+        </div>
+
+      </paper-card>
+
+      <paper-card elevation="1" heading="Library guides" id="libGuides">
+
+        <div class="card-content border" hidden$="[[_hasLibGuides(libGuides)]]">
+          No Library guides for this course
+        </div>
+
+        <div id="libGuidesItems">
+          <template is="dom-repeat" items="[[libGuides]]" as="guide">
+            <a class="library-guide-item" target="_blank" on-click="linkClicked" data-title="libraryGuideItem"
+               href$="[[guide.url]]"
+               aria-label$="[[_computeAriaLabel4(guide)]]">
+              <paper-item class="border">[[guide.title]]</paper-item>
             </a>
           </template>
+        </div>
 
-          <div class="card-actions" hidden$="[[!course.moreItemsCount.examPapers]]">
-            <a on-click="linkClicked" id="examPapersMoreItems" target="_blank" href$="[[_courseLink(course, examPapersSearchUrl)]]">
-              <paper-icon-item>
-                <iron-icon icon="arrow-forward" item-icon></iron-icon>
-                [[course.moreItemsCount.examPapers]] more past exam [[_pluralise('paper', course.moreItemsCount.examPapers)]]
-              </paper-icon-item>
-            </a>
-          </div>
-
-        </paper-card>
-      </iron-swipeable-container>
-
-      <iron-swipeable-container id="libraryGuidesCard">
-        <paper-card elevation="1" heading="Library guides">
-
-          <div class="card-content border" hidden$="[[_hasLibGuides(libGuides)]]">
-              No Library guides for this course
-          </div>
-
-          <div id="libGuidesItems">
-            <template is="dom-repeat" items="[[libGuides]]" as="guide">
-                <a class="library-guide-item" target="_blank" on-click="linkClicked" data-title="libraryGuideItem"
-                   href$="[[guide.url]]"
-                   aria-label$="[[_computeAriaLabel4(guide)]]">
-                  <paper-item class="border">[[guide.title]]</paper-item>
-                </a>
-            </template>
-          </div>
-
-          <div class="card-actions">
-              <a target="_blank" on-tap="linkClicked" id="allLibraryGuides" href$="[[libGuidesLinkUrl]]">
-                <paper-icon-item>
-                  <iron-icon icon="arrow-forward" id="arrow-icon" item-icon></iron-icon>
-                  All library guides
-                </paper-icon-item>
-              </a>
-          </div>
-
-        </paper-card>
-      </iron-swipeable-container>
-
-      <iron-swipeable-container id="ecpCard">
-        <paper-card elevation="1" heading="Course links">
-            <a target="_blank" on-click="linkClicked" id="[[_courseLink(course, ecpLinkUrl)]]"
-             href$="[[_courseLink(course, ecpLinkUrl)]]">
-            <paper-icon-item class="border">
-              <iron-icon icon="arrow-forward" item-icon></iron-icon>
-              Electronic Course Profile
+        <div class="card-actions">
+          <a target="_blank" on-tap="linkClicked" id="allLibraryGuides" href$="[[libGuidesLinkUrl]]">
+            <paper-icon-item>
+              <iron-icon icon="arrow-forward" id="arrow-icon" item-icon></iron-icon>
+              All library guides
             </paper-icon-item>
           </a>
-          <a on-click="linkClicked" id="blackboard" target="[[_courseLink(course)]]"
+        </div>
+
+      </paper-card>
+
+      <paper-card elevation="1" heading="Course links">
+        <a target="_blank" on-click="linkClicked" id="[[_courseLink(course, ecpLinkUrl)]]"
+           href$="[[_courseLink(course, ecpLinkUrl)]]">
+          <paper-icon-item class="border">
+            <iron-icon icon="arrow-forward" item-icon></iron-icon>
+            Electronic Course Profile
+          </paper-icon-item>
+        </a>
+        <a on-click="linkClicked" id="blackboard" target="[[_courseLink(course)]]"
            href$="[[_courseLink(course)]]">
-            <paper-icon-item class="border">
-              <iron-icon icon="arrow-forward" id="extension-icon" item-icon></iron-icon>
-              Learn.UQ (Blackboard)
-            </paper-icon-item>
-          </a>
-        </paper-card>
-      </iron-swipeable-container>
+          <paper-icon-item class="border">
+            <iron-icon icon="arrow-forward" id="extension-icon" item-icon></iron-icon>
+            Learn.UQ (Blackboard)
+          </paper-icon-item>
+        </a>
+      </paper-card>
 
-      <iron-swipeable-container id="studyLinksCard">
-        <uqlibrary-courses-study-links course="[[course]]"></uqlibrary-courses-study-links>
-      </iron-swipeable-container>
+      <uqlibrary-courses-study-links course="[[course]]"></uqlibrary-courses-study-links>
 
     </div>
   </template>

@@ -15,9 +15,9 @@ var browsersync = require("browser-sync");
 
 var browsersyncConfig = {
   open: "external",
-  startPath: "/uqlibrary-courses/demo",
+  startPath: "/uqlibrary-courses/demo/index-live.html",
   host: "dev-app.library.uq.edu.au",
-  port: 9999,
+  port: 5000,
   server: {
     baseDir: ["../"]
   },

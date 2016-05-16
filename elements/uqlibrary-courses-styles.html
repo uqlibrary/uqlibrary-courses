@@ -4,7 +4,7 @@
 
       #content {
         @apply(--layout-fit);
-        overflow: scroll;
+        overflow: auto;
       }
 
       h2.course-title {
@@ -17,27 +17,28 @@
       }
 
       .spinner {
-        @apply(--layout-horizontal);
-        @apply(--layout-flex);
-        @apply(--layout-self-center);
-        @apply(--layout-center-justified);
-        margin: 2em;
+        text-align: center;
+        padding: 50px;
+      }
+
+      .spinner paper-spinner {
+        padding-bottom: 5px;
       }
 
       .card-content.border, paper-item.border, paper-icon-item.border {
         border-top: 1px solid var(--border-color);
       }
 
-      iron-swipeable-container {
-        @apply(--layout-center);
+      #cards {
         text-align: center;
       }
 
       paper-card {
+        display: block;
         width: 95%;
         max-width: 1000px;
         text-align: left;
-        margin: 8px 0;
+        margin: 20px auto;
       }
     </style>
   </template>
