@@ -17,6 +17,13 @@ Polymer({
       value: true,
       notify: true
     },
+    /**
+     * The header title
+     */
+    headerTitle: {
+      type: String,
+      value: 'Course resources'
+    },
     // raw courses
     courses: {
       //type: Array,
