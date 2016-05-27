@@ -52,23 +52,17 @@
     });
 
     test('it should allow clicking other tab', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var el = element.querySelector('paper-tab:not(.iron-selected)');
-        el.click();
-        var sel = element.querySelector('paper-tab.iron-selected');
-        expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
-        done();
-      });
-    });
+      flush(function () {
 
-    test('it should allow clicking PHRM7010 tab', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var el = element.querySelectorAll('paper-tab:not(.iron-selected)')[1];
-        el.click();
-        var sel = element.querySelector('paper-tab.iron-selected');
-        expect(sel.textContent).to.match(/^\s*PHRM\s*7010\s*$/);
-        done();
+        element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
+          var el = element.querySelector('paper-tab:not(.iron-selected)');
+          el.click();
+          var sel = element.querySelector('paper-tab.iron-selected');
+          expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
+          done();
+        });
       });
+
     });
 
   });
