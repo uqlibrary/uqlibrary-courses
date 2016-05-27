@@ -35,10 +35,10 @@
       expect(element).to.not.be.null;
     });
 
-    test('it should have two tabs', function (done) {
+    test('it should have three tabs', function (done) {
       element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
         var els = element.querySelectorAll('paper-tab');
-        expect(els.length).to.equal(2);
+        expect(els.length).to.equal(3);
         done();
       });
     });
@@ -60,6 +60,17 @@
         done();
       });
     });
+
+    test('it should allow clicking PHRM7010 tab', function (done) {
+      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
+        var el = element.querySelectorAll('paper-tab:not(.iron-selected)')[1];
+        el.click();
+        var sel = element.querySelector('paper-tab.iron-selected');
+        expect(sel.textContent).to.match(/^\s*PHRM\s*7010\s*$/);
+        done();
+      });
+    });
+
   });
 </script>
 

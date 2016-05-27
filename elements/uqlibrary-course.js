@@ -127,7 +127,7 @@ Polymer({
 
       // set proper reading list title
       if (this.course.learning_resources.reading_lists.items.length > 0) {
-        this.readingListTitle += "(" + this.course.learning_resources.reading_lists.items.length + ")";
+        this.readingListTitle += " (" + this.course.learning_resources.reading_lists.items.length + ")";
       }
 
       // slice reading list array to show limited number items
