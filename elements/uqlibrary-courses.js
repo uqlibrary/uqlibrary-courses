@@ -378,6 +378,7 @@ Polymer({
         course.learning_resources.reading_lists[0]);
       return;
     }
+
     // Filter reading lists to show only list for course semester
     var term = '', campus = '', semesterString = '';
     if (this.searchedCourse != null && this.searchedCourse.courseId == course.courseId) {
@@ -390,9 +391,14 @@ Polymer({
       semesterString = 'Semester ' + term.semester + ' ' + term.year;
     }
     var found = [];
+
+    // display reading lists for required semester and campus or if campus doesn't match for external student
     for (var i = 0; i < course.learning_resources.reading_lists.length; i++) {
-      if (course.learning_resources.reading_lists[i].period == semesterString && course.learning_resources.reading_lists[i].campus.indexOf(
-          campus) !== -1) {
+      if (course.learning_resources.reading_lists[i].period == semesterString
+          &&
+          (course.learning_resources.reading_lists[i].campus.indexOf(campus) !== -1
+          ||
+          course.INSTRUCTION_MODE === "EX")) {
         found.push(course.learning_resources.reading_lists[i]);
       }
     }

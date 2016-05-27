@@ -24,7 +24,7 @@
       <paper-card
           id="readingLists"
           elevation="1" hidden$="[[!_readingListLoaded]]"
-          heading="Reading lists ([[course.learning_resources.reading_lists.items.length]])">
+          heading="[[readingListTitle]]">
         <div hidden$="[[_hasReadingList(readingList)]]">
           <div class="card-content border" hidden$="[[course.learning_resources.multipleReadingLists]]">
             No reading lists for this course
@@ -44,8 +44,10 @@
 
           <div class="card-actions">
             <a target="_blank" href$="[[readingListsSearchUrl]]">
-              <iron-icon icon="arrow-forward" aria-label=""></iron-icon>
-              Search other reading lists
+              <paper-icon-item>
+                <iron-icon icon="arrow-forward" item-icon></iron-icon>
+                Search other reading lists
+              </paper-icon-item>
             </a>
           </div>
 
