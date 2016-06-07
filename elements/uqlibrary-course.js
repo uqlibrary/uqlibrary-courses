@@ -68,7 +68,13 @@ Polymer({
     _examPapersLoaded: {
       type: Boolean,
       value: false
+    },
+
+    readingListTitle: {
+      type: String,
+      value: "Reading lists"
     }
+
   },
   observers: [
     'courseExamPapersChanged(course.learning_resources.exam_papers)',
@@ -82,7 +88,6 @@ Polymer({
       examPapers: 0,
       libGuides: 0
     });
-
   },
   ready: function () {
     var that = this;
@@ -119,6 +124,12 @@ Polymer({
    */
   courseReadingListItemsChanged: function (newValue) {
     if (newValue) {
+
+      // set proper reading list title
+      if (this.course.learning_resources.reading_lists.items.length > 0) {
+        this.readingListTitle += " (" + this.course.learning_resources.reading_lists.items.length + ")";
+      }
+
       // slice reading list array to show limited number items
       if (this.visibleItemsCount.readingLists && (this.visibleItemsCount.readingLists > 0) && (newValue.length >= this.visibleItemsCount.readingLists)) {
         this.set('readingList', newValue.slice(0, this.visibleItemsCount.readingLists));
@@ -127,6 +138,11 @@ Polymer({
       else {
         this.set('readingList', newValue);
         this.set('course.moreItemsCount.readingLists', 0);
+      }
+
+      if (this.course.learning_resources.reading_lists.length > 0) {
+        console.log("hi");
+        this.readingListTitle += "(" + this.course.learning_resources.reading_lists.length + ")";
       }
 
       this._readingListLoaded = true;

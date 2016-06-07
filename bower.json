@@ -16,12 +16,15 @@
     "polymer": "Polymer/polymer#^1.4",
     "uqlibrary-ga": "uqlibrary/uqlibrary-ga#^1.0.3",
     "uqlibrary-styles": "uqlibrary/uqlibrary-styles#^1.0.0",
-    "uqlibrary-api": "uqlibrary/uqlibrary-api#^1.0.5",
+    "uqlibrary-api": "uqlibrary/uqlibrary-api#^v1.1.5",
     "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar#v1.1.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.2.2",
     "test-fixture": "PolymerElements/test-fixture#^1.1.0"
   },
-  "ignore": []
+  "ignore": [],
+  "resolutions": {
+    "uqlibrary-api": "^v1.1.5"
+  }
 }
