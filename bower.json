@@ -15,7 +15,7 @@
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "polymer": "Polymer/polymer#^1.4",
     "uqlibrary-ga": "uqlibrary/uqlibrary-ga#^1.0.3",
-    "uqlibrary-styles": "uqlibrary/uqlibrary-styles#^1.0.0",
+    "uqlibrary-styles": "uqlibrary/uqlibrary-styles#^1.0.4",
     "uqlibrary-api": "uqlibrary/uqlibrary-api#^v1.1.5",
     "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar#v1.1.1"
   },
