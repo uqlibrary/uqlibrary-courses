@@ -256,7 +256,7 @@ Polymer({
     }
 
     this.unshift('courses', this.searchedCourse);
-    this.unshift('processedCourses', {});
+  
     
     this.$.toolbar.searchTerm = "";
   },
