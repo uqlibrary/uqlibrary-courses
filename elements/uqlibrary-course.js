@@ -29,7 +29,9 @@ Polymer({
       type: String,
       value: 'http://guides.library.uq.edu.au'
     },
-    libraryGuides: {observer: 'libraryGuidesChanged'},
+    libraryGuides: {
+      observer: 'libraryGuidesChanged'
+    },
     notesTrimLength: {
       type: Number,
       value: 90

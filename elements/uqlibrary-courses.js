@@ -232,7 +232,6 @@ Polymer({
    * @param event
    */
   performSearch: function (event) {
-
     //only search based on suggestions selected
     if (typeof(event.detail.searchItem) === 'undefined') {
       return;
@@ -256,8 +255,8 @@ Polymer({
     }
 
     this.unshift('courses', this.searchedCourse);
-  
-    
+    this.unshift('processedCourses', this.searchedCourse);
+
     this.$.toolbar.searchTerm = "";
   },
   /**
@@ -275,14 +274,13 @@ Polymer({
         if (this.processedCourses[i].courseId == code) {
           if (!this.processedCourses[i].hasOwnProperty('learning_resources')) {
             this.set('processedCourses.' + i + '.learning_resources', {
-              reading_lists: {
-              }
+              reading_lists: {}
             });
             this.$.learning_resources.get({code: code});
           }
           if (!this.processedCourses[i].hasOwnProperty('library_guides')) {
             this.set('processedCourses.' + i + '.library_guides', []);
-            this.$.library_guides.get({code: this.processedCourses[i].courseId});
+            this.$.library_guides.get({code: code});
           }
           this.set('selectedCourse', this.processedCourses[i]);
         }
@@ -375,6 +373,7 @@ Polymer({
     if (course.learning_resources.reading_lists.length == 0) {
       return;
     }
+
     if (course.learning_resources.reading_lists.length == 1) {
       this.set('processedCourses.' + courseIndex + '.learning_resources.reading_lists',
         course.learning_resources.reading_lists[0]);
