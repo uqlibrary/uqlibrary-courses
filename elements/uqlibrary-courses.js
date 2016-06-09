@@ -37,7 +37,7 @@ Polymer({
     processedCourses: {
       type: Array,
       value: function () {
-        return [];
+        return null;
       }
     },
     searchTabCreated: {
@@ -130,6 +130,7 @@ Polymer({
     if (e.detail.hasSession) {
       if (e.detail.classes) {
         this.set('user', e.detail);
+        // initialise courses variable
         this.set('courses', e.detail.classes);
       }
     }
@@ -253,8 +254,12 @@ Polymer({
       this.set('searchTabCreated', true);
     }
 
+
     this.unshift('courses', this.searchedCourse);
-    this.unshift('processedCourses', this.searchedCourse);
+
+    if (this.processedCourses) {
+      this.unshift('processedCourses', this.searchedCourse);
+    }
 
     this.$.toolbar.searchTerm = "";
   },
