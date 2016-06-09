@@ -37,7 +37,7 @@ Polymer({
     processedCourses: {
       type: Array,
       value: function () {
-        return null;
+        return [];
       }
     },
     searchTabCreated: {
