@@ -55,7 +55,6 @@ Polymer({
     },
     selectedTab: {
       type: String,
-      value: '',
       observer: 'selectedTabChanged'
     },
     termDates: {
@@ -269,6 +268,7 @@ Polymer({
     if ((!code || code == '') && Array.isArray(this.processedCourses) && (this.processedCourses.length > 0)) {
       code = this.processedCourses[0].courseId;
     }
+
     if (code) {
       for (var i = 0; i < this.processedCourses.length; i++) {
         if (this.processedCourses[i].courseId == code) {
