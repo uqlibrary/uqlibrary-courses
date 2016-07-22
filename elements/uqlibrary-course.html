@@ -55,11 +55,13 @@
 
         <template is="dom-repeat" items="[[readingList]]">
           <div class="card-content border">
-            <div class="subhead">
+            <div class="subhead" hidden$="[[!item.itemLink]]">
               <a target="_blank" on-click="linkClicked" data-title="readingListItem" href$="[[item.itemLink]]"
                  aria-label$="[[_computeAriaLabel2(item)]]" class="reading-list-item">[[item.title]]</a>
             </div>
-
+            <div class="subhead" hidden$="[[item.itemLink]]">
+              [[item.title]]
+            </div>
             <div class="body1" hidden$="[[!item.author]]">
               <i><span>[[item.author]], [[item.year]]</span> </i>
             </div>
