@@ -244,7 +244,7 @@ Polymer({
       courseId: course.name.toUpperCase(),
       CATALOG_NBR: course.name.substring(4),
       STRM: '',
-      DESCR: course.course_title,
+      DESCR: course.course_title.replace(/&amp;/g, '&'),
       term: course.period,
       campus: course.campus,
       SUBJECT: course.name.substring(0, 4)
