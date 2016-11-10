@@ -238,13 +238,15 @@ Polymer({
     }
 
     var course = event.detail.searchItem;
+    course.course_title = course.course_title.replace(/&amp;/g, '&');
+
     this.transitioning = true;
 
     this.set('searchedCourse', {
       courseId: course.name.toUpperCase(),
       CATALOG_NBR: course.name.substring(4),
       STRM: '',
-      DESCR: course.course_title.replace(/&amp;/g, '&'),
+      DESCR: course.course_title,
       term: course.period,
       campus: course.campus,
       SUBJECT: course.name.substring(0, 4)
