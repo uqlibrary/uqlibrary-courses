@@ -6,7 +6,7 @@
   <title>uqlibrary-courses test</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../node_modules/web-component-tester/browser.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
   <script src="../../test-fixture/test-fixture-mocha.js"></script>
   <link rel="import" href="../../test-fixture/test-fixture.html">
 
@@ -32,39 +32,69 @@
     });
 
     test('It should display', function () {
-      expect(element).to.not.be.null;
+      flush(function () {
+        expect(element).to.not.be.null;
+      });
     });
 
     test('it should have three tabs', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var els = element.querySelectorAll('paper-tab');
-        expect(els.length).to.equal(3);
-        done();
+      flush(function () {
+        element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', processApi);
+
+        function processApi() {
+          element.$.learning_resources.removeEventListener('uqlibrary-api-learning-resources', processApi);
+
+          var els = element.querySelectorAll('paper-tab');
+          expect(els.length).to.equal(3);
+          done();
+        }
+
       });
     });
 
     test('it should have the first tab active', function (done) {
-      element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-        var el = element.querySelector('paper-tab.iron-selected');
-        expect(el.textContent).to.match(/^\s*FINM\s*2401\s*$/);
-        done();
+      flush(function () {
+        element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', processApi);
+
+        function processApi() {
+          element.$.learning_resources.removeEventListener('uqlibrary-api-learning-resources', processApi);
+
+          var el = element.querySelector('paper-tab.iron-selected');
+          expect(el.textContent).to.match(/^\s*MGTS\s*2961\s*$/);
+
+          var title = element.querySelector('h1.uqlibrary-course');
+          expect(title.textContent).to.match(/MGTS2961/);
+
+          done();
+        }
+
       });
     });
 
     test('it should allow clicking other tab', function (done) {
       flush(function () {
 
-        element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', function (e) {
-          var el = element.querySelector('paper-tab:not(.iron-selected)');
-          el.click();
-          var sel = element.querySelector('paper-tab.iron-selected');
-          expect(sel.textContent).to.match(/^\s*INFS\s*2244\s*$/);
-          done();
-        });
+        element.$.learning_resources.addEventListener('uqlibrary-api-learning-resources', processApi);
+
+        function processApi() {
+          element.$.learning_resources.removeEventListener('uqlibrary-api-learning-resources', processApi);
+
+          var firstSelectedTab = element.querySelector('paper-tab:not(.iron-selected)');
+          firstSelectedTab.click();
+
+          setTimeout(function() {
+
+            var selectedTab = element.querySelector('paper-tab.iron-selected');
+            expect(selectedTab.textContent).to.match(/^\s*LAWS\s*5215\s*$/);
+
+            var title = element.$.animatedPages.querySelector('.iron-selected h1.uqlibrary-course');
+            expect(title.textContent).to.match(/LAWS5215/);
+
+            done();
+          }, 500);
+        }
       });
-
     });
-
   });
 </script>
 
