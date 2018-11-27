@@ -42,5 +42,5 @@ Return to your demo page, refresh and you should be getting live data.
 Tests are run using the Web Component Tester. Either navigate to /tests/index.html in a browser or using the command line:
 
 ```sh
-wct --local all
+wct
 ```
