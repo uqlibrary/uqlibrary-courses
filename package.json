@@ -2,6 +2,7 @@
   "name": "uqlibrary-courses",
   "version": "1.0.0",
   "description": "Web component to display Academic stats",
+  "license": "MIT",
   "main": "index.html",
   "directories": {
     "test": "test"
@@ -23,11 +24,9 @@
     "url": "https://github.com/uqlibrary/uqlibrary-courses/issues"
   },
   "devDependencies": {
-    "web-component-tester": "~4.2.2",
-    "gulp": "~3.9.1",
-    "browser-sync": "~2.12.3"
-  },
-  "dependencies": {
-    "bower": "~1.7.7"
+    "web-component-tester": "*",
+    "gulp": "^3.9.1",
+    "browser-sync": "*",
+    "bower": "*"
   }
 }

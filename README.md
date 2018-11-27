@@ -7,16 +7,18 @@ uqlibrary-courses displays academic courses to the end user
 
 Example of full documentation can be found at [GitHub Pages](http://uqlibrary.github.io/uqlibrary-courses).
 
-### Getting Started
+## Getting Started
+
 ```sh
 npm install && bower install
 gulp serve
 ```
 
-### Running with live data locally
+## Running with live data locally
+
 Add dev-app.library.uq.edu.au to your /etc/hosts or equivalent file
 
-```
+```sh
 gulp live
 ```
 
@@ -29,21 +31,16 @@ Use the Masquerading function at app.library.uq.edu.au/v1/home to masquerade as 
 
 Return to your demo page, refresh and you should be getting live data.
 
+## Developing
 
-### Developing
-- Please adhere to the Polymer code style guide provided at [Style Guide](http://polymerelements.github.io/style-guide/). 
-- Colors and common styles are imported (bower install) from [uqlibrary-styles](http://github.com/uqlibrary/uqlibrary-styles).
-- GitHub pages should be updated after every commit to Master by running the "generate-gh-pages.sh" in the /bin/ directory
+* Please adhere to the Polymer code style guide provided at [Style Guide](http://polymerelements.github.io/style-guide/). 
+* Colors and common styles are imported (bower install) from [uqlibrary-styles](http://github.com/uqlibrary/uqlibrary-styles).
+* GitHub pages should be updated after every commit to Master by running the "generate-gh-pages.sh" in the /bin/ directory
 
-### Testing
+## Testing
+
 Tests are run using the Web Component Tester. Either navigate to /tests/index.html in a browser or using the command line:
+
 ```sh
 wct --local all
 ```
-
-##DEPRECATED: uqlibrary-courses - master/uat/staging/production
-
-This application used to be a part of a set of MyLibrary applications implemented with Google Polymer v0.5 at app.library.uq.edu.au/v1/courses.
-
-Production branch deployment is currently just a redirect to live MyLibrary. To be removed after a reasonable time.
-
