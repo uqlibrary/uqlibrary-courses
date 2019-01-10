@@ -1,8 +1,8 @@
 {
   "name": "uqlibrary-courses",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "keywords": [
-    "seed",
+    "courses",
     "polymer",
     "web-components"
   ],
@@ -13,18 +13,17 @@
     "iron-elements": "PolymerElements/iron-elements#^1.0.8",
     "moment": "moment/moment#^2.10.3",
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "polymer": "Polymer/polymer#^1.4",
+    "polymer": "Polymer/polymer#^1.9.3",
     "uqlibrary-ga": "uqlibrary/uqlibrary-ga",
     "uqlibrary-styles": "uqlibrary/uqlibrary-styles",
-    "uqlibrary-api": "uqlibrary/uqlibrary-api#v1.5.8",
+    "uqlibrary-api": "uqlibrary/uqlibrary-api",
     "uqlibrary-toolbar": "uqlibrary/uqlibrary-toolbar"
   },
   "devDependencies": {
-    "web-component-tester": "^5.0.0",
-    "test-fixture": "PolymerElements/test-fixture#^1.1.0"
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.1.2"
   },
   "resolutions": {
-    "test-fixture": "^1.1.0",
-    "uqlibrary-api": "v1.5.8"
+    "test-fixture": "^1.1.2"
   }
 }
