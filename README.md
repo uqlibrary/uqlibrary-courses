@@ -6,7 +6,9 @@
 
 uqlibrary-courses displays academic courses to the end user.
 
-Full documentation can be found in [GitHub Pages](http://uqlibrary.github.io/uqlibrary-courses/uqlibrary-courses/).
+Full documentation can be found in [GitHub Pages](https://uqlibrary.github.io/uqlibrary-courses/uqlibrary-courses/).
+
+Demo is [here](https://uqlibrary.github.io/uqlibrary-courses/uqlibrary-courses/demo/).
 
 ## Getting Started
 
