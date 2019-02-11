@@ -18,6 +18,6 @@ npm -v
 node -v
 
 echo "Install dependencies"
-npm install -g gulp-cli web-component-tester bower
+npm install -g gulp-cli web-component-tester bower polymer-cli
 npm install
 bower install

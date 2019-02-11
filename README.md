@@ -13,7 +13,7 @@ Demo is [here](https://uqlibrary.github.io/uqlibrary-courses/uqlibrary-courses/d
 ## Getting Started
 
 ```sh
-npm install -g gulp-cli bower web-component-tester
+npm install -g gulp-cli bower web-component-tester polymer-cli
 npm install
 bower install
 gulp serve
