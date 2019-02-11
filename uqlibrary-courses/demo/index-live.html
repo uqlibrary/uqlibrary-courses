@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <title>uqlibrary-courses</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script>
+    (function () {
+      if (document.cookie.match(/^(.*;)?UQLMockData=[^;]+(.*)?$/)) {
+        function delete_cookie(name) {
+          document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        delete_cookie('UQLMockData');
+        delete_cookie('UQLMockData-PType');
+
+        location.reload();
+      }
+    })();
+  </script>
+  <link rel="import" href="../elements/uqlibrary-courses.html">
+</head>
+<body class="fullbleed">
+
+<uqlibrary-courses stand-alone="false"></uqlibrary-courses>
+
+</body>
+</html>

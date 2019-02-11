@@ -1,0 +1,36 @@
+{
+  "name": "uqlibrary-autosuggest-input",
+  "version": "1.1.7",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "private": true,
+  "main": "uqlibrary-search.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.11.3",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "uqlibrary-styles": "uqlibrary/uqlibrary-styles",
+    "uqlibrary-iron-dropdown": "uqlibrary/uqlibrary-iron-dropdown"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.1.2"
+  },
+  "resolutions": {
+    "test-fixture": "^1.1.2"
+  },
+  "homepage": "https://github.com/uqlibrary/uqlibrary-autosuggest-input",
+  "_release": "1.1.7",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.7",
+    "commit": "9205af1d07056dda7a8d3c4374184c58537619dd"
+  },
+  "_source": "https://github.com/uqlibrary/uqlibrary-autosuggest-input.git",
+  "_target": "*",
+  "_originalSource": "uqlibrary/uqlibrary-autosuggest-input"
+}

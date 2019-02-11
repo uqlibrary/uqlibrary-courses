@@ -1,0 +1,45 @@
+<dom-module id="courses-styles">
+  <template>
+    <style is="custom-style" include="common-styles">
+
+      #content {
+        @apply(--layout-fit);
+        overflow: auto;
+      }
+
+      h2.course-title {
+        text-align: center;
+        white-space: normal;
+      }
+
+      #noCoursesMessage {
+        text-align: center;
+      }
+
+      .spinner {
+        text-align: center;
+        padding: 50px;
+      }
+
+      .spinner paper-spinner {
+        padding-bottom: 5px;
+      }
+
+      .card-content.border, paper-item.border, paper-icon-item.border {
+        border-top: 1px solid var(--border-color);
+      }
+
+      #cards {
+        text-align: center;
+      }
+
+      paper-card {
+        display: block;
+        width: 95%;
+        max-width: 1000px;
+        text-align: left;
+        margin: 20px auto;
+      }
+    </style>
+  </template>
+</dom-module>

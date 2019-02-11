@@ -1,0 +1,67 @@
+<link rel="import" href="elements.html">
+
+<dom-module id="uqlibrary-toolbar">
+  <template>
+    <style is="custom-style" include="common-styles">
+      :host {
+      }
+
+      uqlibrary-autosuggest-input {
+        width: calc(100% - 80px);
+
+        --paper-input-container-color: var(--theme-color-light);
+        --paper-input-container-input-color: white;
+        --paper-input-container-label-focus: {
+          color: var(--theme-color-light) !important;
+        };
+        --paper-input-container-label-floating: {
+          color: var(--theme-color-light) !important;
+        };
+        --paper-input-container-underline-focus: {
+          background-color: var(--theme-color-light);
+        };
+      }
+
+      paper-icon-button {
+        --paper-icon-button-ink-color: {
+          color: var(--theme-color-light) !important;
+        };
+      }
+
+      paper-listbox {
+        width: 350px;
+      }
+    </style>
+    <paper-toolbar id="mainToolbar">
+
+      <template is="dom-if" if="{{!_searchInProgress}}">
+
+        <template is="dom-if" if="{{enableMenu}}">
+          <paper-icon-button icon="menu" paper-drawer-toggle id="hamburgerMenuIcon" on-tap="_menuActivated" title="open menu" aria-label="open menu" alt="menu icon"></paper-icon-button>
+        </template>
+
+        <div class="title uqlibrary-app-title">[[headerTitle]]</div>
+
+        <template is="dom-if" if="{{enableSearchClear}}">
+          <paper-icon-button id="clearSearchButton" icon="clear" title="Clear search" aria-label="Clear search" on-tap="_clearSearch"></paper-icon-button>
+        </template>
+        
+        <template is="dom-if" if="{{enableSearch}}">
+          <paper-icon-button on-tap="_showSearch" icon="search" id="searchButton" title="show search" aria-label="show search" alt="search icon"></paper-icon-button>
+        </template>
+      </template>
+
+      <template is="dom-if" if="{{_searchInProgress}}">
+        <paper-icon-button id="cancelSearchButton" icon="arrow-back" on-tap="_hideSearch" title="cancel search" aria-label="cancel search" alt="back icon"></paper-icon-button>
+
+        <uqlibrary-autosuggest-input id="asi" item-label="[[itemLabel]]" suggestions="[[suggestions]]"
+                                     keyword="{{searchTerm}}" label="[[searchPlaceholderText]]"
+                                     on-activated="_searchActivated" no-label-float="true"></uqlibrary-autosuggest-input>
+
+        <paper-icon-button id="activateSearchButton" on-tap="_searchActivated" icon="search" title="activate search" aria-label="activate search" alt="search icon"></paper-icon-button>
+      </template>
+
+    </paper-toolbar>
+  </template>
+  <script src="uqlibrary-toolbar.js"></script>
+</dom-module>

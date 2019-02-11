@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <title>uqlibrary-toolbar</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../elements/uqlibrary-toolbar.html">
+</head>
+<body class="fullbleed">
+
+<uqlibrary-toolbar
+    header-title='Application Name'
+    enable-search='true'
+    enable-search-clear='true'
+    enable-menu='true'
+    app-links='[{"label": "Switch back", "action": "#"}, {"label": "Help", "url": "#"}, {"label": "Feedback", "url": "#"}]'
+    search-placeholder-text="Search for something"></uqlibrary-toolbar>
+
+<div id="log"></div>
+
+<script>
+  (function () {
+    document.cookie = "UQLMockData=enabled";
+    document.cookie = "UQLMockData-PType=1";
+
+    var uqlibraryToolbar = document.querySelector('uqlibrary-toolbar');
+    var divLog = document.querySelector('#log');
+
+    uqlibraryToolbar.addEventListener('uqlibrary-toolbar-menu-clicked', function () {
+      console.log('menu was clicked')
+      divLog.innerHTML += 'menu was clicked <br>';
+    });
+
+    uqlibraryToolbar.addEventListener('uqlibrary-toolbar-link-clicked', function (e) {
+      showMsg('link was clicked with label ' + e.detail.label);
+    });
+
+    uqlibraryToolbar.addEventListener('uqlibrary-toolbar-search-submitted', function (e) {
+      if (typeof(e.detail.searchItem) !== 'undefined') {
+        console.log('submitted item: ' + e.detail.searchItem.name);
+        divLog.innerHTML += 'submitted item: ' + e.detail.searchItem.name + "<br>";
+      }
+      else {
+        console.log('submitted term: ' + e.detail.searchTerm);
+        divLog.innerHTML += 'submitted term: ' + e.detail.searchTerm + "<br>";
+      }
+    });
+
+    uqlibraryToolbar.addEventListener('search-term-changed', function (e) {
+      showMsg('search term changed: ' + e.detail.value);
+
+      if (e.detail.value.length > 2) {
+
+        var suggestions = [];
+
+        for (var i = 0; i < 10 - e.detail.value.length; i++) {
+          var item = {name: e.detail.value + " " + i, label: e.detail.value + " label " + i, recent: false};
+          suggestions.push(item);
+        }
+
+        showMsg('keyword has been changed, display new autosuggestions (' + suggestions.length + ' items)');
+
+        uqlibraryToolbar.suggestions = suggestions;
+      }
+    });
+
+    function showMsg(msg) {
+      console.log(msg)
+      divLog.innerHTML += msg + '<br>';
+    }
+
+  })();
+</script>
+</body>
+</html>

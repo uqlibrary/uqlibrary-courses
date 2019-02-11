@@ -1,0 +1,49 @@
+<link rel="import" href="elements.html">
+
+<dom-module id="uqlibrary-courses-study-links">
+  <template>
+
+    <style is="custom-style" include="courses-styles">
+      :host {
+        @apply(--layout-center);
+      }
+    </style>
+
+    <uqlibrary-ga id="ga" app-name="Courses"></uqlibrary-ga>
+
+    <paper-card elevation="1" heading="Study help">
+      <a on-tap="linkClicked" id="referencingGuides"
+         href="https://web.library.uq.edu.au/research-tools-techniques/referencing/referencing-style-guides">
+        <paper-icon-item class="border">
+          <iron-icon icon="description" id="referencing-icon" item-icon></iron-icon>
+          Referencing guides
+        </paper-icon-item>
+      </a>
+
+      <a on-tap="linkClicked" id="library101"
+         href="https://learn.uq.edu.au/webapps/login/?new_loc=%2Fwebapps%2Fblackboard%2Fexecute%2FenrollCourse%3Fcontext%3DCourse%26course_id%3D_13002_1">
+        <paper-icon-item class="border">
+          <iron-icon icon="extension" id="extension-icon" item-icon></iron-icon>
+          Library 101
+        </paper-icon-item>
+      </a>
+
+       <a href="https://web.library.uq.edu.au/library-services/training/law-online-tutorial" hidden$="{{_computeHidden(course)}}">
+         <paper-icon-item class="border">
+          <iron-icon icon="account-balance" id="law-icon" item-icon></iron-icon>
+          Law online tutorial
+         </paper-icon-item>
+      </a>
+
+      <a href="https://web.library.uq.edu.au/library-services/training" on-tap="linkClicked" id="libraryTraining">
+        <paper-icon-item class="border">
+          <iron-icon icon="icons:info-outline" id="bb-icon" item-icon></iron-icon>
+          Library training
+        </paper-icon-item>
+      </a>
+
+    </paper-card>
+  </template>
+  <script src="uqlibrary-courses-study-links.js"></script>
+</dom-module>
+

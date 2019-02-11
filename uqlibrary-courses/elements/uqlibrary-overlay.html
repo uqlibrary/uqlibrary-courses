@@ -1,0 +1,24 @@
+<dom-module id="uqlibrary-overlay">
+
+  <style>
+    :host {
+      color: black;
+    }
+  </style>
+
+  <template>
+    <content></content>
+  </template>
+
+</dom-module>
+
+<script>
+(function() {
+  Polymer({
+    is: 'uqlibrary-overlay',
+    behaviors: [
+      Polymer.IronOverlayBehavior
+    ]
+  });
+})();
+</script>

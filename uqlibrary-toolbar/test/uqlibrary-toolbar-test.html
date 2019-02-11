@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+  <title>uqlibrary toolbar tests</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../elements/uqlibrary-toolbar.html">
+</head>
+<body>
+
+<test-fixture id="element">
+  <template>
+    <uqlibrary-toolbar
+            enable-menu='true'
+            header-title='Application Name'
+        search-placeholder-text="Search for something"></uqlibrary-toolbar>
+  </template>
+</test-fixture>
+
+<script>
+
+  suite('<uqlibrary-toolbar> tests', function () {
+    var element;
+
+    setup(function () {
+      element = fixture('element');
+    });
+
+    test('It should display toolbar', function (done) {
+      flush(function () {
+        expect(element).not.to.be.null;
+        expect(element).to.be.visible;
+        done();
+      });
+    });
+
+    test('should display basic toolbar items', function (done) {
+      flush(function () {
+        // menu icon
+        var menuIcon = element.querySelector('#hamburgerMenuIcon');
+
+        expect(menuIcon).not.to.be.null;
+        expect(menuIcon).to.be.visible;
+
+        // app links, not returns true even without applinks, just says the icon is there
+        var toolbarTitle = element.querySelector('.title');
+        expect(toolbarTitle).not.to.be.null;
+        expect(toolbarTitle).to.be.visible;
+        expect(toolbarTitle.innerHTML).to.equal('Application Name');
+
+
+        // search icon
+        var searchIcon = element.querySelector('#searchButton');
+        expect(searchIcon).to.be.null;
+
+        done();
+
+      });
+    });
+
+
+    test('should display search input when search button is tapped', function (done) {
+
+      element.enableSearch = true;
+
+      flush(function () {
+
+        var searchIcon = element.querySelector('#searchButton');
+        expect(searchIcon).not.to.be.null;
+        expect(searchIcon).to.be.visible;
+        searchIcon.fire('tap');
+        setTimeout(function () {
+
+          var cancelSearchButton = element.querySelector('#cancelSearchButton');
+          expect(cancelSearchButton).not.to.be.null;
+          expect(cancelSearchButton).to.be.visible;
+
+          var activateSearchButton = element.querySelector('#activateSearchButton');
+          expect(activateSearchButton).not.to.be.null;
+          expect(activateSearchButton).to.be.visible;
+
+          var input = element.querySelector('uqlibrary-autosuggest-input');
+          expect(input).not.to.be.null;
+          expect(input).to.be.visible;
+
+          done();
+        }, 100);
+      });
+    });
+
+    test('should fire event when menu button is tapped', function (done) {
+
+      //check if event has been fired
+      document.addEventListener('uqlibrary-toolbar-menu-clicked', function (e) {
+        expect(true).to.be.true;
+        done();
+      });
+
+      setTimeout(function () {
+        var menuIcon = element.querySelector('#hamburgerMenuIcon');
+        menuIcon.fire('tap');
+      }, 100);
+
+    });
+  });
+</script>
+
+</body>
+</html>
