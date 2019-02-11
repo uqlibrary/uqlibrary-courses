@@ -1,6 +1,6 @@
 # uqlibrary-courses
 
-[![Codeship Status for uqlibrary/uqlibrary-courses](https://app.codeship.com/projects/ed8ed200-8273-0132-332f-56a1ab730b01/status?branch=polymer1.0)](/projects/57876)
+[![Codeship Status for uqlibrary/uqlibrary-courses](https://app.codeship.com/projects/ed8ed200-8273-0132-332f-56a1ab730b01/status?branch=polymer1.0)](https://app.codeship.com/projects/57876)
 [![Dependency Status](https://david-dm.org/uqlibrary/uqlibrary-courses.svg)](https://david-dm.org/uqlibrary/uqlibrary-courses)
 [![Dev Dependency Status](https://david-dm.org/uqlibrary/uqlibrary-courses/dev-status.svg)](https://david-dm.org/uqlibrary/uqlibrary-courses?type=dev)
 
