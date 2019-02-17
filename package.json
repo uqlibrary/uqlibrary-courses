@@ -1,6 +1,6 @@
 {
   "name": "uqlibrary-courses",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Web component to display Academic stats",
   "license": "MIT",
   "main": "index.html",
